@@ -1,0 +1,79 @@
+# general
+shc-server/HELP.md
+
+# maven
+shc-server/target/
+!shc-server/.mvn/wrapper/maven-wrapper.jar
+!shc-server/**/src/main/**/target/
+!shc-server/**/src/test/**/target/
+
+# sts
+shc-server/.apt_generated
+shc-server/.classpath
+shc-server/.factorypath
+shc-server/.project
+shc-server/.settings
+shc-server/.springBeans
+shc-server/.sts4-cache
+
+# IntelliJ IDEA 
+shc-server/.idea
+shc-server/*.iws
+shc-server/*.iml
+shc-server/*.ipr
+
+# NetBeans
+shc-server/nbproject/private/
+shc-server/nbbuild/
+shc-server/dist/
+shc-server/nbdist/
+shc-server/.nb-gradle/
+shc-server/build/
+!shc-server/**/src/main/**/build/
+!shc-server/**/src/test/**/build/
+
+# VS Code
+.vscode
+shc-server/.vscode
+shc-client/.vscode
+
+# node modules
+shc-client/node_modules/
+shc-client/npm-debug.log
+shc-client/yarn-error.log
+
+# expo
+shc-client/.expo/
+shc-client/.expo-shared/
+shc-client/*.expo
+shc-client/*.jks
+shc-client/*.p8
+shc-client/*.p12
+shc-client/*.key
+shc-client/*.mobileprovision
+shc-client/*.orig
+
+# react native builds
+shc-client/build/
+shc-client/android/app/build/
+shc-client/ios/Pods/
+shc-client/ios/build/
+shc-client/ios/DerivedData/
+
+# config
+shc-client/*.log
+shc-client/*.lock
+shc-client/*.keystore
+shc-client/coverage/
+shc-client/bundle-output/
+
+shc-client/*.gradle
+shc-client/*.idea/
+shc-client/android/app/proguard-rules.pro
+shc-client/android/app/proguard-rules.pro.orig
+
+shc-client/.env
+shc-client/.env.local
+shc-client/.env.development.local
+shc-client/.env.test.local
+shc-client/.env.production.local
