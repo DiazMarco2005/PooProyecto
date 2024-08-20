@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  shc-client:
+    build: ./shc-client
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./shc-client:/app
+    environment:
+      - EXPO_DEVTOOLS_PORT=8000
+    command: yarn start --tunnel
+
+  shc-server:
+    build: ./shc-server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - shc_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://shc_db:3306/shc_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    volumes:
+      - ./shc-server:/app
+
+  shc_db:
+    build: ./shc_db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=shc_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+    volumes:
+      - shc_db_data:/var/lib/mysql
+
+volumes:
+  shc_db_data:
+    driver: local
