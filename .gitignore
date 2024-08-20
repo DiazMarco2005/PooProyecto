@@ -58,6 +58,8 @@ shc-client/build/
 shc-client/android/app/build/
 shc-client/ios/Pods/
 shc-client/ios/build/
+shc-client/dist/
+shc-client/web-build/
 shc-client/ios/DerivedData/
 
 # config
@@ -77,3 +79,29 @@ shc-client/.env.local
 shc-client/.env.development.local
 shc-client/.env.test.local
 shc-client/.env.production.local
+
+# native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+shc-client/.metro-health-check*
+
+# debug
+shc-client/npm-debug.*
+shc-client/yarn-debug.*
+shc-client/yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
