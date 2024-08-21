@@ -25,12 +25,12 @@ services:
       - ./shc-server:/app
 
   shc_db:
-    build: ./shc_db
+    build: ./shc-db
     ports:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=shc_db
+      - MYSQL_DATABASE=shc-db
       - MYSQL_USER=root
       - MYSQL_PASSWORD=password
     volumes:
