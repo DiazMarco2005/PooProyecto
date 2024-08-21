@@ -4,27 +4,27 @@ services:
   shc-client:
     build: ./shc-client
     ports:
-      - "8000:8000"
+      - "5173:5173"
     volumes:
       - ./shc-client:/app
     environment:
-      - EXPO_DEVTOOLS_PORT=8000
-    command: yarn start --tunnel
+      - EXPO_DEVTOOLS_PORT=5173
+    command: yarn expo start --web --port 5173
 
   shc-server:
     build: ./shc-server
     ports:
       - "8080:8080"
     depends_on:
-      - shc_db
+      - shc-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://shc_db:3306/shc_db
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://shc-db:3306/shc-db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=password
     volumes:
       - ./shc-server:/app
 
-  shc_db:
+  shc-db:
     build: ./shc-db
     ports:
       - "3306:3306"
