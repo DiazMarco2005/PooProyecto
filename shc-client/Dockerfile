@@ -8,6 +8,6 @@ RUN yarn install
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 5173
 
-CMD ["yarn", "start", "--tunnel"]
+CMD ["yarn", "expo", "start", "--web" "--port=5173"]
