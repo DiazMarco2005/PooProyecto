@@ -10,8 +10,8 @@ CREATE TABLE activities (
     coordinator VARCHAR(255) NOT NULL,
     location VARCHAR(255) NOT NULL,
     max_capacity INT NOT NULL,
-    department VARCHAR(255),
-    description TEXT,
+    department VARCHAR(255) NOT NULL,
+    description TEXT(500),
     date DATE NOT NULL
 );
 
@@ -28,12 +28,14 @@ CREATE TABLE students (
     name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    major VARCHAR(255),
-    year INT,
+    major VARCHAR(255) NOT NULL,
+    year INT NOT NULL,
     scholarship_hours DOUBLE NOT NULL,
     completed_scholarship_hours DOUBLE NOT NULL,
-    about_me TEXT,
-    score DOUBLE
+    about_me TEXT(500),
+    score DOUBLE NOT NULL,
+    activity_id BIGINT,
+    FOREIGN KEY (activity_id) REFERENCES activities(id)
 );
 
 CREATE TABLE student_previous_activities (
@@ -54,4 +56,3 @@ CREATE TABLE student_preferred_activities (
 
 ALTER TABLE students ADD COLUMN new_activity_id BIGINT;
 ALTER TABLE students ADD CONSTRAINT fk_new_activity FOREIGN KEY (new_activity_id) REFERENCES activities(id);
-
