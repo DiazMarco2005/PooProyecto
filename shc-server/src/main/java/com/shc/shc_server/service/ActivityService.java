@@ -34,7 +34,7 @@ public class ActivityService {
         Activity existingActivity = activityRepository.getById(id);
 
         existingActivity.setName(updatedActivity.getName());
-        // ...
+        existingActivity.setDate(updatedActivity.getDate());
         return activityRepository.save(existingActivity);
     }
 
