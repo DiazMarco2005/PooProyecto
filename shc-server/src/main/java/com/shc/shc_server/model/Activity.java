@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "activities")
 @Data
-
 public class Activity {
 
     @Id
@@ -41,7 +40,7 @@ public class Activity {
     private Integer maxCapacity;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Student> students;
+    private List<Student> students; // Aquí, mappedBy apunta a la propiedad "activity" en Student
 
     @Column(nullable = false)
     private String department;

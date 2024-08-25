@@ -60,4 +60,8 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "new_activity_id")
     private Activity newActivity;
+
+    @ManyToOne
+    @JoinColumn(name = "activity_id")
+    private Activity activity;
 }
