@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -102,6 +103,15 @@ public class StudentService {
 
         }
     }
+
+    //Remove Activity
+    public void removeInfo(String filePath){
+        File file = new File(filePath);
+        if (file.exists()){
+            file.delete();
+        }
+    }
+
 
 }
     
