@@ -7,11 +7,16 @@ import com.shc.shc_server.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 @Service
 public class StudentService {
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -76,6 +81,26 @@ public class StudentService {
         activityRepository.save(activity);
 
         return student;
+    }
+
+    //Save information
+    public void saveInfo(String filePath) {
+        List<Student> students = studentRepository.findAll();
+        List<Activity> activities = activityRepository.findAll();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Students:\n");
+            for (Student student : students) {
+                writer.write(student.toString() + "\n");
+            }
+
+            writer.write("\nActivities:\n");
+            for (Activity activity : activities) {
+                writer.write(activity.toString() + "\n");
+            }
+        } catch (IOException e) {
+
+        }
     }
 
 }
