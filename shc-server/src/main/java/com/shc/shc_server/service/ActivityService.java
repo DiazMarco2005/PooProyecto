@@ -13,14 +13,15 @@ public class ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
-    // get all activities
+    // get all
     public List<Activity> getAllActivities() {
         return activityRepository.findAll();
     }
 
-    // get activity by id
+    // get actiivity by id
     public Activity getActivityById(Long id) {
-        return activityRepository.getById(id);
+        return activityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("not found id: " + id));
     }
 
     // save new activity
@@ -28,10 +29,9 @@ public class ActivityService {
         return activityRepository.save(activity);
     }
 
-    // update activity already exist // modify
+    // update activity already exist
     public Activity updateActivity(Long id, Activity updatedActivity) {
-
-        Activity existingActivity = activityRepository.findById(id);
+        Activity existingActivity = getActivityById(id);
 
         existingActivity.setName(updatedActivity.getName());
         existingActivity.setStartTime(updatedActivity.getStartTime());
@@ -48,8 +48,11 @@ public class ActivityService {
         return activityRepository.save(existingActivity);
     }
 
-    // delete activity
+    // delete activity by id
     public void deleteActivity(Long id) {
+        if (!activityRepository.existsById(id)) {
+            throw new RuntimeException("not found id: " + id);
+        }
         activityRepository.deleteById(id);
     }
 }
