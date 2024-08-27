@@ -1,5 +1,18 @@
 package com.shc.shc_server.service;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.shc.shc_server.model.Activity;
 import com.shc.shc_server.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +67,22 @@ public class ActivityService {
             throw new RuntimeException("not found id: " + id);
         }
         activityRepository.deleteById(id);
+    }
+
+    // generate qr code img
+    public BufferedImage generateQRCodeImage(String text) throws Exception {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Map<EncodeHintType, Object> hintMap = new HashMap<>();
+        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200, hintMap);
+        return MatrixToImageWriter.toBufferedImage(bitMatrix);
+    }
+
+    // get bytes qr code 
+    public byte[] getQRCodeImageBytes(String text) throws Exception {
+        BufferedImage qrImage = generateQRCodeImage(text);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(qrImage, "png", baos);
+        return baos.toByteArray();
     }
 }
