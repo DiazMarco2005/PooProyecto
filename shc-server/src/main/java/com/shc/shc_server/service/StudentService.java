@@ -31,6 +31,7 @@ public class StudentService {
     public Student getStudentById(Long id) {
         return studentRepository.getById(id);
     }
+    
 
     // save a new student
     public Student saveStudent(Student student) {
@@ -80,6 +81,12 @@ public class StudentService {
         activityRepository.save(activity);
 
         return student;
+    }
+    
+    // get scholarship hours completed // modify
+    public int getCompletedScholarshipHours(Long id) {
+        Student student = studentRepository.getById(id);
+        return (int) Math.round(student.getCompletedScholarshipHours()); 
     }
 }
     

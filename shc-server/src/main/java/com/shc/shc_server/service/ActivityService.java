@@ -28,13 +28,23 @@ public class ActivityService {
         return activityRepository.save(activity);
     }
 
-    // update activity already exist
+    // update activity already exist // modify
     public Activity updateActivity(Long id, Activity updatedActivity) {
 
-        Activity existingActivity = activityRepository.getById(id);
+        Activity existingActivity = activityRepository.findById(id);
 
         existingActivity.setName(updatedActivity.getName());
+        existingActivity.setStartTime(updatedActivity.getStartTime());
+        existingActivity.setEndTime(updatedActivity.getEndTime());
+        existingActivity.setMultiplier(updatedActivity.getMultiplier());
+        existingActivity.setScholarshipHoursOffered(updatedActivity.getScholarshipHoursOffered());
+        existingActivity.setCoordinator(updatedActivity.getCoordinator());
+        existingActivity.setLocation(updatedActivity.getLocation());
+        existingActivity.setMaxCapacity(updatedActivity.getMaxCapacity());
+        existingActivity.setDepartment(updatedActivity.getDepartment());
+        existingActivity.setDescription(updatedActivity.getDescription());
         existingActivity.setDate(updatedActivity.getDate());
+
         return activityRepository.save(existingActivity);
     }
 
