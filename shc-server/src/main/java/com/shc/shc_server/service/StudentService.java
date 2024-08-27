@@ -1,14 +1,23 @@
 package com.shc.shc_server.service;
 
+import com.shc.shc_server.model.Activity;
 import com.shc.shc_server.model.Student;
+import com.shc.shc_server.repository.ActivityRepository;
 import com.shc.shc_server.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 @Service
 public class StudentService {
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -51,4 +60,27 @@ public class StudentService {
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
+
+    //Join the Activity
+    public Student joinActivity(Long studentId, Long activityId) {
+        
+        Student student = studentRepository.getById(studentId);
+        Activity activity = activityRepository.getById(activityId);
+
+        if (activity.getStudents().size() >= activity.getMaxCapacity()) {
+            throw new RuntimeException("La capacidad máxima de la actividad ya se ha alcanzado.");
+        }
+
+
+        student.getPreferredActivities().add(activity);
+        activity.getStudents().add(student);
+
+
+        studentRepository.save(student);
+        activityRepository.save(activity);
+
+        return student;
+    }
 }
+    
+
