@@ -47,6 +47,7 @@ public class CoordinatorService {
     public void deleteCoordinator(Long id) {
         coordinatorRepository.deleteById(id);
     }
+    
     // añadir actividad
     public void addActivity(Activity activity) {
         activityRepository.save(activity); 

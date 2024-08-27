@@ -52,6 +52,8 @@ public class StudentService {
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
+
+    // get scholarship hours completed // modify
     public int getCompletedScholarshipHours(Long id) {
         Student student = studentRepository.getById(id);
         return (int) Math.round(student.getCompletedScholarshipHours()); 
