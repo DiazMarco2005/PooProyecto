@@ -40,7 +40,7 @@ public class Activity {
     private Integer maxCapacity;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Student> students; // Aquí, mappedBy apunta a la propiedad "activity" en Student
+    private List<Student> students; // mappedBy apunta a la propiedad "activity" en Student
 
     @Column(nullable = false)
     private String department;

@@ -21,7 +21,6 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
-    
 
     // get al students
     public List<Student> getAllStudents() {
@@ -68,7 +67,6 @@ public class StudentService {
         Student student = studentRepository.getById(studentId);
         Activity activity = activityRepository.getById(activityId);
 
-
         if (activity.getStudents().size() >= activity.getMaxCapacity()) {
             throw new RuntimeException("La capacidad máxima de la actividad ya se ha alcanzado.");
         }
@@ -83,36 +81,6 @@ public class StudentService {
 
         return student;
     }
-
-    //Save information
-    public void saveInfo(String filePath) {
-        List<Student> students = studentRepository.findAll();
-        List<Activity> activities = activityRepository.findAll();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("Students:\n");
-            for (Student student : students) {
-                writer.write(student.toString() + "\n");
-            }
-
-            writer.write("\nActivities:\n");
-            for (Activity activity : activities) {
-                writer.write(activity.toString() + "\n");
-            }
-        } catch (IOException e) {
-
-        }
-    }
-
-    //Remove Activity
-    public void removeInfo(String filePath){
-        File file = new File(filePath);
-        if (file.exists()){
-            file.delete();
-        }
-    }
-
-
 }
     
 
