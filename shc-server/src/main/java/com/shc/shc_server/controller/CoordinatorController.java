@@ -60,6 +60,8 @@ public class CoordinatorController {
         if( students.contains(studentRemoved)){
 
                 students.remove(studentRemoved);
+                activit.setStudents(students);
+                activityService.updateActivity(idStudent, activit);
         }
         else
             throw new RuntimeException("Student not found: "+ idStudent);
