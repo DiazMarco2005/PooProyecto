@@ -73,8 +73,22 @@ public class ActivityController {
     public ResponseEntity<String> mi_metodo () {
         return new ResponseEntity<>("ejemplo", HttpStatus.OK);
     }
+    
     @GetMapping("/{id}/students")
     public List<Student> getStudentsByActivityId(@PathVariable("id") Long activityId) {
         return activityService.getStudentsByActivityId(activityId);
     }
+
+    @GetMapping("/{id}/scholarship_Hour_Value/")
+    public ResponseEntity<Integer> scholarship_Hour_Value (@PathVariable Long id) {
+        Integer activityhours = 0;
+     try{
+        activityhours = activityService.getActivityById(id).getScholarshipHoursOffered();
+     } catch (Exception e) {
+        //
+        activityhours = -1;
+     }
+        return new ResponseEntity<>(activityhours, HttpStatus.OK);
+    }
+
 }
