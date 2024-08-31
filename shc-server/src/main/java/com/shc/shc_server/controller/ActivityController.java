@@ -73,4 +73,8 @@ public class ActivityController {
     public ResponseEntity<String> mi_metodo () {
         return new ResponseEntity<>("ejemplo", HttpStatus.OK);
     }
+    @GetMapping("/{id}/students")
+    public List<Student> getStudentsByActivityId(@PathVariable("id") Long activityId) {
+        return activityService.getStudentsByActivityId(activityId);
+    }
 }
