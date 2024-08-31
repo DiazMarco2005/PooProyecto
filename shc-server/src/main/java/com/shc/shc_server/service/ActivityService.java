@@ -25,6 +25,8 @@ public class ActivityService {
 
     @Autowired
     private ActivityRepository activityRepository;
+    @Autowired
+    public ActivityService activityService;
 
     // get all
     public List<Activity> getAllActivities() {
