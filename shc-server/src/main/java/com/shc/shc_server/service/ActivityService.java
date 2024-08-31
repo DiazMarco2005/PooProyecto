@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.shc.shc_server.model.Activity;
+import com.shc.shc_server.model.Student;
 import com.shc.shc_server.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ActivityService {
 
     @Autowired
     private ActivityRepository activityRepository;
-
+    
     // get all
     public List<Activity> getAllActivities() {
         return activityRepository.findAll();
@@ -84,5 +85,10 @@ public class ActivityService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(qrImage, "png", baos);
         return baos.toByteArray();
+    }
+
+    public List<Student> getStudentsByActivityId(Long activityId) {
+        Activity activity = getActivityById(activityId); 
+        return activity.getStudents(); 
     }
 }

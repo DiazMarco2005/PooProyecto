@@ -1,6 +1,7 @@
 package com.shc.shc_server.controller;
 
 import com.shc.shc_server.model.Activity;
+import com.shc.shc_server.model.Student;
 import com.shc.shc_server.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,5 +66,11 @@ public class ActivityController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+
+    @GetMapping("/mi_ruta/")
+    public ResponseEntity<String> mi_metodo () {
+        return new ResponseEntity<>("ejemplo", HttpStatus.OK);
     }
 }
