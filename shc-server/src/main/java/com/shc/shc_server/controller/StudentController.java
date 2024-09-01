@@ -34,16 +34,17 @@ public class StudentController {
         Student student = studentService.getStudentById(id);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
-    @GetMapping("/studentScholarshipHours{id}")
+    @GetMapping("/studentScholarshipHours/{id}/")
     public ResponseEntity<Double> studentScholarshipHours(@PathVariable Long id)
     {
         Student student = studentService.getStudentById(id);
         double hours= student.getCompletedScholarshipHours();
         return new ResponseEntity<>(hours, HttpStatus.OK);
     }
-    @PutMapping("/studentReputation")
-    public void studentReputation()
+    @PutMapping("/studentReputation/{id}/")
+    public void studentReputation(double id)
     {
+        
 
     }
     
