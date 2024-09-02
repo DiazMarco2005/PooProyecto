@@ -32,7 +32,6 @@ public class ActivityController {
         return new ResponseEntity<>(activities, HttpStatus.OK);
     }
 
-    
     @GetMapping("/{id}")
     public ResponseEntity<Activity> getActivityById(@PathVariable Long id) {
         Activity activity = activityService.getActivityById(id);
@@ -92,6 +91,22 @@ public class ActivityController {
         activityhours = -1;
      }
         return new ResponseEntity<>(activityhours, HttpStatus.OK);
+    
+    @PostMapping("/add/{addstudentId}")
+    public ResponseEntity<Activity> addStudentToActivity(@PathVariable Long addstudentId, @RequestBody Student student) {
+        Activity activity = ActivityService.getActivityById(addstudentId);
+        activity.getStudents().add(student);
+        student.setActivity(activity);
+        Activity updatedActivity = ActivityService.saveActivity(activity);
+        return new ResponseEntity<>(updatedActivity, HttpStatus.OK);
+    }
+
+    @PostMapping("/remove/{removeStudentId}")
+    public ResponseEntity<Activity> removeStudentFromActivity(@PathVariable Long removeStudentId, @RequestBody Student student) {
+        Activity activity = ActivityService.getActivityById(removeStudentId);
+        activity.getStudents().remove(student);
+        Activity updatedActivity = ActivityService.saveActivity(activity);
+        return new ResponseEntity<>(updatedActivity, HttpStatus.OK);
     }
 
 }
