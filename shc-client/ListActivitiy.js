@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 const ActivitiesScreen = () => {
  
@@ -7,42 +7,31 @@ const ActivitiesScreen = () => {
     <View style={styles.container}>
       <Text style={styles.headerText}>Lista de actividades</Text>
       <View style={styles.container1}>
-      {/* Botón de Actividades de hoy */}
+    
       <TouchableOpacity 
         style={styles.button}
       >
         <Text style={styles.buttonText}>Actividades de hoy</Text>
       </TouchableOpacity>
-
-      {/* Botón de Actividades de esta semana */}
+     
       <TouchableOpacity 
         style={styles.button}
-        
       >
-        <Text style={[styles.buttonText, styles.largeText]}>Actividades de esta semana</Text>
-  
+        <Text style={styles.buttonText}>Actividades de esta semana</Text>
       </TouchableOpacity>
-
-      {/* Botón de Tours */}
+ 
       <TouchableOpacity 
         style={styles.button}
-        
       >
-        <Text style={[styles.buttonText, styles.largeText]}>Tours</Text>
-      
+        <Text style={styles.buttonText}>Tours</Text>
       </TouchableOpacity>
-
-      {/* Botón de Actividades de mi carrera */}
+   
       <TouchableOpacity 
         style={styles.button}
-
       >
         <Text style={styles.buttonText}>Actividades de mi carrera</Text>
- 
       </TouchableOpacity>
-
       </View>
-
     </View>
   )
 }
@@ -81,10 +70,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
-  },
-  largeText: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
 
 });
