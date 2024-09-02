@@ -14,8 +14,8 @@ export default function ProfileScreen() {
         </View>
         <Text style={styles.name}>Marco Alejandro Díaz Castañeda</Text>
         <View style={styles.aboutContainer}>
-          <Text style={styles.aboutText}>Sobre mí:</Text>
-          <Text style={styles.placeholderText}>Escribe algo sobre ti...</Text>
+          <Text style={styles.aboutText}>About me:</Text>
+          <TextInput style={styles.placeholderText}defaultValue="Escribe algo sobre ti......"/>
         </View>
       </View>
 
