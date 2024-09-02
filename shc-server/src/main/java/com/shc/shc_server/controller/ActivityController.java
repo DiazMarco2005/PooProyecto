@@ -1,6 +1,7 @@
 package com.shc.shc_server.controller;
 
 import com.shc.shc_server.model.Activity;
+import com.shc.shc_server.model.Student;
 import com.shc.shc_server.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -69,4 +70,28 @@ public class ActivityController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+
+    @GetMapping("/mi_ruta/")
+    public ResponseEntity<String> mi_metodo () {
+        return new ResponseEntity<>("ejemplo", HttpStatus.OK);
+    }
+    
+    @GetMapping("/{id}/students")
+    public List<Student> getStudentsByActivityId(@PathVariable("id") Long activityId) {
+        return activityService.getStudentsByActivityId(activityId);
+    }
+
+    @GetMapping("/{id}/scholarship_Hour_Value/")
+    public ResponseEntity<Integer> scholarship_Hour_Value (@PathVariable Long id) {
+        Integer activityhours = 0;
+     try{
+        activityhours = activityService.getActivityById(id).getScholarshipHoursOffered();
+     } catch (Exception e) {
+        //
+        activityhours = -1;
+     }
+        return new ResponseEntity<>(activityhours, HttpStatus.OK);
+    }
+
 }

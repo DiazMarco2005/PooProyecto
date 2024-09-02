@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import com.shc.shc_server.service.ActivityService;
 
 @RestController
 @RequestMapping("/coordinators")
@@ -71,4 +72,9 @@ public class CoordinatorController {
 
     }
 
+    @GetMapping("/Generar_Reporte/{id}")
+    public ResponseEntity<Activity> getActivityById(@PathVariable Long id) {
+        Activity activity = activityService.getActivityById(id);
+        return new ResponseEntity<>(activity, HttpStatus.OK);
+    }
 };
