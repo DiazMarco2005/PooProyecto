@@ -22,12 +22,19 @@ public class ActivityController {
         return new ResponseEntity<>("pong", HttpStatus.OK);
     }
     
-
-    @PostMapping("{activityId}")
-    public ResponseEntity<Activity> addStudentToActivity(@PathVariable Long activityId, @RequestBody Student student) {
-        Activity activity = ActivityService.getActivityById(activityId);
+    @PostMapping("{addstudentId}")
+    public ResponseEntity<Activity> addStudentToActivity(@PathVariable Long addstudentId, @RequestBody Student student) {
+        Activity activity = ActivityService.getActivityById(addstudentId);
         activity.getStudents().add(student);
         student.setActivity(activity);
+        Activity updatedActivity = ActivityService.saveActivity(activity);
+        return new ResponseEntity<>(updatedActivity, HttpStatus.OK);
+    }
+
+    @PostMapping("{removeStudentId}")
+    public ResponseEntity<Activity> removeStudentFromActivity(@PathVariable Long removeStudentId, @RequestBody Student student) {
+        Activity activity = ActivityService.getActivityById(removeStudentId);
+        activity.getStudents().remove(student);
         Activity updatedActivity = ActivityService.saveActivity(activity);
         return new ResponseEntity<>(updatedActivity, HttpStatus.OK);
     }
