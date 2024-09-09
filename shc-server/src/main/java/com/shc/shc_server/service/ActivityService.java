@@ -42,4 +42,10 @@ public class ActivityService {
     public void deleteActivity(Long id) {
         activityRepository.deleteById(id);
     }
+
+    //Generate Report 
+    public List<Activity> generateReport() {
+        return activityRepository.findAll();
+    }
+    
 }

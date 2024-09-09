@@ -49,5 +49,11 @@ public class ActivityController {
     
         return new ResponseEntity<>(isEnrolled, HttpStatus.OK);
     }
-
+    
+    @GetMapping("{generateReport}")
+    public ResponseEntity<List<Activity>> generateReport(){
+        List<Activity> activities = ActivityService.generateReport();
+        return new ResponseEntity<>(activities, HttpStatus.OK);
+    }
+    
 }
