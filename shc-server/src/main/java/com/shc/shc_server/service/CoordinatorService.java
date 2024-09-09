@@ -1,6 +1,7 @@
 package com.shc.shc_server.service;
 
 import com.shc.shc_server.model.Coordinator;
+import com.shc.shc_server.model.Student;
 import com.shc.shc_server.repository.CoordinatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,11 @@ public class CoordinatorService {
     @Autowired
     private CoordinatorRepository coordinatorRepository;
 
+    public Coordinator findByEmail(String email) {
+        return coordinatorRepository.findByEmail(email)
+        .orElse(null);
+    }
+
     // get all
     public List<Coordinator> getAllCoordinators() {
         return coordinatorRepository.findAll();
@@ -20,8 +26,7 @@ public class CoordinatorService {
 
     // get by id
     public Coordinator getCoordinatorById(Long id) {
-        return coordinatorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found id: " + id));
+        return coordinatorRepository.findById(id).orElse(null);
     }
 
     // save a new coordinator
@@ -44,7 +49,9 @@ public class CoordinatorService {
     // delete cordinator
     public void deleteCoordinator(Long id) {
         if (!coordinatorRepository.existsById(id)) {
-            throw new RuntimeException("not foundid:  " + id);
+
+            ;
+
         }
         coordinatorRepository.deleteById(id);
     }

@@ -786,3 +786,56 @@ Un objeto `Student` en formato JSON con los nuevos valores.
     "completedScholarshipHours": 25,
     "score": 4.1
 }
+
+# Autenticación
+
+## Registro de un nuevo coordinador
+
+- `POST /api/auth/register/coordinator/`
+
+```json
+{
+  "name": "CoordinadorX",
+  "email": "xc@example.com",
+  "password": "securepassword",
+  "position": "Cordinator"
+}
+```
+
+## Login de coordinador
+
+- `POST /api/auth/login/coordinator/`
+
+```json
+{
+  "email": "xc@example.com",
+  "password": "securepassword"
+}
+```
+
+
+## Registro de un nuevo estudiante
+
+- `POST /api/auth/register/student/`
+
+```json
+{
+  "name": "EstudianteX",
+  "email": "x@example.com",
+  "password": "securepassword",
+  "major": "Computer Science",
+  "year": 3
+}
+```
+
+### Login de estudiante
+
+- `POST /api/auth/login/student/`
+
+```json
+{
+  "email": "x@example.com",
+  "password": "securepassword"
+}
+```
+
