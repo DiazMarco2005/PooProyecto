@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
     },
   });
 export default UVGLogin;
+
+
 /* 
 this is how to configure app.js  with reac-navigation
 import * as React from 'react';
