@@ -839,15 +839,3 @@ Un objeto `Student` en formato JSON con los nuevos valores.
 }
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-

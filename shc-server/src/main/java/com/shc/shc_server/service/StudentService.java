@@ -32,6 +32,7 @@ public class StudentService {
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
         .orElse(null);
+
     }
 
     // save a nuw student
@@ -69,7 +70,7 @@ public class StudentService {
     }
 
     // join to activity
-    public Student joinActivity(Long studentId, Long activityId) {
+   public Student joinActivity(Long studentId, Long activityId) {
         Student student = getStudentById(studentId);
         Activity activity = activityRepository.findById(activityId)
                 .orElse(null);

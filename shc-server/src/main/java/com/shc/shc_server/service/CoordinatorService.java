@@ -49,7 +49,9 @@ public class CoordinatorService {
     // delete cordinator
     public void deleteCoordinator(Long id) {
         if (!coordinatorRepository.existsById(id)) {
+
             ;
+
         }
         coordinatorRepository.deleteById(id);
     }
