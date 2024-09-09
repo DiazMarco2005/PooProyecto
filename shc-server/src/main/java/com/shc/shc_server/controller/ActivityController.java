@@ -39,4 +39,15 @@ public class ActivityController {
         return new ResponseEntity<>(updatedActivity, HttpStatus.OK);
     }
 
+    @GetMapping("{checkStudent}")
+    public ResponseEntity<Boolean>checkStudent(
+        @RequestParam Long activityId,
+        @RequestParam Long studentId){
+        
+        Activity Activity = ActivityService.getActivityById(activityId);
+        boolean isEnrolled = Activity.getStudents().stream().anyMatch(student -> student.getId() == studentId);
+    
+        return new ResponseEntity<>(isEnrolled, HttpStatus.OK);
+    }
+
 }
