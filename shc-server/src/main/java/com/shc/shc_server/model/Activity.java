@@ -5,11 +5,11 @@ import lombok.Data;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "activities")
 @Data
-
 public class Activity {
 
     @Id
@@ -41,6 +41,7 @@ public class Activity {
     private Integer maxCapacity;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // Gestiona la serialización de la relación bidireccional
     private List<Student> students;
 
     @Column(nullable = false)

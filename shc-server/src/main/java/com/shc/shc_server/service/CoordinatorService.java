@@ -1,6 +1,7 @@
 package com.shc.shc_server.service;
 
 import com.shc.shc_server.model.Coordinator;
+import com.shc.shc_server.model.Student;
 import com.shc.shc_server.repository.CoordinatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,19 @@ public class CoordinatorService {
     @Autowired
     private CoordinatorRepository coordinatorRepository;
 
-    // get all cordinators
+    public Coordinator findByEmail(String email) {
+        return coordinatorRepository.findByEmail(email)
+        .orElse(null);
+    }
+
+    // get all
     public List<Coordinator> getAllCoordinators() {
         return coordinatorRepository.findAll();
     }
 
-    // get coordinator by id
+    // get by id
     public Coordinator getCoordinatorById(Long id) {
-        return coordinatorRepository.getById(id);
+        return coordinatorRepository.findById(id).orElse(null);
     }
 
     // save a new coordinator
@@ -30,16 +36,21 @@ public class CoordinatorService {
 
     // update cordinator already exist
     public Coordinator updateCoordinator(Long id, Coordinator updatedCoordinator) {
-
-        Coordinator existingCoordinator = coordinatorRepository.getById(id);
+        Coordinator existingCoordinator = getCoordinatorById(id);
 
         existingCoordinator.setName(updatedCoordinator.getName());
-        // ...
+        existingCoordinator.setPassword(updatedCoordinator.getPassword());
+        existingCoordinator.setEmail(updatedCoordinator.getEmail());
+        existingCoordinator.setPosition(updatedCoordinator.getPosition());
+
         return coordinatorRepository.save(existingCoordinator);
     }
 
     // delete cordinator
     public void deleteCoordinator(Long id) {
+        if (!coordinatorRepository.existsById(id)) {
+            ;
+        }
         coordinatorRepository.deleteById(id);
     }
 }

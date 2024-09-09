@@ -1,5 +1,6 @@
 package com.shc.shc_server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class Coordinator {
 
     @Column(nullable = false)
     private String name;
-
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
