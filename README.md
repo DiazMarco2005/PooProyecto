@@ -1,6 +1,6 @@
 # Maker Hours
 
-![logo.png](https://github.com/DiazMarco2005/PooProyecto/blob/main/DesignProcess/branding/logo.png)
+![logo.png](https://github.com/DiazMarco2005/PooProyecto/blob/main/DesignProcess/banding/logo.png)
 
 Este proyecto es una plataforma de control de horas beca, desarrollada utilizando **Spring Boot** para el backend, **React Native Expo** para el frontend y **MariaDB** como base de datos.
 
