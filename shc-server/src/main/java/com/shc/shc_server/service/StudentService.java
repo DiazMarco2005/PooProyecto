@@ -23,10 +23,16 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public Student findByEmail(String email) {
+        return studentRepository.findByEmail(email)
+        .orElse(null);
+    }
+
     // get by id
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+        .orElse(null);
+
     }
 
     // save a nuw student
@@ -58,19 +64,19 @@ public class StudentService {
     // delete student
     public void deleteStudent(Long id) {
         if (!studentRepository.existsById(id)) {
-            throw new RuntimeException("Student not found with id: " + id);
+            ;
         }
         studentRepository.deleteById(id);
     }
 
     // join to activity
-    public Student joinActivity(Long studentId, Long activityId) {
+   public Student joinActivity(Long studentId, Long activityId) {
         Student student = getStudentById(studentId);
         Activity activity = activityRepository.findById(activityId)
-                .orElseThrow(() -> new RuntimeException("Activity not found with id: " + activityId));
+                .orElse(null);
 
         if (activity.getStudents().size() >= activity.getMaxCapacity()) {
-            throw new RuntimeException("La capacidad máxima de la actividad ya se ha alcanzado.");
+            ;
         }
 
         student.getPreferredActivities().add(activity);
