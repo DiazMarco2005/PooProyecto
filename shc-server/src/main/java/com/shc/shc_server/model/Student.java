@@ -1,7 +1,9 @@
 package com.shc.shc_server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -63,5 +66,6 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "activity_id")
+    @JsonBackReference // dont recursive serialization
     private Activity activity;
 }

@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.shc.shc_server.model.Activity;
+import com.shc.shc_server.model.Student;
 import com.shc.shc_server.repository.ActivityRepository;
+import com.shc.shc_server.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class ActivityService {
     @Autowired
     @Lazy
     private ActivityRepository activityRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
     
     // get all
     public List<Activity> getAllActivities() {
@@ -86,5 +91,46 @@ public class ActivityService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(qrImage, "png", baos);
         return baos.toByteArray();
+    }
+
+    public List<Student> getStudentsByActivityId(Long activityId) {
+        Activity activity = getActivityById(activityId); 
+        return activity.getStudents(); 
+    }
+
+    public Activity addStudent(Long activityId, Long studentId) {
+        Activity activity = getActivityById(activityId);
+        Student student = studentRepository.getById(studentId);
+
+        if (activity.getStudents().size() >= activity.getMaxCapacity()) {
+            throw new RuntimeException("maximum capacity reached");
+        }
+
+        activity.getStudents().add(student);
+        student.setActivity(activity);
+
+        activityRepository.save(activity);
+        studentRepository.save(student);
+
+        return activity;
+    }
+
+    public Activity removeStudent(Long activityId, Long studentId) {
+        Activity activity = getActivityById(activityId);
+        Student student = studentRepository.getById(studentId);
+
+        activity.getStudents().remove(student);
+        student.setActivity(null);
+
+        activityRepository.save(activity);
+        studentRepository.save(student);
+
+        return activity;
+    }
+
+    public Activity disableJoining(Long id) {
+        Activity activity = getActivityById(id);
+        activity.setMaxCapacity(0); 
+        return activityRepository.save(activity);
     }
 }
