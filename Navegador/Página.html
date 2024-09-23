@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú despegable</title>
+    <link rel="stylesheet" href="Página.css">
+</head>
+
+<body>
+    <nav class="nav">
+        <ul class="list"> <!-- Clase corregida aquí -->
+            <li class="list_item">
+                <div class="list_button">
+                    <img src="Iconos/user.svg" class="list_img">
+                    <a href="#" class="nav_link">Inicio</a>
+                </div>
+            </li>
+            <li class="list_item list_item--click">
+                <div class="list_button list_button--click">
+                    <img src="Iconos/options.svg" class="list_img">
+                    <a href="#" class="nav_link">Opciones</a>
+                    <img src="Iconos/flecha.svg" class="list_arrow"> 
+                </div>
+            
+
+                <ul class="list_show">
+                    <li class = "list_inside">
+                        <a href="#" class="nav_link nav_link--inside">Usuario</a>
+                    </li>
+                    <li class = "list_inside">
+                        <a href="#" class="nav_link nav_link--inside">Calendario</a>
+                    </li>
+                    <li class = "list_inside">
+                        <a href="#" class="nav_link nav_link--inside">Actividades</a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="list_item  list_item--click">
+                <div class="list_button">
+                    <img src="Iconos/notification.svg" class="list__img">
+                    <a href="#" class="nav_link">Notificaciones</a>
+                </div>
+            </li>
+
+
+
+
+
+        </ul>
+    </nav>
+
+    <script src="main.js"></script>
+</body>
+</html>
