@@ -786,6 +786,7 @@ Un objeto `Student` en formato JSON con los nuevos valores.
     "completedScholarshipHours": 25,
     "score": 4.1
 }
+```
 
 # Autenticación
 
