@@ -1,8 +1,21 @@
-import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
 
+const ProfileScreen = ({ navigation }) => {
+  const [token, setToken] = useState('');
 
-export default function ProfileScreen() {
+  useEffect(() => {
+    const loadToken = async () => {
+      const storedToken = await AsyncStorage.getItem('token');
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    };
+
+    loadToken();
+  }, []);
+  
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -15,7 +28,7 @@ export default function ProfileScreen() {
         <Text style={styles.name}>Marco Alejandro Díaz Castañeda</Text>
         <View style={styles.aboutContainer}>
           <Text style={styles.aboutText}>About me:</Text>
-          <TextInput style={styles.placeholderText}defaultValue="Escribe algo sobre ti......"/>
+          <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc blandit lacus at dui tempus, eget rutrum mi tristique. Cras sit amet lacinia velit. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. </Text>
         </View>
       </View>
 
@@ -45,7 +58,7 @@ export default function ProfileScreen() {
     </View>
   );
 }
-
+export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
