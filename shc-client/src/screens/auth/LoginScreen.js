@@ -67,7 +67,7 @@ const LoginScreen = ({ navigation }) => {
           )}
         />
       </View>
-      <Text>O crea una cuenta <span></span>
+      <Text>O crea una cuenta
         <Link to={{ screen: 'Register', params: {} }}>
           aquí
         </Link>
