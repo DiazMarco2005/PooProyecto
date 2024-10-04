@@ -93,9 +93,38 @@ const NewEvent = ({
         <TextInput
         style={styles.input}
         placeholder="######"
-        value={coordinator}
+        value={department}
         onChangeText={(value) => publish('Coordinator', value)}
       /> 
    </View>
-  );
+);
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    flex: 4,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  label: {
+    color: '#4CAF50',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    backgroundColor: '#dcedc8',
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 16,
+    marginBottom: 15,
+    width: '100%',
+  },
+  description: {
+    height: 100,
+    textAlignVertical: 'top',
+  },
+});
+
+export default NewEvent;
