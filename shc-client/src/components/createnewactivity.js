@@ -1,103 +1,107 @@
 import React, {useState} from "react"
 import {Text, View, Button, TextIntput, StyleSheet} from "react-native"
 
-const NewEvent = ({
-   date, 
-   startTime, 
-   endTime, 
-   coordinator,
-   description,
-   maxParticipants,
-   place,
-   multiplier,
-   publishedDate,
-   department,
-   publish
+const CampoTexto = ({ label, value, placeholder, onChangeText, multiline = false, keyboardType = "default" }) => {
+  return (
+    <View style={styles.fieldContainer}>
+      <Text style={styles.label}>{label}:</Text>
+      <TextInput
+        style={[styles.input, multiline && styles.multiline]}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        multiline={multiline}
+        keyboardType={keyboardType}
+      />
+    </View>
+  );
+};
+
+const NuevoEvento = ({
+  fecha,
+  horaInicio,
+  horaFin,
+  encargado,
+  descripcion,
+  cupoMaximo,
+  lugar,
+  multiplicador,
+  fechaPublicacion,
+  departamento,
+  onPublicar
 }) => {
-    return (
-        <View style = {styles.container}>
-        {/* date */}
-        <Text style = {styles.label}>Date:</Text>
-        <TextInput
-        style={styles.input}
+
+  return (
+    <View style={styles.container}>
+      {/* Reutilización del componente CampoTexto para cada campo */}
+      <CampoTexto
+        label="Fecha"
+        value={fecha}
         placeholder="dd/mm/AA"
-        value={date}
-        onChangeText={(value) => publish('Fecha', value)}
+        onChangeText={(value) => onPublicar('fecha', value)}
       />
-        {/* startTime */}
-        <Text style = {styles.label}>Start Time:</Text>
-        <TextInput
-        style={styles.input}
+      <CampoTexto
+        label="Hora de inicio"
+        value={horaInicio}
         placeholder="23:59"
-        value={startTime}
-        onChangeText={(value) => publish('Hora de inicio', value)}
+        onChangeText={(value) => onPublicar('horaInicio', value)}
       />
-      {/* endTime */}
-      <Text style = {styles.label}>end Time:</Text>
-        <TextInput
-        style={styles.input}
+      <CampoTexto
+        label="Hora de finalización"
+        value={horaFin}
         placeholder="23:59"
-        value={endTime}
-        onChangeText={(value) => publish('Hora de finalizacion', value)}
+        onChangeText={(value) => onPublicar('horaFin', value)}
       />
-      {/* coordinator */}
-      <Text style = {styles.label}>Coordinator:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="######"
-        value={coordinator}
-        onChangeText={(value) => publish('Coordinador', value)}
+      <CampoTexto
+        label="Encargado"
+        value={encargado}
+        placeholder="Nombre del Encargado"
+        onChangeText={(value) => onPublicar('encargado', value)}
       />
-      {/* description */}
-      <Text style = {styles.label}>Descripcion:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="Descripcion breve de la actividad...."
-        value={description}
-        onChangeText={(value) => publish('Descripcion', value)}
+      <CampoTexto
+        label="Descripción"
+        value={descripcion}
+        placeholder="Descripción breve..."
+        onChangeText={(value) => onPublicar('descripcion', value)}
+        multiline={true} 
       />
-      {/* maxParticipants */}
-      <Text style = {styles.label}>max maxParticipants:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="#####"
-        value={maxParticipants}
-        onChangeText={(value) => publish('Maximo de personas', value)}
+      <CampoTexto
+        label="Cupo máximo"
+        value={cupoMaximo}
+        placeholder="####"
+        keyboardType="numeric" 
+        onChangeText={(value) => onPublicar('cupoMaximo', value)}
       />
-      {/* place */}
-      <Text style = {styles.label}>Place:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="######"
-        value={place}
-        onChangeText={(value) => publish('Lugar', value)}
+      <CampoTexto
+        label="Lugar"
+        value={lugar}
+        placeholder="CIT-350"
+        onChangeText={(value) => onPublicar('lugar', value)}
       />
-      {/* multiplier */}
-      <Text style = {styles.label}>multiplier:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="9999"
-        value={multiplier}
-        onChangeText={(value) => publish('Coordinator', value)}
+      <CampoTexto
+        label="Multiplicador"
+        value={multiplicador}
+        placeholder="99999"
+        keyboardType="numeric" 
+        onChangeText={(value) => onPublicar('multiplicador', value)}
       />
-      {/* published date */}
-      <Text style = {styles.label}>publish Date:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="dd/mm/AA"
-        value={publishedDate}
-        onChangeText={(value) => publish('Fecha a publicar', value)}
+      <CampoTexto
+        label="Fecha de publicación"
+        value={fechaPublicacion}
+        placeholder="dd/mm/yyyy"
+        onChangeText={(value) => onPublicar('fechaPublicacion', value)}
       />
-      {/* department */}
-      <Text style = {styles.label}>Department:</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="######"
-        value={department}
-        onChangeText={(value) => publish('Coordinator', value)}
-      /> 
-   </View>
-);
+      <CampoTexto
+        label="Departamento"
+        value={departamento}
+        placeholder="Departamento"
+        onChangeText={(value) => onPublicar('departamento', value)}
+      />
+
+      {/* Botón para publicar el evento */}
+      <Button title="Publicar" onPress={() => onPublicar('submit')} color="#4CAF50" />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -127,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewEvent;
+export default newEvent;
