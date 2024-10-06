@@ -2,11 +2,11 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const CustomButton = ({ text, color, navigation, targetScreen }) => {
+const EventButton = ({ text, color, onPress }) => {
   return (
     <TouchableOpacity
       style={[styles.button, { backgroundColor: color }]}
-      onPress={() => navigation.navigate(targetScreen)} // Navigate to the screen
+      onPress={onPress} // Navigate to the screen
     >
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomButton;
+export default EventButton;

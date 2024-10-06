@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 
-const CustomButton = ({ navigation, title, backgroundImage, style, textStyle, path }) => {
+const ImageButton = ({ navigation, title, backgroundImage, style, textStyle, path }) => {
   return (
     <TouchableOpacity 
       onPress={() => navigation.navigate(path)} // Navigate to the path
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default imageButton;
+export default ImageButton;

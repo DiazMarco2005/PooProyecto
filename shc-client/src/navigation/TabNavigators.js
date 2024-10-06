@@ -4,14 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from '../screens/auth/LoginScreen.js';
 import RegisterScreen from '../screens/auth/RegisterScreen.js';
-import ProfileScreen from '../../ProfileScreen.js';
-
+import ProfileScreen from '../components/ProfileScreen.js';
+import TestScreen from '../screens/test/testScreen.js';
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator>
+      <Tab.Screen name="Test" component={TestScreen}/>
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
