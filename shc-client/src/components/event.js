@@ -1,5 +1,6 @@
-import React, {useState} from "react"
-import {Text, View, Button, TextIntput, StyleSheet} from "react-native"
+import React, { useState } from "react";
+import { Text, View, Button, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";  
 
 const CampoTexto = ({ label, value, placeholder, onChangeText, multiline = false, keyboardType = "default" }) => {
   return (
@@ -98,19 +99,28 @@ const NuevoEvento = ({
         onChangeText={(value) => onPublicar('departamento', value)}
       />
 
-      {/* Botón para publicar el evento */}
-      <Button title="Publicar" onPress={() => onPublicar('submit')} color="#4CAF50" />
+      {/* Botones de Guardar y Cancelar */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={() => onPublicar('guardar')}>
+          <FontAwesome name="floppy-o" size={24} color="white" />
+          <Text style={styles.buttonText}>Guardar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => onPublicar('cancelar')}>
+          <FontAwesome name="trash-o" size={24} color="white" />
+          <Text style={styles.buttonText}>Cancelar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
+// Estilos actualizados
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    flex: 4,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
+    backgroundColor: "#000",
+    justifyContent: "flex-start",
   },
   label: {
     color: '#4CAF50',
@@ -125,10 +135,34 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     width: '100%',
   },
-  description: {
+  multiline: {
     height: 100,
     textAlignVertical: 'top',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 5,
+    width: '40%',
+    justifyContent: 'center',
+  },
+  saveButton: {
+    backgroundColor: '#4CAF50',
+  },
+  cancelButton: {
+    backgroundColor: '#f44336',
+  },
+  buttonText: {
+    color: 'white',
+    marginLeft: 10,
+    fontSize: 16,
+  },
 });
 
-export default newEvent;
+export default NuevoEvento;
