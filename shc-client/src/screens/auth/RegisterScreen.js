@@ -4,7 +4,7 @@ import { Link } from '@react-navigation/native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import handleRegister from '../../utils/auth/handleRegister.js';
 import StudentRegister from '../../components/auth/StudentRegisterWindow.js'
-import CoordinatorRegister from '../../components/auth/CoordinatorRegisterWindow.js'
+import CoordinatorRegister from '../../components/auth/CoordinatorRegisterWindow.js';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');

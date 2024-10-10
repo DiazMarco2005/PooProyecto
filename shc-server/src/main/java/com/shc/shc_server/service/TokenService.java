@@ -1,18 +1,22 @@
 package com.shc.shc_server.service;
 
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.shc.shc_server.model.Coordinator;
 import com.shc.shc_server.model.Student;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.security.Key;
-import java.util.Date;
-import java.util.function.Function;
 
 @Service
 public class TokenService {
@@ -24,19 +28,23 @@ public class TokenService {
     private long jwtExpirationMs;
 
     public String generateToken(Student student) {
-        return Jwts.builder()
-                .setSubject(student.getEmail())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-                .compact();
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "STUDENT");
+        return createToken(claims, student.getEmail());
     }
 
     public String generateTokenCoord(Coordinator coordinator) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "COORDINATOR");
+        return createToken(claims, coordinator.getEmail());
+    }
+
+    private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setSubject(coordinator.getEmail())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -45,14 +53,12 @@ public class TokenService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public boolean isTokenValid(String token, Student student) {
-        final String email = extractEmail(token);
-        return (email.equals(student.getEmail()) && !isTokenExpired(token));
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
-    public boolean isTokenValidCoord(String token, Coordinator coordinator) {
-        final String email = extractEmail(token);
-        return (email.equals(coordinator.getEmail()) && !isTokenExpired(token));
+    public boolean isTokenValid(String token, String email) {
+        return (email.equals(extractEmail(token)) && !isTokenExpired(token));
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -60,7 +66,7 @@ public class TokenService {
         return claimsResolver.apply(claims);
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -70,10 +76,10 @@ public class TokenService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-        .setSigningKey(getSigningKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Key getSigningKey() {
