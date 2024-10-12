@@ -45,6 +45,11 @@ public class ActivityService {
         return activityRepository.findById(id).orElse(null);
     }
 
+    // get activitys by name coordinator
+    public List<Activity> getActivitiesByNameCoordinator(String name) {
+        return activityRepository.findByCoordinatorContainingIgnoreCase(name);
+    }
+
     // save new activity
     public Activity saveActivity(Activity activity) {
         return activityRepository.save(activity);

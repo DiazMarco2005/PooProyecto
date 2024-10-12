@@ -31,6 +31,11 @@ public class CoordinatorService {
                 .orElseThrow(() -> new RuntimeException("Coordinator not found for id: " + id));
     }
 
+    // Get coordinator by email
+    public Coordinator getCoordinatorByEmail(String email) {
+        return coordinatorRepository.findByEmail(email).orElse(null);
+    }
+
     // Save a new coordinator
     public Coordinator saveCoordinator(Coordinator coordinator) {
         return coordinatorRepository.save(coordinator);

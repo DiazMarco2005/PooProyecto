@@ -7,6 +7,13 @@ import LoginScreen from '../screens/auth/LoginScreen.js';
 import RegisterScreen from '../screens/auth/RegisterScreen.js';
 import HomeCoordinatorScreen from '../screens/coordinator/HomeScreen.js';
 import HomeStudentScreen from '../screens/student/HomeScreen.js';
+import ActivityScreen from '../screens/student/ActivityScreen.js';
+import CalendarScreen from '../screens/student/CalendarScreen.js';
+import ProfileScreen from '../screens/student/ProfileScreen.js';
+import ActivityScreenCoord from '../screens/coordinator/ActivityScreen.js';
+import NewActivityScreen from '../screens/coordinator/NewActivityScreen.js';
+import ProfileScreenCoord from '../screens/coordinator/ProfileScreen.js';
+import CalendarScreenCoord from '../screens/coordinator/CalendarScreen.js';
 import { createStackNavigator } from '@react-navigation/stack';
 import api from '../configs/api.js';
 
@@ -18,6 +25,9 @@ const BottomTabNavigatorStudent = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeStudentScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Activities" component={ActivityScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
@@ -26,6 +36,10 @@ const BottomTabNavigatorCoordinator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeCoordinatorScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="ActivitiesCoord" component={ActivityScreenCoord} options={{ headerShown: false }} />
+      <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="ProfileCoord" component={ProfileScreenCoord} options={{ headerShown: false }} />
+      <Tab.Screen name="CalendarCoord" component={CalendarScreenCoord} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
