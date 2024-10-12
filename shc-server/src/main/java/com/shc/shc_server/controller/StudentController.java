@@ -76,6 +76,12 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    @GetMapping("/{email}")
+    public ResponseEntity<Student> getStudentByEmail(@PathVariable String email) {
+        Student student = studentService.findByEmail(email);
+        return ResponseEntity.ok(student);
+    }
+
     @PostMapping("/")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         Student createdStudent = studentService.saveStudent(student);

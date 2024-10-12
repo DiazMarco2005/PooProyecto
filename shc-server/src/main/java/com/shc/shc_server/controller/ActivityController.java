@@ -31,6 +31,12 @@ public class ActivityController {
         return ResponseEntity.ok(activity);
     }
 
+    @GetMapping("/coorinator-name/{name}")
+    public ResponseEntity<List<Activity>> getActivityByCoordinatorEmail(@PathVariable String name) {
+        List<Activity> activities = activityService.getActivitiesByNameCoordinator(name);
+        return ResponseEntity.ok(activities);
+    }
+
     @PostMapping("/")
     public ResponseEntity<Activity> createActivity(@RequestBody Activity activity) {
         Activity createdActivity = activityService.saveActivity(activity);

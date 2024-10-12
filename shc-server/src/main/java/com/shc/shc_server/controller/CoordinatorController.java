@@ -76,6 +76,12 @@ public class CoordinatorController {
         return ResponseEntity.ok(coordinator);
     }
 
+    @GetMapping("/{email}")
+    public ResponseEntity<Coordinator> getCoordinatorByEmail(@PathVariable String email) {
+        Coordinator coordinator = coordinatorService.getCoordinatorByEmail(email);
+        return ResponseEntity.ok(coordinator);
+    }
+
     @PostMapping("/")
     public ResponseEntity<Coordinator> createCoordinator(@RequestBody Coordinator coordinator) {
         Coordinator createdCoordinator = coordinatorService.saveCoordinator(coordinator);
