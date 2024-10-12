@@ -1,12 +1,12 @@
 package com.shc.shc_server.service;
 
-import com.shc.shc_server.model.Coordinator;
-import com.shc.shc_server.model.Student;
-import com.shc.shc_server.repository.CoordinatorRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.shc.shc_server.model.Coordinator;
+import com.shc.shc_server.repository.CoordinatorRepository;
 
 @Service
 public class CoordinatorService {
@@ -14,27 +14,29 @@ public class CoordinatorService {
     @Autowired
     private CoordinatorRepository coordinatorRepository;
 
+    // Find coordinator by email
     public Coordinator findByEmail(String email) {
         return coordinatorRepository.findByEmail(email)
-        .orElse(null);
+                .orElse(null);
     }
 
-    // get all
+    // Get all coordinators
     public List<Coordinator> getAllCoordinators() {
         return coordinatorRepository.findAll();
     }
 
-    // get by id
+    // Get coordinator by ID
     public Coordinator getCoordinatorById(Long id) {
-        return coordinatorRepository.findById(id).orElse(null);
+        return coordinatorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Coordinator not found for id: " + id));
     }
 
-    // save a new coordinator
+    // Save a new coordinator
     public Coordinator saveCoordinator(Coordinator coordinator) {
         return coordinatorRepository.save(coordinator);
     }
 
-    // update cordinator already exist
+    // Update existing coordinator
     public Coordinator updateCoordinator(Long id, Coordinator updatedCoordinator) {
         Coordinator existingCoordinator = getCoordinatorById(id);
 
@@ -46,12 +48,10 @@ public class CoordinatorService {
         return coordinatorRepository.save(existingCoordinator);
     }
 
-    // delete cordinator
+    // Delete coordinator
     public void deleteCoordinator(Long id) {
         if (!coordinatorRepository.existsById(id)) {
-
-            ;
-
+            throw new RuntimeException("Coordinator not found for id: " + id);
         }
         coordinatorRepository.deleteById(id);
     }

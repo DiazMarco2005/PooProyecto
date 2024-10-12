@@ -1,13 +1,16 @@
 package com.shc.shc_server.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.shc.shc_server.model.Activity;
 import com.shc.shc_server.model.Student;
 import com.shc.shc_server.repository.ActivityRepository;
 import com.shc.shc_server.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class StudentService {
@@ -20,77 +23,98 @@ public class StudentService {
 
     // get all
     public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+        List<Student> students = studentRepository.findAll();
+        students.forEach(student -> {
+            Hibernate.initialize(student.getPreviousActivities());
+            Hibernate.initialize(student.getPreferredActivities());
+        });
+        return students;
     }
 
+    // get by email
     public Student findByEmail(String email) {
-        return studentRepository.findByEmail(email)
-        .orElse(null);
+        Optional<Student> studentOpt = studentRepository.findByEmail(email);
+        if (studentOpt.isPresent()) {
+            Student student = studentOpt.get();
+            Hibernate.initialize(student.getPreviousActivities());
+            Hibernate.initialize(student.getPreferredActivities());
+            return student;
+        }
+        return null;
     }
 
     // get by id
     public Student getStudentById(Long id) {
-        return studentRepository.findById(id)
-        .orElse(null);
-
+        Optional<Student> studentOpt = studentRepository.findById(id);
+        if (studentOpt.isPresent()) {
+            Student student = studentOpt.get();
+            Hibernate.initialize(student.getPreviousActivities());
+            Hibernate.initialize(student.getPreferredActivities());
+            return student;
+        }
+        return null;
     }
 
-    // save a nuw student
+    // save a new student
     public Student saveStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    // update student already exist
+    // update student
     public Student updateStudent(Long id, Student updatedStudent) {
         Student existingStudent = getStudentById(id);
+        if (existingStudent != null) {
+            existingStudent.setName(updatedStudent.getName());
+            existingStudent.setPassword(updatedStudent.getPassword());
+            existingStudent.setEmail(updatedStudent.getEmail());
+            existingStudent.setMajor(updatedStudent.getMajor());
+            existingStudent.setYear(updatedStudent.getYear());
+            existingStudent.setScholarshipHours(updatedStudent.getScholarshipHours());
+            existingStudent.setCompletedScholarshipHours(updatedStudent.getCompletedScholarshipHours());
+            existingStudent.setPreviousActivities(updatedStudent.getPreviousActivities());
+            existingStudent.setPreferredActivities(updatedStudent.getPreferredActivities());
+            existingStudent.setAboutMe(updatedStudent.getAboutMe());
+            existingStudent.setScore(updatedStudent.getScore());
+            existingStudent.setNewActivity(updatedStudent.getNewActivity());
+            existingStudent.setActivity(updatedStudent.getActivity());
 
-        existingStudent.setName(updatedStudent.getName());
-        existingStudent.setPassword(updatedStudent.getPassword());
-        existingStudent.setEmail(updatedStudent.getEmail());
-        existingStudent.setMajor(updatedStudent.getMajor());
-        existingStudent.setYear(updatedStudent.getYear());
-        existingStudent.setScholarshipHours(updatedStudent.getScholarshipHours());
-        existingStudent.setCompletedScholarshipHours(updatedStudent.getCompletedScholarshipHours());
-        existingStudent.setPreviousActivities(updatedStudent.getPreviousActivities());
-        existingStudent.setPreferredActivities(updatedStudent.getPreferredActivities());
-        existingStudent.setAboutMe(updatedStudent.getAboutMe());
-        existingStudent.setScore(updatedStudent.getScore());
-        existingStudent.setNewActivity(updatedStudent.getNewActivity());
-        existingStudent.setActivity(updatedStudent.getActivity());
-
-        return studentRepository.save(existingStudent);
+            return studentRepository.save(existingStudent);
+        }
+        return null;
     }
 
     // delete student
     public void deleteStudent(Long id) {
-        if (!studentRepository.existsById(id)) {
-            ;
+        if (studentRepository.existsById(id)) {
+            studentRepository.deleteById(id);
         }
-        studentRepository.deleteById(id);
     }
 
-    // join to activity
-   public Student joinActivity(Long studentId, Long activityId) {
+    // join activity
+    public Student joinActivity(Long studentId, Long activityId) {
         Student student = getStudentById(studentId);
         Activity activity = activityRepository.findById(activityId)
                 .orElse(null);
 
-        if (activity.getStudents().size() >= activity.getMaxCapacity()) {
-            ;
+        if (activity != null && student != null) {
+            if (activity.getStudents().size() < activity.getMaxCapacity()) {
+                student.getPreferredActivities().add(activity);
+                activity.getStudents().add(student);
+                
+                studentRepository.save(student);
+                activityRepository.save(activity);
+            }
         }
-
-        student.getPreferredActivities().add(activity);
-        activity.getStudents().add(student);
-
-        studentRepository.save(student);
-        activityRepository.save(activity);
 
         return student;
     }
 
-    // get scholaship hours complete
+    // get completed scholarship hours
     public int getCompletedScholarshipHours(Long id) {
         Student student = getStudentById(id);
-        return (int) Math.round(student.getCompletedScholarshipHours());
+        if (student != null) {
+            return (int) Math.round(student.getCompletedScholarshipHours());
+        }
+        return 0;
     }
 }

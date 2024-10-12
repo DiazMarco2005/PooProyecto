@@ -1,27 +1,29 @@
 package com.shc.shc_server.service;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.shc.shc_server.model.Activity;
 import com.shc.shc_server.model.Student;
 import com.shc.shc_server.repository.ActivityRepository;
 import com.shc.shc_server.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ActivityService {
@@ -32,16 +34,15 @@ public class ActivityService {
 
     @Autowired
     private StudentRepository studentRepository;
-    
-    // get all
+
+    // get all activities
     public List<Activity> getAllActivities() {
         return activityRepository.findAll();
     }
 
-    // get actiivity by id
+    // get activity by id
     public Activity getActivityById(Long id) {
-        return activityRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found id: " + id));
+        return activityRepository.findById(id).orElse(null);
     }
 
     // save new activity
@@ -49,7 +50,7 @@ public class ActivityService {
         return activityRepository.save(activity);
     }
 
-    // update activity already exist
+    // update existing activity
     public Activity updateActivity(Long id, Activity updatedActivity) {
         Activity existingActivity = getActivityById(id);
 
@@ -71,12 +72,12 @@ public class ActivityService {
     // delete activity by id
     public void deleteActivity(Long id) {
         if (!activityRepository.existsById(id)) {
-            throw new RuntimeException("not found id: " + id);
+            throw new RuntimeException("Activity not found for id: " + id);
         }
         activityRepository.deleteById(id);
     }
 
-    // generate qr code img
+    // generate qr code image
     public BufferedImage generateQRCodeImage(String text) throws Exception {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, Object> hintMap = new HashMap<>();
@@ -85,7 +86,7 @@ public class ActivityService {
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
-    // get bytes qr code 
+    // get qr code as bytes
     public byte[] getQRCodeImageBytes(String text) throws Exception {
         BufferedImage qrImage = generateQRCodeImage(text);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -93,17 +94,22 @@ public class ActivityService {
         return baos.toByteArray();
     }
 
+    // get students by activity id
+    @Transactional(readOnly = true)
     public List<Student> getStudentsByActivityId(Long activityId) {
-        Activity activity = getActivityById(activityId); 
-        return activity.getStudents(); 
+        Activity activity = getActivityById(activityId);
+        Hibernate.initialize(activity.getStudents());
+        return activity.getStudents();
     }
 
+    // add student to activity
+    @Transactional
     public Activity addStudent(Long activityId, Long studentId) {
         Activity activity = getActivityById(activityId);
-        Student student = studentRepository.getById(studentId);
+        Student student = studentRepository.findById(studentId).orElse(null);
 
         if (activity.getStudents().size() >= activity.getMaxCapacity()) {
-            throw new RuntimeException("maximum capacity reached");
+            throw new RuntimeException("Maximum capacity reached for activity: " + activityId);
         }
 
         activity.getStudents().add(student);
@@ -115,9 +121,12 @@ public class ActivityService {
         return activity;
     }
 
+    // remove student from activity
+    @Transactional
     public Activity removeStudent(Long activityId, Long studentId) {
         Activity activity = getActivityById(activityId);
-        Student student = studentRepository.getById(studentId);
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found for id: " + studentId));
 
         activity.getStudents().remove(student);
         student.setActivity(null);
@@ -128,9 +137,10 @@ public class ActivityService {
         return activity;
     }
 
+    // disable joining to an activity
     public Activity disableJoining(Long id) {
         Activity activity = getActivityById(id);
-        activity.setMaxCapacity(0); 
+        activity.setMaxCapacity(0);
         return activityRepository.save(activity);
     }
 }

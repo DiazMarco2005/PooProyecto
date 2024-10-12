@@ -33,6 +33,8 @@ public class SecurityConfig {
             .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/activities/**").permitAll()
+                .requestMatchers("/api/coordinators/**").hasRole("COORDINATOR")
+                .requestMatchers("/api/students/**").hasRole("STUDENT")
                 .anyRequest().authenticated()
             .and()
             .sessionManagement()
