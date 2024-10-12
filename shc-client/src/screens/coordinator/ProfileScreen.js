@@ -1,8 +1,6 @@
-import React from "react";
-import EventButton from "../../components/eventBotton";
-import ImageButton from "../../components/imageBotton";
-import api from '../configs/api.js';
-
+import EventButton from "../../components/eventBotton.js";
+import ImageButton from "../../components/imageBotton.js";
+import api from "../../configs/api.js";
 
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
@@ -11,7 +9,7 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'rea
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
 
-const ProfileScreen = () => {
+const ProfileScreenCoord = () => {
   // Cargar la fuente Inter
   let [fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -145,6 +143,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default ProfileScreenCoord;
 
 

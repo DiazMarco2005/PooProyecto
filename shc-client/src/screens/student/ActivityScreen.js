@@ -8,4 +8,4 @@ const ActivityScreen = () => {
     )
 }
 
-export default ActivityStudent;
+export default ActivityScreen;
