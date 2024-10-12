@@ -69,6 +69,7 @@ public class CoordinatorController {
         List<Coordinator> coordinators = coordinatorService.getAllCoordinators();
         return ResponseEntity.ok(coordinators);
     }
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<Coordinator> getCoordinatorById(@PathVariable Long id) {

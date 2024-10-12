@@ -10,6 +10,7 @@ const handleLogin = async (index, email, password, navigation) => {
   try {
     const response = await api.post(loginUrl, { email, password });
     const token = response.data;
+    await AsyncStorage.setItem('email', email)
     await AsyncStorage.setItem('token', token);
     navigation();
   } catch (error) {

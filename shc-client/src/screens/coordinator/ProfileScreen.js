@@ -6,7 +6,6 @@ import api from '../configs/api.js';
 
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-
 // Agrega la fuente Inter
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
@@ -16,17 +15,16 @@ const ProfileScreen = () => {
   let [fontsLoaded] = useFonts({
     Inter_400Regular,
   });
-  let name= api.get('/api/coordinator/')
-
+  let name= api.get('/api/coordinator/'+id)
+    name=name[name]
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
   return (
     <View style={styles.container}>
-      {/* Menú hamburguesa */}
       <View style={styles.menuContainer}>
-        <Text style={styles.menuText}>≡</Text>
+        <Text style={styles.menuText}></Text>
       </View>
 
       {/* Imagen de perfil */}
@@ -36,7 +34,7 @@ const ProfileScreen = () => {
           style={styles.profileImage} 
         />
       </View>
-
+    
       {/* Nombre y rol */}
       <Text style={styles.name}></Text>
       <Text style={styles.role}>Coordinador</Text>
@@ -54,8 +52,9 @@ const ProfileScreen = () => {
         <Text style={styles.eventTitle}>Evento 3</Text>
       </ScrollView>
 
-      {/* Botón para agregar evento */}
+      <ImageButton/>
       <TouchableOpacity style={styles.addButton}>
+        <EventButton/>
         <Text style={styles.addButtonText}>Agregar nuevo evento</Text>
       </TouchableOpacity>
 
