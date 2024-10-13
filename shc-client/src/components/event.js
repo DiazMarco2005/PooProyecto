@@ -15,6 +15,7 @@ const CampoTexto = ({ label, value, placeholder, onChangeText, multiline = false
         keyboardType={keyboardType}
       />
     </View>
+    
   );
 };
 
@@ -34,6 +35,14 @@ const NuevoEvento = ({
 
   return (
     <View style={styles.container}>
+      {/* Logo UVG */}
+      <View style={styles.logoContainer}>
+        <Image
+          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Logo-uvg-horizontal.jpg' }} // Logo de UVG
+          style={styles.logo}
+        />
+      </View>
+
       {/* Reutilización del componente CampoTexto para cada campo */}
       <CampoTexto
         label="Fecha"
@@ -162,6 +171,11 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 10,
     fontSize: 16,
+  },
+  logo: {
+    width: 150,
+    height: 50,
+    marginBottom: 10,
   },
 });
 

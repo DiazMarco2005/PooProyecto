@@ -42,6 +42,14 @@ export default function ProfileScreen() {
           </View>
         </TouchableOpacity>
       </View>
+    <View>
+      <Image
+        source={{
+          uri: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Logo-uvg-horizontal.jpg",
+        }}
+        style={styles.logo}
+      />
+    </View>
     </View>
   );
 }
@@ -142,6 +150,10 @@ const styles = StyleSheet.create({
   hoursText: {
     color: '#FFFFFF',
   },
-
+  logo: {
+    width: 150,
+    height: 50,
+    marginBottom: 10,
+  },
 });
 
