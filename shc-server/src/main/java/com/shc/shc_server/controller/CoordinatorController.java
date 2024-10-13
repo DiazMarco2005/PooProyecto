@@ -1,3 +1,4 @@
+
 package com.shc.shc_server.controller;
 
 import java.util.List;
@@ -94,5 +95,9 @@ public class CoordinatorController {
         return ResponseEntity.ok(updatedCoordinator);
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCoordinator(@PathVariable Long id) {
+        coordinatorService.deleteCoordinator(id);
+        return ResponseEntity.noContent().build();
+    }
 }
