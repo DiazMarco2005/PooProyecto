@@ -5,7 +5,6 @@ const HomeCoordinatorScreen = () => {
     return (
         <View>
             <Text>Coordinator home</Text>
-            <ProfileScreen></ProfileScreen>
         </View>
     )
 }

@@ -1,22 +1,53 @@
 import EventButton from "../../components/eventBotton.js";
 import ImageButton from "../../components/imageBotton.js";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../../configs/api.js";
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-// Agrega la fuente Inter
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
-import AppLoading from 'expo-app-loading';
 
 const ProfileScreenCoord = () => {
-  // Cargar la fuente Inter
-  let [fontsLoaded] = useFonts({
+  // Imágenes
+  const img1 = require('../../assets/images/UVG2.jpg');
+  const img2 = require('../../assets/images/CITWEB-22.png');
+  const img3 = require('../../assets/images/images.jpeg');
+  const images = [img1, img2, img3]; // Array de imágenes
+  const navigateToActivity = () => {
+    navigation.navigate('ActivityCoord'); // Adjust the route as necessary
+  }
+  const [name, setName] = useState("");
+  const [activities, setActivities] = useState([]); // Estado para guardar actividades
+  const [fontsLoaded] = useFonts({
     Inter_400Regular,
   });
-  let name= api.get('/api/coordinator/'+id)
-    name=name[name]
+
+  useEffect(() => {
+    const fetchCoordinatorData = async () => {
+      try {
+        const email = await AsyncStorage.getItem('email');
+        const token = await AsyncStorage.getItem('token');
+
+        // Obtener datos del coordinador
+        let response = await api.get('/api/coordinators/email/' + email, { 
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setName(response.data.name);
+
+        // Obtener actividades del coordinador
+        let activityResponse = await api.get('/api/activity/coordinator-name/' + response.data.name, { 
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setActivities(activityResponse.data); // Guardar las actividades en el estado
+      } catch (error) {
+        console.error('Error fetching coordinator data:', error);
+      }
+    };
+
+    fetchCoordinatorData();
+  }, []);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;  // Return null instead of using deprecated AppLoading
   }
 
   return (
@@ -32,29 +63,32 @@ const ProfileScreenCoord = () => {
           style={styles.profileImage} 
         />
       </View>
-    
-      {/* Nombre y rol */}
-      <Text style={styles.name}></Text>
-      <Text style={styles.role}>Coordinador</Text>
 
+      {/* Nombre y rol */}
+      <View style={styles.profileContainer}>
+      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.role}>Coordinador</Text>
+      </View>
       {/* Sección de eventos */}
       <Text style={styles.eventsTitle}>Mis eventos:</Text>
+
+      {/* Mostrar actividades dinámicamente */}
       <ScrollView>
-        <Image source={{ uri: 'https://via.placeholder.com/300x150' }} style={styles.eventImage} />
-        <Text style={styles.eventTitle}>Evento 1</Text>
-
-        <Image source={{ uri: 'https://via.placeholder.com/300x150' }} style={styles.eventImage} />
-        <Text style={styles.eventTitle}>Evento 2</Text>
-
-        <Image source={{ uri: 'https://via.placeholder.com/300x150' }} style={styles.eventImage} />
-        <Text style={styles.eventTitle}>Evento 3</Text>
+        {activities.length > 0 ? (
+          activities.map((activity, index) => (
+            <View key={activity.id}>
+              {/* Rotar imágenes basado en el índice */}
+              ///Image source={images[index % images.length]} style={styles.eventImage}
+              <ImageButton navigation={navigation} title={activity.name} backgroundImage={images[index % images.length] } path={'../shc-client/src/screens/coordinator/ActivityScreen.js'}/>
+            </View>
+          ))
+        ) : (
+          <Text style={styles.noEventsText}>No hay eventos disponibles.</Text>
+        )}
       </ScrollView>
 
-      <ImageButton/>
-      <TouchableOpacity style={styles.addButton}>
-        <EventButton/>
-        <Text style={styles.addButtonText}>Agregar nuevo evento</Text>
-      </TouchableOpacity>
+      {/* Botones */}
+      <EventButton text="Agregar un nuevo evento" color="#4CAF50" onPress={navigateToActivity}/>
 
       {/* Logo */}
       <View style={styles.logoContainer}>
@@ -68,6 +102,12 @@ const ProfileScreenCoord = () => {
 };
 
 const styles = StyleSheet.create({
+  profileContainer:{
+    flex: 1,
+    alignItems: 'center',
+    minWidth: '200px',
+
+  },
   container: {
     flex: 1,
     backgroundColor: '#000', // Color de fondo negro
@@ -91,10 +131,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccc',
   },
   name: {
-    fontSize: 18,
+    fontSize: 30,
     fontFamily: 'Inter_400Regular',
     color: '#fff',
     textAlign: 'center',
+    backgroundColor:'#2E4C12',
+    borderRadius:'20%',
+    maxWidth:'800px',
+    minWidth:'200px',
+    alignItems:'center',
   },
   role: {
     fontSize: 16,
@@ -112,13 +157,20 @@ const styles = StyleSheet.create({
   eventImage: {
     width: '100%',
     height: 150,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   eventTitle: {
     fontSize: 16,
     fontFamily: 'Inter_400Regular',
     color: '#fff',
     marginBottom: 20,
+  },
+  noEventsText: {
+    fontSize: 16,
+    fontFamily: 'Inter_400Regular',
+    color: '#fff',
+    textAlign: 'center',
+    marginVertical: 20,
   },
   addButton: {
     backgroundColor: '#4CAF50',
@@ -143,5 +195,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreenCoord;
-
-

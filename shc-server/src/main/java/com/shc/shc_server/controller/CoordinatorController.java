@@ -69,7 +69,6 @@ public class CoordinatorController {
         List<Coordinator> coordinators = coordinatorService.getAllCoordinators();
         return ResponseEntity.ok(coordinators);
     }
-    
 
     @GetMapping("/{id}")
     public ResponseEntity<Coordinator> getCoordinatorById(@PathVariable Long id) {
@@ -77,9 +76,9 @@ public class CoordinatorController {
         return ResponseEntity.ok(coordinator);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")//ya
     public ResponseEntity<Coordinator> getCoordinatorByEmail(@PathVariable String email) {
-        Coordinator coordinator = coordinatorService.getCoordinatorByEmail(email);
+        Coordinator coordinator = coordinatorService.findByEmail(email);
         return ResponseEntity.ok(coordinator);
     }
 
@@ -95,9 +94,5 @@ public class CoordinatorController {
         return ResponseEntity.ok(updatedCoordinator);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoordinator(@PathVariable Long id) {
-        coordinatorService.deleteCoordinator(id);
-        return ResponseEntity.noContent().build();
-    }
+
 }
