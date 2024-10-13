@@ -76,7 +76,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<Student> getStudentByEmail(@PathVariable String email) {
         Student student = studentService.findByEmail(email);
         return ResponseEntity.ok(student);
