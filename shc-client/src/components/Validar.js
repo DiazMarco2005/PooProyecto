@@ -1,4 +1,4 @@
-/* Hola mundo */
+
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 
@@ -30,4 +30,50 @@ const Validarhorasbeca = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#1d1d1d", 
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  title: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 40,
+  },
+  eventContainer: {
+    backgroundColor: "#333",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  eventTitle: {
+    backgroundColor: "#c6a18f", 
+    padding: 10,
+    borderRadius: 5,
+    color: "#1d1d1d", 
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  qrPlaceholder: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#666", 
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  qrImage: {
+    width: 180,
+    height: 180, 
+  },
+  logo: {
+    width: 150,
+    height: 50,
+    marginBottom: 10,
+  },
+});
 export default Validarhorasbeca;
