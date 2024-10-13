@@ -85,4 +85,48 @@ const NewActivityScreen = () => {
   );
 };
 
+const styles = StyleSheet.create({
+    container: {
+      padding: 10,
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: "bold",
+      marginBottom: 10,
+    },
+    subtitle: {
+      fontSize: 18,
+      marginBottom: 5,
+    },
+    date: {
+      fontSize: 14,
+      color: "gray",
+      marginBottom: 10,
+    },
+    timeContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
+    },
+    timeInput: {
+      flex: 1,
+      marginHorizontal: 5,
+    },
+    input: {
+      backgroundColor: "#f0f0f0",
+      borderRadius: 5,
+      padding: 10,
+      fontSize: 16,
+      marginBottom: 15,
+      width: "100%",
+    },
+    description: {
+      height: 100,
+      textAlignVertical: "top",
+    },
+  });
+
 export default NewActivityScreen;
