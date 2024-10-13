@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import CampoTexto from "../../components/CampodeTexto";
 import React, {useState, useEffect } from "react"
 
@@ -124,4 +125,16 @@ const NewActivityScreen = () => {
           textAlignVertical: 'top',
         },
       });
+=======
+import { View, Text } from "react-native-web";
+
+const NewActivityScreen = () => {
+    return (
+        <View>
+            <Text>new activity screen</Text>
+        </View>
+    )
+}
+
+>>>>>>> 70c3a0e10b597ddfc3e91777281cfd075f98fabf
 export default NewActivityScreen;

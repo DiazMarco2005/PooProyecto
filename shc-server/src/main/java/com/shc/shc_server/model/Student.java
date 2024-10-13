@@ -1,11 +1,22 @@
 package com.shc.shc_server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.Data;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "students")
@@ -38,7 +49,7 @@ public class Student {
     @Column(nullable = false)
     private Double completedScholarshipHours;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_previous_activities",
             joinColumns = @JoinColumn(name = "student_id"),
@@ -46,7 +57,7 @@ public class Student {
     )
     private List<Activity> previousActivities;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_preferred_activities",
             joinColumns = @JoinColumn(name = "student_id"),

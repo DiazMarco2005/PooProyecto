@@ -7,6 +7,7 @@ import StudentLogin from '../../components/auth/StudentLoginWindow.js';
 import CoordinatorLogin from '../../components/auth/CoordinatorLoginWindow.js'
 
 const LoginScreen = ({ navigation }) => {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [index, setIndex] = useState(0);
