@@ -10,9 +10,17 @@ const ProfileStatistics =({
     activities,
 }) => {
     return (
-        <view style ={styles.container}>
+      <view style ={styles.container}>
 
-            {/* profile section */}
+      {/* Logo UVG */}
+      <View style={styles.logoContainer}>
+        <Image
+          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Logo-uvg-horizontal.jpg' }} // Logo de UVG
+          style={styles.logo}
+        />
+      </View>
+
+      {/* profile section */}
       <View style={styles.profileSection}>
         <View style={styles.profileIcon} />
         <Text style={styles.profileName}>{name}</Text>
@@ -30,20 +38,20 @@ const ProfileStatistics =({
         />
       </View>
 
-    {/* remaining hours */}
-    <Text style={styles.remainingHours}>{remainingBecaHours} horas restantes</Text>
+      {/* remaining hours */}
+      <Text style={styles.remainingHours}>{remainingBecaHours} horas restantes</Text>
 
-    {/* Recent Activities */}
-    <View style={styles.activitiesSection}>
-        <Text style={styles.activitiesTitle}>Últimas Actividades</Text>
-        {activities.map((actividad, index) => (
-          <View key={index} style={styles.activityItem}>
-            <Text style={styles.activityName}>{actividad.nombre}</Text>
-            <Text style={styles.activityHours}>{actividad.horas} horas</Text>
+      {/* Recent Activities */}
+      <View style={styles.activitiesSection}>
+          <Text style={styles.activitiesTitle}>Últimas Actividades</Text>
+          {activities.map((actividad, index) => (
+            <View key={index} style={styles.activityItem}>
+              <Text style={styles.activityName}>{actividad.nombre}</Text>
+             <Text style={styles.activityHours}>{actividad.horas} horas</Text>
           </View>
         ))}
       </View>
-      
+    
     </view>
     );
 };

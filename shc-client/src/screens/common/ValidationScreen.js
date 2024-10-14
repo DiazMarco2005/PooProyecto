@@ -31,4 +31,69 @@ const BecaValidationScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 20,
+  },
+  messageContainer: {
+    marginBottom: 30,
+    alignItems: 'center',
+  },
+  successMessage: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000',
+  },
+  hoursContainer: {
+    width: '80%',
+    backgroundColor: '#d29a79',
+    borderRadius: 10,
+    alignItems: 'center',
+    padding: 20,
+    marginBottom: 30,
+  },
+  hoursText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  hoursLabel: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#fff',
+    marginTop: 10,
+  },
+  eventContainer: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderColor: '#d29a79',
+    borderWidth: 2,
+    borderRadius: 10,
+    alignItems: 'center',
+    padding: 15,
+    marginBottom: 20,
+  },
+  eventName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#000',
+    marginBottom: 10,
+  },
+  eventStatus: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#8A4A32',
+  },
+});
 export default BecaValidationScreen;
