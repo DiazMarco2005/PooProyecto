@@ -1,63 +1,97 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text } from 'react-native';
+import { Link } from '@react-navigation/native';
+import { TabView, TabBar } from 'react-native-tab-view';
+import handleLogin from '../../utils/auth/handleLogin.js';
+import StudentLogin from '../../components/auth/StudentLoginWindow.js';
+import CoordinatorLogin from '../../components/auth/CoordinatorLoginWindow.js'
 
 const LoginScreen = ({ navigation }) => {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('STUDENT'); // 'STUDENT' o 'COORDINATOR'
+  const [index, setIndex] = useState(0);
 
-  const handleLogin = async () => {
-    const loginUrl = role === 'STUDENT'
-      ? 'http://localhost:8080/api/auth/login/coordinator/'
-      : 'http://localhost:8080/api/auth/login/student/';
-    
-    try {
-      const response = await axios.post(loginUrl, {
-        email,
-        password,
-      });
+  const routes = [
+    { key: 'student', title: 'Student' },
+    { key: 'coordinator', title: 'Coordinator' },
+  ];
 
-      const token = response.data.token;
-      console.log(token, role, email, password)
-      // guardar token
-      await AsyncStorage.setItem('token', token);
+  const handleLoginSuccess = () => {
+    navigation.replace('DrawerNavigator');
+  };
+  const renderScene = ({ route }) => {
 
-      navigation.navigate('Profile');
-    } catch (error) {
-      Alert.alert('Login Failed', 'Invalid credentials');
+    let render = null;
+
+    if (route.key === 'student') {
+      render =  (
+        <StudentLogin
+          handleLogin={() => handleLogin(index, email, password, handleLoginSuccess)}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+        />
+      );
     }
+
+    if (route.key === 'coordinator') {
+      render =  (
+        <CoordinatorLogin
+          handleLogin={() => handleLogin(index, email, password, handleLoginSuccess)}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+        />
+      );
+    }
+
+    return render;
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text>Email:</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 12, padding: 8 }}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter email"
-      />
-      
-      <Text>Password:</Text>
-      <TextInput
-        style={{ borderWidth: 1, marginBottom: 12, padding: 8 }}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter password"
-        secureTextEntry
-      />
-
-      <Text>Select Role:</Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Button title="Student" onPress={() => setRole('student')} />
-        <Button title="Coordinator" onPress={() => setRole('coordinator')} />
+    <View style={styles.container}>
+      <View style={styles.tabContainer}>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          renderTabBar={(props) => (
+            <TabBar
+              {...props}
+              indicatorStyle={{ backgroundColor: 'green' }}
+              style={{ backgroundColor: 'white' }}
+              labelStyle={{ color: 'black', fontSize: 16, textTransform: 'capitalize' }}
+            />
+          )}
+        />
       </View>
-
-      <Button title="Login" onPress={handleLogin} />
+      <Text>O crea una cuenta <span></span>
+        <Link to={{ screen: 'Register', params: {} }}>
+          aquí
+        </Link>
+      </Text>
     </View>
   );
+};
+
+const styles = {
+  container: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    backgroundColor: '#f3f3f3',
+  },
+  tabContainer: {
+    width: '80%', 
+    height: '50%', 
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000',
+    overflow: 'hidden',
+  }
 };
 
 export default LoginScreen;

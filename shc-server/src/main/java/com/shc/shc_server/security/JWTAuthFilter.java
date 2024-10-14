@@ -1,34 +1,28 @@
 package com.shc.shc_server.security;
 
-import com.shc.shc_server.model.Coordinator;
-import com.shc.shc_server.model.Student;
-import com.shc.shc_server.service.TokenService;
-import com.shc.shc_server.service.StudentService;
-import com.shc.shc_server.service.CoordinatorService;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.shc.shc_server.service.TokenService;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private TokenService tokenService;
-
-    @Autowired
-    private StudentService studentService;
-
-    @Autowired
-    private CoordinatorService coordinatorService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -42,11 +36,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
             String email = tokenService.extractEmail(token);
+            String role = tokenService.extractRole(token);
+
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                Student student = studentService.findByEmail(email);
-                Coordinator coordinator = coordinatorService.findByEmail(email);
-                if (tokenService.isTokenValid(token, student) |  tokenService.isTokenValid(token, student)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(student, null, null);
+                if (!tokenService.isTokenExpired(token)) {
+                    List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }

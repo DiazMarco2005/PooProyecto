@@ -129,6 +129,7 @@ import HomePage from './path-to-component/HomePage';
 const Stack = createStackNavigator();
 
 export default function App() {
+  if
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">

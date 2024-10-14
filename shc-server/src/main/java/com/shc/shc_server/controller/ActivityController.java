@@ -1,16 +1,24 @@
 package com.shc.shc_server.controller;
 
-import com.shc.shc_server.model.Activity;
-import com.shc.shc_server.model.Student;
-import com.shc.shc_server.service.ActivityService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.shc.shc_server.model.Activity;
+import com.shc.shc_server.model.Student;
+import com.shc.shc_server.service.ActivityService;
 
 @RestController
 @RequestMapping("/api/activities")
@@ -29,6 +37,12 @@ public class ActivityController {
     public ResponseEntity<Activity> getActivityById(@PathVariable Long id) {
         Activity activity = activityService.getActivityById(id);
         return ResponseEntity.ok(activity);
+    }
+
+    @GetMapping("/coordinator-name/{name}")
+    public ResponseEntity<List<Activity>> getActivityByCoordinatorEmail(@PathVariable String name) {
+        List<Activity> activities = activityService.getActivitiesByNameCoordinator(name);
+        return ResponseEntity.ok(activities);
     }
 
     @PostMapping("/")
