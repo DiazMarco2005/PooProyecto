@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; 
-import { View, TextInput, StyleSheet, ScrollView } from 'react-native';
-import EventInput from './components/eventComponent';
+import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import EventInput from './eventComponent';
+import EventButton from './eventBotton';
 
 const NewActivityScreen = () => {
   const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
@@ -14,9 +15,16 @@ const NewActivityScreen = () => {
   const [multiplier, setMultiplier] = useState('');
   const [department, setDepartment] = useState('');
 
+  // Acción cuando el botón sea presionado
+  const handleButtonPress = () => {
+    console.log('Botón presionado');
+    // Lógica para manejar el evento del botón
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container1}>
       {/* Título editable con un cuadro */}
+
       <TextInput
         style={styles.title}
         value={title}
@@ -67,13 +75,16 @@ const NewActivityScreen = () => {
 
         {/* Componente para la Descripción */}
         <View style={styles.container3}>
-          <TextInput
-            style={styles.textArea}
-            placeholder="Nombre del departamento"
-            value={department}
-            onChangeText={setDepartment}
-          />
-        </View>
+        <Text style={styles.label}>Departamento</Text>
+        <TextInput
+          style={styles.textArea}
+          placeholder="Nombre del departamento"
+          value={department}
+          onChangeText={setDepartment}
+          multiline={true}          // Permite múltiples líneas de texto
+          numberOfLines={4}         // Número de líneas visibles antes de desplazarse
+        />
+      </View>
 
         {/* Componente para el cupo máximo */}
         <View>
@@ -105,8 +116,22 @@ const NewActivityScreen = () => {
           />
         </View>
 
+
       </View>
+      {/* Botón al final del formulario */}
+      <View style={styles.buttonContainer}>
+        <EventButton 
+          text="Crear Evento"       // Texto del botón
+          color="#2E4C12"           // Color de fondo del botón
+          onPress={handleButtonPress} // Maneja la acción cuando se presiona el botón
+        />
+      </View>
+
+
+
     </ScrollView>
+
+    
   );
 };
 
@@ -140,6 +165,18 @@ const styles = StyleSheet.create({
   container3: {
     marginBottom: 5,
   },
+
+    label: {
+    fontSize: 20,
+    color: '#000',
+    backgroundColor: '#AFD38B',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderColor: '#000',
+    borderWidth: 1,
+    whiteSpace: 'nowrap',
+  },
+
   textArea: {
     borderWidth: 1,
     borderColor: '#000',
@@ -148,6 +185,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: 200,
   },
+
+    buttonContainer: {
+    marginTop: 20,     // Espacio antes del botón
+    alignItems: 'center',
+  },
+
+
 });
 
 export default NewActivityScreen;
