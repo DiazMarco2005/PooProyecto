@@ -11,7 +11,7 @@ CREATE TABLE activities (
     location VARCHAR(255) NOT NULL,
     max_capacity INT NOT NULL,
     department VARCHAR(255) NOT NULL,
-    description TEXT(500),
+    description VARCHAR(500),
     date DATE NOT NULL
 );
 
@@ -32,10 +32,12 @@ CREATE TABLE students (
     year INT NOT NULL,
     scholarship_hours DOUBLE NOT NULL,
     completed_scholarship_hours DOUBLE NOT NULL,
-    about_me TEXT(500),
+    about_me VARCHAR(500),
     score DOUBLE NOT NULL,
     activity_id BIGINT,
-    FOREIGN KEY (activity_id) REFERENCES activities(id)
+    new_activity_id BIGINT,
+    FOREIGN KEY (activity_id) REFERENCES activities(id),
+    FOREIGN KEY (new_activity_id) REFERENCES activities(id)
 );
 
 CREATE TABLE student_previous_activities (
@@ -54,5 +56,15 @@ CREATE TABLE student_preferred_activities (
     FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE
 );
 
-ALTER TABLE students ADD COLUMN new_activity_id BIGINT;
-ALTER TABLE students ADD CONSTRAINT fk_new_activity FOREIGN KEY (new_activity_id) REFERENCES activities(id);
+-- Inserts
+INSERT INTO coordinators (name, password, email, position)
+VALUES ('Coordinador1', 'co123', 'coo1@example.com', 'Departamento TEST');
+
+INSERT INTO activities (name, start_time, end_time, multiplier, scholarship_hours_offered, coordinator, location, max_capacity, department, description, date)
+VALUES ('ActividadTEST', '09:00:00', '12:00:00', 1.5, 3, 'Coordinador1', 'CIT', 50, 'Departamento TEST', 'Descripción de actividad', '2024-09-15');
+
+INSERT INTO students (name, password, email, major, year, scholarship_hours, completed_scholarship_hours, about_me, score)
+VALUES ('Student1', 'st123', 'st1@example.com', 'Ciencias de la computación', 3, 50.0, 10.0, 'Descripción de estudiante', 4.5);
+
+INSERT INTO student_preferred_activities (student_id, activity_id)
+VALUES (1, 1);
