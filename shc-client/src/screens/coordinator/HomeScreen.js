@@ -1,4 +1,5 @@
 import { View, Text } from "react-native-web";
+import ProfileScreen from "./ProfileScreen";
 
 const HomeCoordinatorScreen = () => {
     return (

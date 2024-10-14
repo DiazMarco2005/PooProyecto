@@ -1,128 +1,208 @@
-
-import CampoTexto from "../../components/CampodeTexto";
-import React, {useState, useEffect } from "react"
+import React, { useState } from 'react'; 
+import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import EventInput from 'components/eventComponent';
+import EventButton from 'components/eventBotton';
 
 const NewActivityScreen = () => {
-    const [name, setName] = useState(" ");
-    const [date, setDate] = useState(" ");
-    const [startTime, setStartTime] = useState(" ");
-    const [endTime, setEndTime] = useState(" ");
-    const [description, setDescription] = useState(" ");
-    const [scholarshipHoursOffered, setscholarshipHoursOffered] = useState(" ");
-    const [coordinator, setCoordinator] = useState(" ");
-    const [maxCapacity, setMaxCapacity] = useState(0);
-    const [location, setLocation] = useState(" ");
-    const [multiplier, setMultiplier] = useState(0);
-    const [publishedDate, setPublishedDate] = useState();
-    const [department, setDepartment] = useState(" ");
-        return (
-          <View style={styles.container}>
-            <CampoTexto
-              label="Nombre de actividad"
-              value={name}
-              placeholder="#####"
-              onChangeText={(value) => setName(value)}
-            />
-            <CampoTexto
-              label="Fecha"
-              value={date}
-              placeholder="dd/mm/AA"
-              onChangeText={(value) => setDate(value)}
-            />
-            <CampoTexto
-              label="Hora de inicio"
-              value={startTime}
-              placeholder="23:59"
-              onChangeText={(value) => setStartTime(value)}
-            />
-            <CampoTexto
-              label="Hora de finalización"
-              value={endTime}
-              placeholder="23:59"
-              onChangeText={(value) => setEndTime(value)}
-            />
-            <CampoTexto
-              label="Coordinador"
-              value={coordinator}
-              placeholder="Nombre del coordinador"
-              onChangeText={(value) => setCoordinator(value)}
-            />
-            <CampoTexto
-              label="Descripción"
-              value={description}
-              placeholder="Descripción breve..."
-              onChangeText={(value) => setDescription(value)}
-              multiline={true} 
-            />
-            <CampoTexto
-              label="Descripción"
-              value={scholarshipHoursOffered}
-              placeholder="Descripción breve..."
-              onChangeText={(value) => setscholarshipHoursOffered(value)}
-              multiline={true} 
-            />
-            <CampoTexto
-              label="Cupo máximo"
-              value={maxCapacity}
-              placeholder="####"
-              keyboardType="numeric" 
-              onChangeText={(value) => setMaxCapacity(value)}
-            />
-            <CampoTexto
-              label="Lugar"
-              value={location}
-              placeholder="CIT-350"
-              onChangeText={(value) => setLocation(value)}
-            />
-            <CampoTexto
-              label="Multiplicador"
-              value={multiplier}
-              placeholder="99999"
-              keyboardType="numeric" 
-              onChangeText={(value) => setMultiplier(value)}
-            />
-            <CampoTexto
-              label="Fecha de publicación"
-              value={publishedDate}
-              placeholder="dd/mm/yyyy"
-              onChangeText={(value) => setPublishedDate(value)}
-      />
-            <CampoTexto
-              label="Departamento"
-              value={department}
-              placeholder="Departamento"
-              onChangeText={(value) => setDepartment(value)}
-            />
-      
-            <Button title="Publicar" onPress={() => onPublicar('submit')} color="#4CAF50" />
-          </View>
-        );
-      };
+  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+  const [date, setDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [manager, setManager] = useState('');
+  const [description, setDescription] = useState('');
+  const [maxCapacity, setMaxCapacity] = useState('');
+  const [location, setLocation] = useState('');
+  const [multiplier, setMultiplier] = useState('');
+  const [department, setDepartment] = useState('');
 
-      const styles = StyleSheet.create({
-        container: {
-          padding: 10,
-          flex: 4,
-          backgroundColor: "#fff",
-          alignItems: "center",
-          justifyContent: "center",
-        },
-        label: {
-          color: '#4CAF50',
-          fontSize: 16,
-          marginBottom: 5,
-        },
-        input: {
-          backgroundColor: '#dcedc8',
-          borderRadius: 5,
-          padding: 10,
-          fontSize: 16,
-          marginBottom: 15,
-          width: '100%',
-        },
-        description: {
-          height: 100,
-          textAlignVertical: 'top',
-        },
-      });
+  // Acción cuando el botón sea presionado
+  const handleButtonPress = () => {
+    console.log('Botón presionado');
+    // Lógica para manejar el evento del botón
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container1}>
+      {/* Título editable con un cuadro */}
+
+      <TextInput
+        style={styles.title}
+        value={title}
+        onChangeText={setTitle} // Permite editar el título
+        placeholder="Editar título"
+      />
+
+      <View style={styles.container2}>
+        {/* Componente para la Fecha */}
+        <View style={styles.inputGroup}>
+          <EventInput
+            label="Fecha"
+            placeholder="dd/mm/AA"
+            value={date}
+            onChangeText={setDate}
+          />
+        </View>
+
+        {/* Componente para la hora de inicio */}
+        <View>
+          <EventInput
+            label="Hora de inicio"
+            placeholder="00:00"
+            value={startTime}
+            onChangeText={setStartTime}
+          />
+        </View>
+
+        {/* Componente para la hora de finalización */}
+        <View>
+          <EventInput
+            label="Hora de finalización"
+            placeholder="00:00"
+            value={endTime}
+            onChangeText={setEndTime}
+          />
+        </View>
+
+        {/* Componente para el nombre del encargado */}
+        <View>
+          <EventInput
+            label="Encargado"
+            placeholder="Nombre"
+            value={manager}
+            onChangeText={setManager}
+          />
+        </View>
+
+        {/* Componente para la Descripción */}
+        <View style={styles.container3}>
+        <Text style={styles.label}>Descripción</Text>
+        <TextInput
+          style={styles.textArea}
+          placeholder="Agrega una breve descripción"
+          value={department}
+          onChangeText={setDescription}
+          multiline={true}          // Permite múltiples líneas de texto
+          numberOfLines={4}         // Número de líneas visibles antes de desplazarse
+        />
+      </View>
+
+        {/* Componente para el cupo máximo */}
+        <View>
+          <EventInput
+            label="Cupo máximo"
+            placeholder="0"
+            value={maxCapacity}
+            onChangeText={setMaxCapacity}
+          />
+        </View>
+
+        {/* Componente para el lugar */}
+        <View>
+          <EventInput
+            label="Lugar"
+            placeholder="Lugar"
+            value={location}
+            onChangeText={setLocation}
+          />
+        </View>
+
+        {/* Componente para el multiplicador */}
+        <View>
+          <EventInput
+            label="Multiplicador"
+            placeholder="0"
+            value={multiplier}
+            onChangeText={setMultiplier}
+          />
+        </View>
+
+              {/* Componente para eldepartamento*/}
+        <View>
+          <EventInput
+            label="Departamento"
+            placeholder="departamento"
+            value={department}
+            onChangeText={setDepartment}
+          />
+        </View>
+
+
+
+      </View>
+      {/* Botón al final del formulario */}
+      <View style={styles.buttonContainer}>
+        <EventButton 
+          text="Crear Evento"       // Texto del botón
+          color="#2E4C12"           // Color de fondo del botón
+          onPress={handleButtonPress} // Maneja la acción cuando se presiona el botón
+        />
+      </View>
+
+
+
+    </ScrollView>
+
+    
+  );
+};
+
+// Estilos del componente
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 40,
+    color: '#fff',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderColor: '#fff',    // Color del borde del cuadro
+    borderWidth: 2,         // Grosor del borde
+    borderRadius: 10,       // Bordes redondeados
+    backgroundColor: '#000', // Fondo del cuadro
+    textAlign: 'center',    // Centra el texto horizontalmente
+    width: '100%',
+    marginBottom: 10,
+    marginTop: 40,          // Espacio superior agregado
+  },
+  container1: {
+    backgroundColor: '#000',
+    alignItems: 'center',   // Centra los elementos dentro del contenedor
+    padding: 10,
+  },
+  container2: {
+    flexGrow: 1,
+    padding: 30,
+    backgroundColor: '#fff',
+    alignItems: 'flex-start',
+  },
+  container3: {
+    marginBottom: 5,
+  },
+
+    label: {
+    fontSize: 20,
+    color: '#000',
+    backgroundColor: '#AFD38B',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderColor: '#000',
+    borderWidth: 1,
+    whiteSpace: 'nowrap',
+  },
+
+  textArea: {
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 10,
+    backgroundColor: '#fff',
+    fontSize: 20,
+    height: 200,
+  },
+
+    buttonContainer: {
+    marginTop: 20,     // Espacio antes del botón
+    alignItems: 'center',
+  },
+
+
+});
+
 export default NewActivityScreen;

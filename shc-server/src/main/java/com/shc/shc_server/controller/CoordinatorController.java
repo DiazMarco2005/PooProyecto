@@ -1,3 +1,4 @@
+
 package com.shc.shc_server.controller;
 
 import java.util.List;
@@ -76,9 +77,9 @@ public class CoordinatorController {
         return ResponseEntity.ok(coordinator);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")//ya
     public ResponseEntity<Coordinator> getCoordinatorByEmail(@PathVariable String email) {
-        Coordinator coordinator = coordinatorService.getCoordinatorByEmail(email);
+        Coordinator coordinator = coordinatorService.findByEmail(email);
         return ResponseEntity.ok(coordinator);
     }
 
