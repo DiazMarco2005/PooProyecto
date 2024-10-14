@@ -20,7 +20,7 @@ const CalendarScreenCoord = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
   
-        response = await api.get(`/api/activities/coorinator-name/${coordinator.data.name}`, {
+        response = await api.get(`/api/activities/coordinator-name/${coordinator.data.name}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
   
