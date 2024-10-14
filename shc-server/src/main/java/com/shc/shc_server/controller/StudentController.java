@@ -76,11 +76,12 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Student> getStudentByEmail(@PathVariable String email) {
-        Student student = studentService.findByEmail(email);
-        return ResponseEntity.ok(student);
+    @GetMapping("/email/{email}")//ya
+    public ResponseEntity<Coordinator> getCoordinatorByEmail(@PathVariable String email) {
+        Coordinator coordinator = coordinatorService.findByEmail(email);
+        return ResponseEntity.ok(coordinator);
     }
+
 
     @PostMapping("/")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {

@@ -4,6 +4,7 @@ const HomeStudentScreen = () => {
     return (
         <View>
             <Text>Student home</Text>
+            
         </View>
     )
 }
