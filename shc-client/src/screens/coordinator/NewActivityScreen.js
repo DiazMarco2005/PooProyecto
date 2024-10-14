@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import EventInput from './eventComponent';
-import EventButton from './eventBotton';
+import EventInput from 'components/eventComponent';
+import EventButton from 'components/eventBotton';
 
 const NewActivityScreen = () => {
   const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
@@ -75,12 +75,12 @@ const NewActivityScreen = () => {
 
         {/* Componente para la Descripción */}
         <View style={styles.container3}>
-        <Text style={styles.label}>Departamento</Text>
+        <Text style={styles.label}>Descripción</Text>
         <TextInput
           style={styles.textArea}
-          placeholder="Nombre del departamento"
+          placeholder="Agrega una breve descripción"
           value={department}
-          onChangeText={setDepartment}
+          onChangeText={setDescription}
           multiline={true}          // Permite múltiples líneas de texto
           numberOfLines={4}         // Número de líneas visibles antes de desplazarse
         />
@@ -115,6 +115,17 @@ const NewActivityScreen = () => {
             onChangeText={setMultiplier}
           />
         </View>
+
+              {/* Componente para eldepartamento*/}
+        <View>
+          <EventInput
+            label="Departamento"
+            placeholder="departamento"
+            value={department}
+            onChangeText={setDepartment}
+          />
+        </View>
+
 
 
       </View>
