@@ -34,7 +34,7 @@ const ProfileScreenCoord = () => {
         setName(response.data.name);
 
         // Obtener actividades del coordinador
-        let activityResponse = await api.get('/api/activity/coordinator-name/' + response.data.name, { 
+        let activityResponse = await api.get('/api/activities/coordinator-name/' + response.data.name, { 
           headers: { Authorization: `Bearer ${token}` }
         });
         setActivities(activityResponse.data); // Guardar las actividades en el estado
