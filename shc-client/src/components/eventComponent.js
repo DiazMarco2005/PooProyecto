@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-const EventInput = ({ label, value, onChangeText, placeholder, labelPaddingHorizontal }) => {
+const EventInput = ({ label, value, onChangeText, placeholder, kbtype, labelPaddingHorizontal }) => {
   return (
     <View style={styles.container1}>
       <Text style={styles.label}>
@@ -12,6 +12,7 @@ const EventInput = ({ label, value, onChangeText, placeholder, labelPaddingHoriz
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
+        keyboardType={kbtype ?? 'default'}
       />
     </View>
   );
