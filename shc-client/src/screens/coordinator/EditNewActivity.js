@@ -1,52 +1,26 @@
 import React, { useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import EventInput from '../../../../components/eventComponent.js';
-import EventButton from '../../../../components/eventBotton.js';
-import api from '../../configs/api.js'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import EventInput from '../../components/eventComponent';
+import EventButton from '../../components/eventBotton';
 
-const NewActivityScreen = ({ navigation }) => {
-  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
-  const [date, setDate] = useState('');
+const EditNewActivity = () => {
+const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [manager, setManager] = useState('');
   const [description, setDescription] = useState('');
   const [maxCapacity, setMaxCapacity] = useState('');
+  const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState('');
   const [location, setLocation] = useState('');
-  const [multiplier, setMultiplier] = useState(0);
-  const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
+  const [multiplier, setMultiplier] = useState('');
   const [department, setDepartment] = useState('');
 
 
   // Acción cuando el botón sea presionado
-  const handleButtonPress = async () => {
+  const handleButtonPress = () => {
     console.log('Botón presionado');
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const coordMail = await AsyncStorage.getItem('email');
-      console.log(coordMail)
-      const response =await api.post('/api/activities/', {
-          "name": title,
-          "startTime": startTime,
-          "endTime": endTime,
-          "multiplier": multiplier,
-          "scholarshipHoursOffered": scholarshipHoursOffered,
-          "coordinator": coordMail,
-          "location": location,
-          "maxCapacity": maxCapacity,
-          "department": department,
-          "description": description,
-          "date": date
-      }, {
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-      });
-
-      console.log(response.data)
-    } catch {}
+    // Lógica para manejar el evento del botón
   };
 
   return (
@@ -121,18 +95,6 @@ const NewActivityScreen = ({ navigation }) => {
             placeholder="0"
             value={maxCapacity}
             onChangeText={setMaxCapacity}
-            kbtype={'numeric'}
-          />
-        </View>
-
-        {/* Componente para el cupo máximo */}
-        <View>
-          <EventInput
-            label="Horas beca ofrecidas"
-            placeholder="0"
-            value={scholarshipHoursOffered}
-            onChangeText={setScholarshipHoursOffered}
-            kbtype={'numeric'}
           />
         </View>
 
@@ -164,7 +126,6 @@ const NewActivityScreen = ({ navigation }) => {
             placeholder="0"
             value={multiplier}
             onChangeText={setMultiplier}
-            kbtype={'numeric'}
           />
         </View>
 
@@ -184,8 +145,8 @@ const NewActivityScreen = ({ navigation }) => {
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
         <EventButton 
-          text="Crear Evento"
-          color="#2E4C12"
+          text="Crear Evento"       // Texto del botón
+          color="#2E4C12"           // Color de fondo del botón
           onPress={handleButtonPress} // Maneja la acción cuando se presiona el botón
         />
       </View>
@@ -257,4 +218,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default NewActivityScreen;
+export default EditNewActivity;
