@@ -3,9 +3,9 @@ import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent';
 import EventButton from '../../components/eventBotton';
 
-const NewActivityScreen = () => {
-  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
-  const [date, setDate] = useState('');
+const EditNewActivity = () => {
+const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [manager, setManager] = useState('');
@@ -218,4 +218,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default NewActivityScreen;
+export default EditNewActivity;
