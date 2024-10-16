@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import EventInput from '../../../../components/eventComponent.js';
-import EventButton from '../../../../components/eventBotton.js';
+import EventInput from '../../components/eventComponent.js';
+import EventButton from '../../components/eventBotton.js';
 import api from '../../configs/api.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

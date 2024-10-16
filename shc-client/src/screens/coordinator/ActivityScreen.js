@@ -2,30 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
 import EventButton from '../../components/eventBotton.js';
-import api from '../../configs/api.js'
+import api from '../../configs/api.js';
+import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ActivityScreenCoord = ({ navigation, id }) => {
-    id = 10;
-    const [editable, setEditable] = useState(false); 
-    const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
-    const [date, setDate] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [description, setDescription] = useState('');
-    const [maxCapacity, setMaxCapacity] = useState(0);
-    const [coordinator, ssetCoordinator] = useState('');
-    const [location, setLocation] = useState('');
-    const [multiplier, setMultiplier] = useState(0);
-    const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
-    const [department, setDepartment] = useState('');
+const ActivityScreenCoord = ({ navigation }) => {
+  const route = useRoute();
+  const { id } = route.params;
+  const [editable, setEditable] = useState(false); 
+  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+  const [date, setDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [description, setDescription] = useState('');
+  const [maxCapacity, setMaxCapacity] = useState(0);
+  const [coordinator, ssetCoordinator] = useState('');
+  const [location, setLocation] = useState('');
+  const [multiplier, setMultiplier] = useState(0);
+  const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
+  const [department, setDepartment] = useState('');
 
   // Acción cuando el botón sea presionado
   const handleButtonPress = async () => {
     try {
-        const token = await AsyncStorage.getItem('token');
-        const coordMail = await AsyncStorage.getItem('email');
-        
+        const token = await AsyncStorage.getItem('token');        
         await api.put(`/api/activities/${id}`, {
             "name": title,
             "startTime": startTime,

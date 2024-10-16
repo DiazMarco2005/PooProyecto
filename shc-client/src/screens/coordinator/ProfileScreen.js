@@ -80,12 +80,13 @@ const ProfileScreenCoord = () => {
       {/* Mostrar actividades dinámicamente */}
       <ScrollView>
         {activities.length > 0 ? (
-          activities.map((activity, index) => (
-            <View key={activity.id}>
-              {/* Rotar imágenes basado en el índice */}
-              <ImageButton navigation={navigation} title={activity.name} backgroundImage={images[index % images.length]} />
-            </View>
-          ))
+          activities.map((activity, index) => {
+            return (
+              <View key={activity.id}>
+                <ImageButton title={activity.name} id={activity.id} backgroundImage={images[index % images.length]} />
+              </View>
+            )
+          })
         ) : (
           <Text style={styles.noEventsText}>No hay más eventos disponibles.</Text>
         )}

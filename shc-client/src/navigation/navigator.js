@@ -37,9 +37,8 @@ const BottomTabNavigatorCoordinator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeCoordinatorScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="ActivitiesCoord" component={ActivityScreenCoord} options={{ headerShown: false }} />
-      <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="EditActivityCoord" component={EditNewActivity} options={{ headerShown: false }} />
+      <Tab.Screen name="ActivitiesCoord" component={ActivityScreenCoord} options={{ headerShown: false, tabBarButton:  () => null }} />
+      <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false, tabBarButton:  () => null }} />
       <Tab.Screen name="ProfileCoord" component={ProfileScreenCoord} options={{ headerShown: false }} />
       <Tab.Screen name="CalendarCoord" component={CalendarScreenCoord} options={{ headerShown: false }} />
 

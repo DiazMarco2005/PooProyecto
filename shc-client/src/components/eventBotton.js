@@ -8,7 +8,6 @@ const EventButton = ({ text, color, navigateTo }) => {
   // Función para manejar la navegación, recibe un destino de ruta
   const handlePress = () => {
     if (navigateTo!= null) {
-      console.log("llego hasta aca")
       navigation.navigate(navigateTo);
 
     } else {
