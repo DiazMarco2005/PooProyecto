@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 
-const ImageButton = ({ navigation, title, backgroundImage, style, textStyle, path }) => {
+const ImageButton = ({ navigation, title, backgroundImage, style, textStyle,  }) => {
   return (
     <TouchableOpacity 
-      onPress={() => navigation.navigate(path)} // Navigate to the path
+      onPress={() => navigation.replace('ActivityScreenCoord')} // Navigate to the path
       style={[styles.button, style]}
     >
       <ImageBackground 

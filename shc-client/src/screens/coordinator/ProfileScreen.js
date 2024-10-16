@@ -3,8 +3,9 @@ import ImageButton from "../../components/imageBotton.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../../configs/api.js";
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreenCoord = () => {
   // Imágenes
@@ -12,9 +13,13 @@ const ProfileScreenCoord = () => {
   const img2 = require('../../assets/images/CITWEB-22.png');
   const img3 = require('../../assets/images/images.jpeg');
   const images = [img1, img2, img3]; // Array de imágenes
-  const navigateToActivity = () => {
-    navigation.navigate('ActivityCoord'); // Adjust the route as necessary
-  }
+
+  // Obtener el objeto navigation para ser reutilizado
+  const navigation = useNavigation();
+
+  // Función reutilizable para navegar
+  const navigateToActivity ='NewActivityCoord';
+
   const [name, setName] = useState("");
   const [activities, setActivities] = useState([]); // Estado para guardar actividades
   const [fontsLoaded] = useFonts({
@@ -78,17 +83,16 @@ const ProfileScreenCoord = () => {
           activities.map((activity, index) => (
             <View key={activity.id}>
               {/* Rotar imágenes basado en el índice */}
-              //  Image source={images[index % images.length]} style={styles.eventImage}
-              <ImageButton navigation={navigation} title={activity.name} backgroundImage={images[index % images.length] } path={navigation}/>
+              <ImageButton navigation={navigation} title={activity.name} backgroundImage={images[index % images.length]} />
             </View>
           ))
         ) : (
-          <Text style={styles.noEventsText}>No hay eventos disponibles.</Text>
+          <Text style={styles.noEventsText}>No hay más eventos disponibles.</Text>
         )}
       </ScrollView>
 
       {/* Botones */}
-      <EventButton text="Agregar un nuevo evento" color="#4CAF50" onPress={navigateToActivity}/>
+      <EventButton text="Agregar un nuevo evento" color="#4CAF50" navigateTo={navigateToActivity}/>
 
       {/* Logo */}
       <View style={styles.logoContainer}>
@@ -106,7 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     minWidth: '200px',
-
   },
   container: {
     flex: 1,
