@@ -34,7 +34,7 @@ const ProfileScreenCoord = () => {
         setName(response.data.name);
 
         // Obtener actividades del coordinador
-        let activityResponse = await api.get('/api/activities/coordinator-name/' + response.data.name, { 
+        let activityResponse = await api.get('/api/activities/coordinator-name/' + response.data.email, { 
           headers: { Authorization: `Bearer ${token}` }
         });
         setActivities(activityResponse.data); // Guardar las actividades en el estado
@@ -78,8 +78,8 @@ const ProfileScreenCoord = () => {
           activities.map((activity, index) => (
             <View key={activity.id}>
               {/* Rotar imágenes basado en el índice */}
-              ///Image source={images[index % images.length]} style={styles.eventImage}
-              <ImageButton navigation={navigation} title={activity.name} backgroundImage={images[index % images.length] } path={'../shc-client/src/screens/coordinator/ActivityScreen.js'}/>
+              //  Image source={images[index % images.length]} style={styles.eventImage}
+              <ImageButton navigation={navigation} title={activity.name} backgroundImage={images[index % images.length] } path={navigation}/>
             </View>
           ))
         ) : (

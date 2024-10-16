@@ -10,7 +10,6 @@ const NewActivityScreen = ({ navigation }) => {
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [manager, setManager] = useState('');
   const [description, setDescription] = useState('');
   const [maxCapacity, setMaxCapacity] = useState(0);
   const [location, setLocation] = useState('');
@@ -20,11 +19,9 @@ const NewActivityScreen = ({ navigation }) => {
 
   // Acción cuando el botón sea presionado
   const handleButtonPress = async () => {
-    console.log('Botón presionado');
     try {
       const token = await AsyncStorage.getItem('token');
       const coordMail = await AsyncStorage.getItem('email');
-      console.log(coordMail)
       const response =await api.post('/api/activities/', {
           "name": title,
           "startTime": startTime,
@@ -43,9 +40,9 @@ const NewActivityScreen = ({ navigation }) => {
           'Content-Type': 'application/json'
         },
       });
-
-      console.log(response.data)
     } catch {}
+
+    navigation.navigate('ProfileCoord');
   };
 
   return (
@@ -87,16 +84,6 @@ const NewActivityScreen = ({ navigation }) => {
             placeholder="00:00"
             value={endTime}
             onChangeText={setEndTime}
-          />
-        </View>
-
-        {/* Componente para el nombre del encargado */}
-        <View>
-          <EventInput
-            label="Encargado"
-            placeholder="Nombre"
-            value={manager}
-            onChangeText={setManager}
           />
         </View>
 
@@ -165,8 +152,6 @@ const NewActivityScreen = ({ navigation }) => {
             onChangeText={setDepartment}
           />
         </View>
-
-
 
       </View>
       {/* Botón al final del formulario */}
