@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground} from 'react-native';
 import { Link } from '@react-navigation/native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import handleLogin from '../../utils/auth/handleLogin.js';
@@ -16,6 +16,8 @@ const LoginScreen = ({ navigation }) => {
     { key: 'student', title: 'Student' },
     { key: 'coordinator', title: 'Coordinator' },
   ];
+
+  const image = {uri: 'https://res.cloudinary.com/uvggt/image/upload/f_auto/v1633478459/2021/Octubre/EDGE/CIT-EDGE-nota.jpg'};
 
   const handleLoginSuccess = () => {
     navigation.replace('DrawerNavigator');
@@ -52,6 +54,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
+    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
     <View style={styles.container}>
       <View style={styles.tabContainer}>
         <TabView
@@ -74,6 +77,7 @@ const LoginScreen = ({ navigation }) => {
         </Link>
       </Text>
     </View>
+    </ImageBackground>
   );
 };
 
@@ -91,6 +95,10 @@ const styles = {
     borderWidth: 1,
     borderColor: '#000',
     overflow: 'hidden',
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
   }
 };
 
