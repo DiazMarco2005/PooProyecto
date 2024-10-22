@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent';
-import EventButton from '../../components/eventBotton';
+import { TouchableOpacity } from 'react-native';
 
 const EditNewActivity = () => {
 const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
@@ -131,12 +131,12 @@ const [date, setDate] = useState('');
 
               {/* Componente para eldepartamento*/}
         <View>
-          <EventInput
-            label="Departamento"
-            placeholder="departamento"
-            value={department}
-            onChangeText={setDepartment}
-          />
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: '#2E4C12' }]}
+            onPress={handleButtonPress}
+          >
+            <Text style={styles.text}>{'Guardar'}</Text>
+          </TouchableOpacity>
         </View>
 
 
@@ -144,11 +144,12 @@ const [date, setDate] = useState('');
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
-        <EventButton 
-          text="Crear Evento"       // Texto del botón
-          color="#2E4C12"           // Color de fondo del botón
-          onPress={handleButtonPress} // Maneja la acción cuando se presiona el botón
-        />
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#2E4C12' }]}
+          onPress={handleButtonPress}
+        >
+          <Text style={styles.text}>{'Guardar'}</Text>
+        </TouchableOpacity>
       </View>
 
 

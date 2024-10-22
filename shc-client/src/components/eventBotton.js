@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Para obtener la navegación en el botón
 
-const EventButton = ({ text, color, navigateTo }) => {
+const EventButton = ({ text, color, navigateTo, onPress }) => {
   const navigation = useNavigation(); // Obtener el objeto de navegación
 
   // Función para manejar la navegación, recibe un destino de ruta

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
-import EventButton from '../../components/eventBotton.js';
+import { TouchableOpacity } from 'react-native';
 import api from '../../configs/api.js';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-const ActivityScreenCoord = ({ navigation }) => {
+const ActivityScreenCoord = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const { id } = route.params;
   const [editable, setEditable] = useState(false); 
   const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
@@ -193,16 +195,19 @@ const ActivityScreenCoord = ({ navigation }) => {
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
-        <EventButton 
-          text="Editar"
-          color="#2E4C12"
-          onPress={()=>setEditable(true)} 
-        />
-        <EventButton 
-          text="Guardar"
-          color="#2E4C12"
-          onPress={handleButtonPress}
-        />
+        <TouchableOpacity
+            style={[styles.button, { backgroundColor: '#2E4C12' }]}
+            onPress={()=>setEditable(true)}
+          >
+          <Text style={styles.text}>{'Edit'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style={[styles.button, { backgroundColor: '#2E4C12' }]}
+            onPress={handleButtonPress}
+          >
+          <Text style={styles.text}>{'Guardar'}</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
 
@@ -267,7 +272,25 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
   
-  
+    button: {
+      padding: 10,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 4, // Para sombra en Android
+    },
+    text: {
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
+      textShadowColor: '#000',
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 5,
+    },
 });
 
 export default ActivityScreenCoord;

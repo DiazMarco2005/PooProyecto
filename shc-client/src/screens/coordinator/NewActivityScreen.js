@@ -1,11 +1,13 @@
 import React, { useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
-import EventButton from '../../components/eventBotton.js';
+import { TouchableOpacity } from 'react-native';
 import api from '../../configs/api.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-const NewActivityScreen = ({ navigation }) => {
+const NewActivityScreen = () => {
+  const navigation = useNavigation();
   const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -168,11 +170,13 @@ const NewActivityScreen = ({ navigation }) => {
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
-        <EventButton 
-          text="Crear Evento"
-          color="#2E4C12"
-          onPress={handleButtonPress} // Maneja la acción cuando se presiona el botón
-        />
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#2E4C12' }]}
+          onPress={handleButtonPress} // Ejecuta la navegación al presionar el botón
+        >
+          <Text style={styles.text}>{'Crear evento'}</Text>
+        </TouchableOpacity>
       </View>
 
 
@@ -239,7 +243,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-
+  button: {
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 4, // Para sombra en Android
+  },
+  text: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
+  },
 });
 
 export default NewActivityScreen;
