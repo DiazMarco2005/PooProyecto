@@ -102,6 +102,7 @@ shc-client/yarn-error.*
 
 # local env files
 .env*.local
+.vscode
 
 # typescript
 *.tsbuildinfo

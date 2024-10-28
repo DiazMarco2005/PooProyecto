@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
+import eventButton from '../../components/buttons/eventButton.js';
 import { TouchableOpacity } from 'react-native';
 import api from '../../configs/api.js';
 import { useRoute } from '@react-navigation/native';
@@ -12,7 +13,7 @@ const ActivityScreenCoord = () => {
   const navigation = useNavigation();
   const { id } = route.params;
   const [editable, setEditable] = useState(false); 
-  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+  const [title, setTitle] = useState('Nuevo evento');
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -133,8 +134,8 @@ const ActivityScreenCoord = () => {
           style={styles.textArea}
           value={description}
           onChangeText={setDescription}
-          multiline={true}          // Permite múltiples líneas de texto
-          numberOfLines={4}         // Número de líneas visibles antes de desplazarse
+          multiline={true}
+          numberOfLines={4}
           editable={editable}
         />
       </View>
@@ -195,19 +196,15 @@ const ActivityScreenCoord = () => {
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#2E4C12' }]}
-            onPress={()=>setEditable(true)}
-          >
-          <Text style={styles.text}>{'Edit'}</Text>
-        </TouchableOpacity>
+        <eventButton
+          text={'Editar'}
+          handleButtonPress={()=>setEditable(!editable)}
+        />
 
-        <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#2E4C12' }]}
-            onPress={handleButtonPress}
-          >
-          <Text style={styles.text}>{'Guardar'}</Text>
-        </TouchableOpacity>
+        <eventButton
+          text={'Guardar'}
+          handleButtonPress={handleButtonPress}
+        />
       </View>
     </ScrollView>
 
