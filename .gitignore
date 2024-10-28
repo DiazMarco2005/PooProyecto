@@ -6,7 +6,8 @@ shc-server/target/
 !shc-server/.mvn/wrapper/maven-wrapper.jar
 !shc-server/**/src/main/**/target/
 !shc-server/**/src/test/**/target/
-
+#client env api
+shc-client/.env
 # sts
 shc-server/.apt_generated
 shc-server/.classpath
