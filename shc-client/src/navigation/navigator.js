@@ -12,7 +12,6 @@ import CalendarScreen from '../screens/student/CalendarScreen.js';
 import ProfileScreen from '../screens/student/ProfileScreen.js';
 import ActivityScreenCoord from '../screens/coordinator/ActivityScreen.js';
 import NewActivityScreen from '../screens/coordinator/NewActivityScreen.js';
-import EditNewActivity from '../screens/coordinator/EditNewActivity.js';
 import ProfileScreenCoord from '../screens/coordinator/ProfileScreen.js';
 import CalendarScreenCoord from '../screens/coordinator/CalendarScreen.js';
 import { createStackNavigator } from '@react-navigation/stack';

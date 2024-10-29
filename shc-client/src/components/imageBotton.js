@@ -9,13 +9,7 @@ const ImageButton = ({ title, id, backgroundImage, style, textStyle,  }) => {
       onPress={() => navigation.navigate('ActivitiesCoord', {id : id})} 
       style={[styles.button, style]}
     >
-      <ImageBackground 
-        source={backgroundImage} 
-        style={styles.imageBackground} 
-        imageStyle={styles.image}
-      >
         <Text style={[styles.text, textStyle]}>{title}</Text>
-      </ImageBackground>
     </TouchableOpacity>
   );
 };
@@ -24,6 +18,10 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 5,
     overflow: 'shown',
+    backgroundColor:"#363636",
+    margin: '10px',
+    padding : '10px',
+    alignItems: 'center'
   },
   imageBackground: {
     justifyContent: 'center',
