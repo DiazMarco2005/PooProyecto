@@ -175,8 +175,6 @@ const NewActivityScreen = ({ navigation }) => {
         />
       </View>
 
-
-
     </ScrollView>
 
     
