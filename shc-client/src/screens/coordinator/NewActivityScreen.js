@@ -20,7 +20,6 @@ const NewActivityScreen = () => {
   const [department, setDepartment] = useState('');
 
 
-  // Acción cuando el botón sea presionado
   const handleButtonPress = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
