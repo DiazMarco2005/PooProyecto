@@ -39,6 +39,7 @@ public class ActivityController {
         return ResponseEntity.ok(activity);
     }
 
+
     @GetMapping("/coordinator-name/{name}")
     public ResponseEntity<List<Activity>> getActivityByCoordinatorEmail(@PathVariable String name) {
         List<Activity> activities = activityService.getActivitiesByNameCoordinator(name);

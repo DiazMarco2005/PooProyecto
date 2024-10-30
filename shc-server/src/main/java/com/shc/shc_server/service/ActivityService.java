@@ -82,6 +82,7 @@ public class ActivityService {
         activityRepository.deleteById(id);
     }
 
+
     // generate qr code image
     public BufferedImage generateQRCodeImage(String text) throws Exception {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();

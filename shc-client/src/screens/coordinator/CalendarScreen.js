@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import moment from 'moment';
-import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../configs/api';
 
-const CalendarScreenCoord = () => {
-  const [items, setItems] = useState({});
-  const [selectedDay, setSelectedDay] = useState('2024-11-09');
+const CalendarScreenCoord = ({ weekView = false }) => {
+  const [items, setItems] = useState([]);
+  const marked = useRef({});
+  const today = moment().format('YYYY-MM-DD');
 
   useEffect(() => {
     const fetchData = async () => {
-      let response;
       try {
         const token = await AsyncStorage.getItem('token');
         const email = await AsyncStorage.getItem('email');
@@ -20,30 +19,36 @@ const CalendarScreenCoord = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
   
-        response = await api.get(`/api/activities/coordinator-name/${coordinator.data.name}`, {
+        const response = await api.get(`/api/activities/coordinator-name/${coordinator.data.email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
-        const newItems = { ...items };
-        response.data.forEach(activity => {
+
+        const formattedItems = response.data.reduce((acc, activity) => {
           const dateKey = activity.date;
-          if (!newItems[dateKey]) {
-            newItems[dateKey] = [];
-          }
-  
           const activityItem = {
             name: activity.name,
+            date: activity.date,
             time: `${moment(activity.startTime, 'HH:mm:ss').format('hh:mm A')} - ${moment(activity.endTime, 'HH:mm:ss').format('hh:mm A')}`,
+            location: activity.location,
             type: activity.department,
             staff: activity.coordinator,
             description: activity.description,
+            scholarshipHours: activity.scholarshipHoursOffered,
+            maxCapacity: activity.maxCapacity,
           };
-  
-          newItems[dateKey].push(activityItem);
-        });
-  
-        setItems(newItems);
-  
+
+          const existingDate = acc.find((section) => section.title === dateKey);
+          if (existingDate) {
+            existingDate.data.push(activityItem);
+          } else {
+            acc.push({ title: dateKey, data: [activityItem] });
+          }
+
+          marked.current[dateKey] = { marked: true };
+          return acc;
+        }, []);
+
+        setItems(formattedItems);
       } catch (error) {
         console.log('Error al cargar datos:', error);
       }
@@ -52,119 +57,60 @@ const CalendarScreenCoord = () => {
     fetchData();
   }, []);
 
-  const moveToPreviousWeek = () => {
-    const newDate = moment(selectedDay).subtract(7, 'days').format('YYYY-MM-DD');
-    setSelectedDay(newDate);
-  };
+  const renderItem = useCallback(({ item }) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.itemTitle}>{item.name}</Text>
+      <Text style={styles.itemTime}>{item.date}</Text>
+      <Text style={styles.itemTime}>{item.time}</Text>
+      <Text style={styles.itemLocation}>Location: {item.location}</Text>
+      <Text style={styles.itemDepartment}>Department: {item.type}</Text>
+      <Text style={styles.itemStaff}>Coordinator: {item.staff}</Text>
+      <Text style={styles.itemScholarshipHours}>Scholarship Hours: {item.scholarshipHours}</Text>
+      <Text style={styles.itemCapacity}>Max Capacity: {item.maxCapacity}</Text>
+      {item.description ? <Text style={styles.itemDescription}>{item.description}</Text> : null}
+    </View>
+  ), []);
 
-  const moveToNextWeek = () => {
-    const newDate = moment(selectedDay).add(7, 'days').format('YYYY-MM-DD');
-    setSelectedDay(newDate);
-  };
-
-  const loadItems = (day) => {
-    const newItems = { ...items };
-    if (!newItems[day.dateString]) {
-      newItems[day.dateString] = [];
+  const renderSectionHeader = ({ section }) => {
+    if (!section || !section.title) {
+      return null;
     }
-    setItems(newItems);
-    setSelectedDay(day.dateString);
-  };
-
-  const renderItem = (item) => {
+  
     return (
-      <View style={styles.itemContainer}>
-        <Text style={styles.itemTime}>{item.time}</Text>
-        <Text style={styles.itemTitle}>{item.name}</Text>
-        <Text style={styles.itemDescription}>{item.type}</Text>
-        <Text style={styles.itemStaff}>With {item.staff}</Text>
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionHeaderText}>{moment(section.title).format('dddd, MMMM Do')}</Text>
       </View>
     );
   };
-
-  const renderEmptyDate = () => {
-    return (
-      <View style={styles.emptyDateContainer}>
-        <Text style={styles.emptyDateText}>Sin actividades</Text>
-      </View>
-    );
-  };
-
-  const renderDayContent = () => {
-    if (items[selectedDay] && items[selectedDay].length > 0) {
-      return items[selectedDay].map((item, index) => (
-        <View key={index}>
-          {renderItem(item)}
-        </View>
-      ));
-    } else {
-      return renderEmptyDate();
-    }
-  };
+  
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.floatingButtonLeft} onPress={moveToPreviousWeek}>
-        <Icon name="arrow-back" size={25} color="white" />
-      </TouchableOpacity>
-      
-      <TouchableOpacity style={styles.floatingButtonRight} onPress={moveToNextWeek}>
-        <Icon name="arrow-forward" size={25} color="white" />
-      </TouchableOpacity>
-
-      <Agenda
-        items={items}
-        loadItemsForMonth={loadItems}
-        selected={selectedDay}
-        renderItem={(item) => renderItem(item)}
-        renderEmptyDate={() => renderEmptyDate()}
-        onDayPress={(day) => loadItems(day)}
-        hideKnob={true}
-        showOnlySelectedDayItems={true}
-        theme={{
-          agendaDayTextColor: 'black',
-          agendaDayNumColor: 'black',
-          agendaTodayColor: '#00adf5',
-          agendaKnobColor: '#00adf5',
-        }}
+    <CalendarProvider
+      date={items.length > 0 && items[0].title ? items[0].title : today}
+      showTodayButton
+      theme={{ todayButtonTextColor: '#00adf5' }}
+    >
+      {weekView ? (
+        <WeekCalendar firstDay={1} markedDates={marked.current} />
+      ) : (
+        <ExpandableCalendar
+          firstDay={1}
+          markedDates={marked.current}
+        />
+      )}
+      <AgendaList
+        sections={items}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        sectionStyle={styles.section}
       />
-      
-      <View style={styles.contentContainer}>
-        {renderDayContent()}
-      </View>
-    </View>
+    </CalendarProvider>
   );
 };
 
+export default CalendarScreenCoord;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  floatingButtonLeft: {
-    position: 'absolute',
-    top: 240,
-    left: 15,
-    backgroundColor: '#00adf5',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  floatingButtonRight: {
-    position: 'absolute',
-    top: 240,
-    right: 15,
-    backgroundColor: '#00adf5',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-  },
   itemContainer: {
     backgroundColor: '#f0f4f7',
     borderRadius: 5,
@@ -172,16 +118,20 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 17,
   },
-  itemTime: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
   itemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
   },
-  itemDescription: {
+  itemTime: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  itemLocation: {
+    fontSize: 14,
+    color: '#555',
+  },
+  itemDepartment: {
     fontSize: 14,
     color: '#888',
   },
@@ -189,20 +139,30 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#555',
   },
-  emptyDateContainer: {
-    flex: 1,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+  itemScholarshipHours: {
+    fontSize: 12,
+    color: '#555',
   },
-  emptyDateText: {
-    fontSize: 16,
+  itemCapacity: {
+    fontSize: 12,
+    color: '#555',
+  },
+  itemDescription: {
+    fontSize: 14,
     color: '#888',
   },
-  contentContainer: {
-    flex: 1,
+  sectionHeader: {
+    backgroundColor: '#e6e8eb',
     padding: 10,
   },
+  sectionHeaderText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  section: {
+    backgroundColor: '#e6e8eb',
+    color: 'grey',
+    textTransform: 'capitalize',
+  },
 });
-
-export default CalendarScreenCoord;
