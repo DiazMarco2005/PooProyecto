@@ -19,13 +19,10 @@ const CalendarScreen = ({ weekView = false }) => {
         const student = await api.get(`/api/students/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        console.log(student.data)
-  
-        /*
-        const response = await api.get(`/api/activities/coordinator-name/${coordinator.data.email}`, {
+        const response = await api.get(`/api/activities/by/student/${student.data.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+  
         const formattedItems = response.data.reduce((acc, activity) => {
           const dateKey = activity.date;
           const activityItem = {
@@ -50,8 +47,7 @@ const CalendarScreen = ({ weekView = false }) => {
           marked.current[dateKey] = { marked: true };
           return acc;
         }, []);
-        */
-        //setItems(formattedItems);
+        setItems(formattedItems);
       } catch (error) {
         console.log('Error al cargar datos:', error);
       }
