@@ -178,8 +178,6 @@ const NewActivityScreen = () => {
         </TouchableOpacity>
       </View>
 
-
-
     </ScrollView>
 
     
