@@ -14,7 +14,7 @@ const ProfileScreen = () => {
     const [activities, setActivities] = useState([]);
 
     useEffect(()=>{
-        const fetchData = async () => {
+        const fetchData = async () => { // ds
             try {
                 const token = await AsyncStorage.getItem('token');
                 const email = await AsyncStorage.getItem('email');
