@@ -1,6 +1,6 @@
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const eventButton = ({ text, handleButtonPres }) => {
+const EventButton = ({ text, handleButtonPres }) => {
     return (
         <TouchableOpacity
             style={styles.button}
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default eventButton;
+export default EventButton;

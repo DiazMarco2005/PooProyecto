@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const NewActivityScreen = () => {
   const navigation = useNavigation();
-  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+  const [title, setTitle] = useState('Nuevo evento');
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');

@@ -24,8 +24,8 @@ const Stack = createStackNavigator();
 const BottomTabNavigatorStudent = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeStudentScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Activities" component={ActivityScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="StudentHome" component={HomeStudentScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Activities" component={ActivityScreen} options={{ headerShown: false, tabBarButton:  () => null }} />
       <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
     </Tab.Navigator>

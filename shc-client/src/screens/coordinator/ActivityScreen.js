@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
-import eventButton from '../../components/buttons/eventButton.js';
-import { TouchableOpacity } from 'react-native';
+import EventButton from '../../components/buttons/eventButton.js';
 import api from '../../configs/api.js';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -196,12 +195,12 @@ const ActivityScreenCoord = () => {
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
-        <eventButton
+        <EventButton
           text={'Editar'}
           handleButtonPress={()=>setEditable(!editable)}
         />
 
-        <eventButton
+        <EventButton
           text={'Guardar'}
           handleButtonPress={handleButtonPress}
         />
