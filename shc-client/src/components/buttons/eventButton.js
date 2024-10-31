@@ -1,16 +1,16 @@
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const EventButton = ({ text, handleButtonPres }) => {
+const EventButton = ({ text, handleButtonPres, color }) => {
     return (
         <TouchableOpacity
-            style={styles.button}
+            style={[styles.button, { backgroundColor: color || '#2E4C12' }]} // Usa el color proporcionado o el predeterminado
             onPress={handleButtonPres}
         >
             <Text style={styles.text}>
                 {text}
             </Text>
         </TouchableOpacity>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.8,
       shadowRadius: 2,
       elevation: 4,
-      backgroundColor: '#2E4C12'
+      margin: 10,
+      maxWidth: '70%',
+      minWidth: '50%',
     },
     text: {
       color: '#fff',
