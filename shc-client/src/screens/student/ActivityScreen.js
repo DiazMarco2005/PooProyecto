@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import EventInput from '../../components/eventComponent.js';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity  } from 'react-native';
 import EventButton from './../../components//buttons/eventButton.js';
 import api from '../../configs/api.js';
 import { useRoute } from '@react-navigation/native';
@@ -23,6 +22,7 @@ const ActivityScreen = () => {
     const [multiplier, setMultiplier] = useState(0);
     const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
     const [department, setDepartment] = useState('');
+    const [students, setStudents] = useState([]);
     
     useEffect(() => {
         updateFields = async () => {
@@ -35,7 +35,7 @@ const ActivityScreen = () => {
                         'Content-Type': 'application/json'
                     },
                 }
-            );
+              );
     
             setTitle(response.data.name);
             setStartTime(response.data.startTime);
@@ -48,11 +48,32 @@ const ActivityScreen = () => {
             setDepartment(response.data.department);
             setDescription(response.data.description);
             setDate(response.data.date);
+            setStudents(response.data.students)
             } catch {}
         }
     
         updateFields();
     }, []);
+
+    const handleButtonPres = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const email = await AsyncStorage.getItem("email");
+        const student = await api.get(`/api/students/email/${email}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+  
+        const response = await api.post(
+          `/api/activities/${id}/addStudent/${student.id}/`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            data: {},
+          }
+        );
+      } catch {
+        console.log("user already regist on activity");
+      }
+    }
 
     return (
       <View style={styles.container}>
@@ -113,18 +134,43 @@ const ActivityScreen = () => {
               <Text style ={[styles.value, styles.label2]}>{maxCapacity}</Text>
               </View>
             </View>
+
+            <View style={styles.row}>
+              <View style={styles.line}>
+              <View style={styles.sideBar}></View>
+              <Text style={styles.text}>Horas beca ofrecidas: </Text>
+              <Text style ={[styles.value, styles.label2]}>{scholarshipHoursOffered}</Text>
+              </View>
+            </View>
   
             <View style={styles.row}>
               <View style={styles.line}>
               <View style={styles.sideBar}></View>
               <Text style={styles.text}>Cupo Disponible: </Text>
-              <Text style ={[styles.value, styles.label2]}>{maxCapacity}</Text>
+              <Text style ={[styles.value, styles.label2]}>{maxCapacity-students.length}</Text>
+              </View>
+            </View>
+
+            <View style={styles.row}>
+              <View style={styles.line}>
+              <View style={styles.sideBar}></View>
+              <Text style={styles.text}>Departamento: </Text>
+              <Text style ={[styles.value, styles.label2]}>{department}</Text>
               </View>
             </View>
   
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleButtonPres}>
               <Text style={styles.buttonText}>Unirme a la actividad</Text>
             </TouchableOpacity>
+
+            <View style={styles.buttonContainer}>
+            <EventButton
+                text={'Regresar'}
+                handleButtonPres={()=>{
+                    navigation.navigate('StudentHome')
+                }}
+            />
+          </View>
   
           </View>
         </View>
