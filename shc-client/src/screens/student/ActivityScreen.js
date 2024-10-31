@@ -46,7 +46,7 @@ const ActivityScreen = () => {
             setLocation(response.data.location);
             setMaxCapacity(response.data.maxCapacity);
             setDepartment(response.data.department);
-            setDepartment(response.data.department);
+            setDescription(response.data.description);
             setDate(response.data.date);
             } catch {}
         }
@@ -55,203 +55,216 @@ const ActivityScreen = () => {
     }, []);
 
     return (
-        <ScrollView contentContainerStyle={styles.container1}>
-          {/* Título editable con un cuadro */}
-    
-          <TextInput
-            style={styles.title}
-            value={title}
-            onChangeText={setTitle} // Permite editar el título
-            placeholder="Editar título"
-            editable={editable}
-          />
-    
+      <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+  
+  
+        <View style={styles.container1}>
+  
+          <Text style={styles.profileName}>{coordinator}</Text>
+  
           <View style={styles.container2}>
-            {/* Componente para la Fecha */}
-            <View style={styles.inputGroup}>
-              <EventInput
-                label="Fecha"
-                value={date}
-                onChangeText={setDate}
+  
+            <View style={styles.line}>
+              <View style={styles.sideBar}></View>
+              <Text style={styles.text}>Fecha: {date}</Text>
+              </View>
+  
+            <View style={styles.field}>
+              <Text style={styles.label}>Descripción:</Text>
+              <View style={styles.sideBar2}></View>
+              <TextInput
+                style={[styles.input, styles.descriptionInput]}
                 editable={editable}
-              />
+                value={description}
+                onChangeText={setDescription}
+                multiline={true}
+                numberOfLines={4}
+                />
             </View>
-    
-            {/* Componente para la hora de inicio */}
-            <View>
-              <EventInput
-                label="Hora de inicio"
-                value={startTime}
-                onChangeText={setStartTime}
-                editable={editable}
-              />
+  
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <Text style={styles.label2}>Lugar:</Text>
+                <View style={styles.sideBar3}></View>
+                <Text style={styles.label2}>{location}</Text>
+              </View>
+              
+              <View style={styles.column}>
+                <Text style={styles.label2}>Horario:</Text>
+                <View style={styles.sideBar3}></View>
+                <Text style={styles.label2}>{startTime}-{endTime}</Text>
+                </View>
             </View>
-    
-            {/* Componente para la hora de finalización */}
-            <View>
-              <EventInput
-                label="Hora de finalización"
-                value={endTime}
-                onChangeText={setEndTime}
-                editable={editable}
-              />
+  
+  
+            <View style={styles.row}>
+              <View style={styles.line}>
+              <View style={styles.sideBar}></View>
+              <Text style={styles.text}>Multiplicador: </Text>
+              <Text style ={[styles.value, styles.label2]}>{multiplier}</Text>
+              </View>
             </View>
-    
-            {/* Componente para la Descripción */}
-            <View style={styles.container3}>
-            <Text style={styles.label}>Descripción</Text>
-            <TextInput
-              style={styles.textArea}
-              value={description}
-              onChangeText={setDescription}
-              multiline={true}
-              numberOfLines={4}
-              editable={editable}
-            />
+  
+            <View style={styles.row}>
+              <View style={styles.line}>
+              <View style={styles.sideBar}></View>
+              <Text style={styles.text}>Cupo máximo: </Text>
+              <Text style ={[styles.value, styles.label2]}>{maxCapacity}</Text>
+              </View>
+            </View>
+  
+            <View style={styles.row}>
+              <View style={styles.line}>
+              <View style={styles.sideBar}></View>
+              <Text style={styles.text}>Cupo Disponible: </Text>
+              <Text style ={[styles.value, styles.label2]}>{maxCapacity}</Text>
+              </View>
+            </View>
+  
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Unirme a la actividad</Text>
+            </TouchableOpacity>
+  
           </View>
-    
-            {/* Componente para el cupo máximo */}
-            <View>
-              <EventInput
-                label="Cupo máximo"
-                value={maxCapacity}
-                onChangeText={setMaxCapacity}
-                kbtype={'numeric'}
-                editable={editable}
-              />
-            </View>
-    
-            {/* Componente para el cupo máximo */}
-            <View>
-              <EventInput
-                label="Horas beca ofrecidas"
-                value={scholarshipHoursOffered}
-                onChangeText={setScholarshipHoursOffered}
-                kbtype={'numeric'}
-                editable={editable}
-              />
-            </View>
-    
-            {/* Componente para el lugar */}
-            <View>
-              <EventInput
-                label="Lugar"
-                value={location}
-                onChangeText={setLocation}
-                editable={editable}
-              />
-            </View>
-    
-            {/* Componente para el multiplicador */}
-            <View>
-              <EventInput
-                label="Multiplicador"
-                value={multiplier}
-                onChangeText={setMultiplier}
-                kbtype={'numeric'}
-                editable={editable}
-              />
-            </View>
-    
-                  {/* Componente para eldepartamento*/}
-            <View>
-              <EventInput
-                label="Departamento"
-                value={department}
-                onChangeText={setDepartment}
-                editable={editable}
-              />
-            </View>
-    
-          </View>
-          <View style={styles.buttonContainer}>
-            <EventButton
-                text={'Regresar'}
-                handleButtonPres={()=>{
-                    console.log('a')
-                    navigation.navigate('StudentHome')
-                }}
-            />
-          </View>
-        </ScrollView>
-      );
-}
+        </View>
+            
+      </View>
+    );
+  }
 
 export default ActivityScreen;
 
 const styles = StyleSheet.create({
-    title: {
-      fontSize: 40,
-      color: '#fff',
-      paddingVertical: 20,
-      paddingHorizontal: 10,
-      borderColor: '#fff',
-      borderWidth: 2,
-      borderRadius: 10,
-      backgroundColor: '#000',
-      textAlign: 'center',
-      width: '100%',
-      marginBottom: 10,
-      marginTop: 40,
-    },
-    container1: {
-      backgroundColor: '#000',
-      alignItems: 'center',
-      padding: 10,
-    },
-    container2: {
-      flexGrow: 1,
-      padding: 30,
-      backgroundColor: '#fff',
-      alignItems: 'flex-start',
-    },
-    container3: {
-      marginBottom: 5,
-    },
-  
-      label: {
-      fontSize: 20,
-      color: '#000',
-      backgroundColor: '#AFD38B',
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      borderColor: '#000',
-      borderWidth: 1,
-      whiteSpace: 'nowrap',
-    },
-  
-    textArea: {
-      borderWidth: 1,
-      borderColor: '#000',
-      padding: 10,
-      backgroundColor: '#fff',
-      fontSize: 20,
-      height: 200,
-    },
-  
-    buttonContainer: {
-        width:'100%',
-      marginTop: 20,
-      alignItems: 'center',
-    },
-  
-    button: {
-      padding: 10,
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.8,
-      shadowRadius: 2,
-      elevation: 4,
-    },
-    text: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-      textShadowColor: '#000',
-      textShadowOffset: { width: 1, height: 1 },
-      textShadowRadius: 5,
-    },
+  container: {
+  backgroundColor: '#010101',
+  padding: 10,
+  borderRadius: 10,
+  margin: 10,
+},
+
+  container1: {
+  backgroundColor: '#C1846D',
+  padding: 9,
+  borderRadius: 10,
+  margin: 1,
+  alignItems: 'right',
+
+},
+
+container2:{
+  backgroundColor: '#FFF',
+  padding: 8,
+  borderRadius: 10,
+  margin: 5,
+
+},
+
+line: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+
+sideBar: {
+  width: 5,   
+  height: 20, 
+  borderColor:'#000',
+  borderWidth: 1,
+  backgroundColor: '#C1846D', 
+  marginRight: 10, 
+},
+text: {
+  fontSize: 16, // Tamaño del texto
+  fontWeight: 'bold', // Negrita para el texto
+  marginBottom: 6,
+},
+
+
+title: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  marginBottom: 10,
+  color:'#fff',
+},
+
+profileName: {
+  fontSize: 16,
+  fontWeight: 'bold',
+},
+
+field: {
+  marginBottom: 10,
+},
+label: {
+  fontWeight: 'bold',
+  marginBottom: 3,
+},
+  label2: {
+  fontWeight: 'bold',
+  marginBottom: 1,
+  textAlign: 'center',
+},
+input: {
+  borderWidth: 1,
+  borderColor: '#ccc',
+  borderRadius: 5,
+  padding: 10,
+  backgroundColor: '#fff',
+},
+descriptionInput: {
+  height: 80,
+  textAlignVertical: 'top',
+},
+row: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginBottom: 10,
+},
+column: {
+  flex: 1,
+  marginHorizontal: 5,
+  borderColor:'#C1846D',
+  borderWidth: 1,
+},
+
+sideBar2: {
+  width: 90,   
+  height: 5, 
+  borderColor:'#000',
+  backgroundColor: '#C1846D', 
+  marginRight: 5, 
+  marginBottom: 10,
+},
+
+  sideBar3: {
+  width: 60,   
+  height: 5, 
+  borderColor:'#000',
+  backgroundColor: '#C1846D', 
+  marginRight: 5, 
+  marginBottom: 5,
+  alignSelf: 'center',
+
+},
+
+value: {
+  flex: 1,
+  marginHorizontal: 5,
+  backgroundColor: '#C1846D',
+  paddingHorizontal: 10,
+
+},
+button: {
+  backgroundColor: '#b22222',
+  padding: 15,
+  borderRadius: 25,
+  alignItems: 'center',
+  marginTop: 10,
+},
+buttonText: {
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: 16,
+},
 });
