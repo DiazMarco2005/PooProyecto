@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   horizontalLine: {
     height: 2,
-    backgroundColor: "#FFF", // Black color for the line
+    backgroundColor: "#FFF",
     alignSelf: "stretch",
     marginVertical: 10,
   },
