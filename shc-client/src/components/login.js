@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ImageBackground, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// Solo se conserva para el css
 
 const UVGLogin = ({ backgroundImage, logoImage }) => {
   const navigation = useNavigation();
