@@ -6,7 +6,6 @@ import { ImageBackground, ScrollView, Text, View } from "react-native-web";
 import EventButton from "../../components/buttons/eventButton.js";
 import Gauge from "../../components/gauge.js";
 import api from "./../../configs/api.js";
-import ProfileStatistics from "../../components/Profile&Statistics.js";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -103,7 +102,6 @@ const ProfileScreen = () => {
           UNIVERSIDAD DEL VALLE DE GUATEMALA
         </Text>
       </View>
-      <ProfileStatistics></ProfileStatistics>
     </ScrollView>
 
   );
