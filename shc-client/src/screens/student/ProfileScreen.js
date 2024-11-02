@@ -46,7 +46,6 @@ const ProfileScreen = () => {
   let percentage = parseInt((hours / completeHours) * 100);
   let hoursRemaining = parseInt(completeHours - hours);
 
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -103,14 +102,11 @@ const ProfileScreen = () => {
         </Text>
       </View>
     </ScrollView>
-
   );
 };
 const screenWidth = Dimensions.get("window").width;
 const minSize = 90;
-const imageSize = Math.min(
-  Math.max(screenWidth * 0.3, minSize),   200 
-)
+const imageSize = Math.min(Math.max(screenWidth * 0.3, minSize), 200);
 
 const styles = StyleSheet.create({
   container: {
