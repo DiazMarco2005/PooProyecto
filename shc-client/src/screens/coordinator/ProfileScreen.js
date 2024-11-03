@@ -24,13 +24,13 @@ const ProfileScreenCoord = () => {
   useEffect(() => {
     const fetchCoordinatorData = async () => {
       try {
-        const email = await AsyncStorage.getItem('email');
+        const email = await AsyncStorage.getItem('email');//Cache jalar en ve de aguardar
         const token = await AsyncStorage.getItem('token');
 
         // Obtener datos del coordinador
-        let response = await api.get('/api/coordinators/email/' + email, { 
+        let response = await api.get('/api/coordinators/email/' + email, { //método para buscar el api /students/nombre ejemplo
           headers: { Authorization: `Bearer ${token}` }
-        });
+        });// textual
         setName(response.data.name);
 
         // Obtener actividades del coordinador
