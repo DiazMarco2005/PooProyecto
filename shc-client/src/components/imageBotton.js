@@ -1,19 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Para obtener la navegación en el botón
 
-const ImageButton = ({ navigation, title, backgroundImage, style, textStyle, path }) => {
+const ImageButton = ({ title, id, backgroundImage, style, textStyle,  }) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity 
-      onPress={() => navigation.navigate(path)} // Navigate to the path
+      onPress={() => navigation.navigate('ActivitiesCoord', {id : id})} 
       style={[styles.button, style]}
     >
-      <ImageBackground 
-        source={backgroundImage} 
-        style={styles.imageBackground} 
-        imageStyle={styles.image}
-      >
         <Text style={[styles.text, textStyle]}>{title}</Text>
-      </ImageBackground>
     </TouchableOpacity>
   );
 };
@@ -22,6 +18,10 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 5,
     overflow: 'shown',
+    backgroundColor:"#363636",
+    margin: '10px',
+    padding : '10px',
+    alignItems: 'center'
   },
   imageBackground: {
     justifyContent: 'center',

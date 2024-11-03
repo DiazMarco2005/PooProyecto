@@ -95,7 +95,7 @@ const RegisterScreen = ({ navigation }) => {
           )}
           />
       </View>
-      <Text>O inicia sesión <span></span>
+      <Text>O inicia sesión
         <Link to={{ screen: 'Login', params: {} }}>
           aquí
         </Link>

@@ -1,24 +1,51 @@
 import React, { useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import EventInput from 'components/eventComponent';
-import EventButton from 'components/eventBotton';
+import EventInput from '../../components/eventComponent.js';
+import { TouchableOpacity } from 'react-native';
+import api from '../../configs/api.js'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const NewActivityScreen = () => {
-  const [title, setTitle] = useState('Nuevo evento'); // Estado para el título
+  const navigation = useNavigation();
+  const [title, setTitle] = useState('Nuevo evento');
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [manager, setManager] = useState('');
   const [description, setDescription] = useState('');
   const [maxCapacity, setMaxCapacity] = useState('');
   const [location, setLocation] = useState('');
-  const [multiplier, setMultiplier] = useState('');
+  const [multiplier, setMultiplier] = useState(0);
+  const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
   const [department, setDepartment] = useState('');
 
-  // Acción cuando el botón sea presionado
-  const handleButtonPress = () => {
-    console.log('Botón presionado');
-    // Lógica para manejar el evento del botón
+
+  const handleButtonPress = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const coordMail = await AsyncStorage.getItem('email');
+      const response =await api.post('/api/activities/', {
+          "name": title,
+          "startTime": startTime,
+          "endTime": endTime,
+          "multiplier": multiplier,
+          "scholarshipHoursOffered": scholarshipHoursOffered,
+          "coordinator": coordMail,
+          "location": location,
+          "maxCapacity": maxCapacity,
+          "department": department,
+          "description": description,
+          "date": date,
+          "complete" : false
+      }, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+      });
+    } catch {}
+
+    navigation.navigate('ProfileCoord');
   };
 
   return (
@@ -63,23 +90,13 @@ const NewActivityScreen = () => {
           />
         </View>
 
-        {/* Componente para el nombre del encargado */}
-        <View>
-          <EventInput
-            label="Encargado"
-            placeholder="Nombre"
-            value={manager}
-            onChangeText={setManager}
-          />
-        </View>
-
         {/* Componente para la Descripción */}
         <View style={styles.container3}>
         <Text style={styles.label}>Descripción</Text>
         <TextInput
           style={styles.textArea}
           placeholder="Agrega una breve descripción"
-          value={department}
+          value={description}
           onChangeText={setDescription}
           multiline={true}          // Permite múltiples líneas de texto
           numberOfLines={4}         // Número de líneas visibles antes de desplazarse
@@ -93,8 +110,31 @@ const NewActivityScreen = () => {
             placeholder="0"
             value={maxCapacity}
             onChangeText={setMaxCapacity}
+            kbtype={'numeric'}
           />
         </View>
+
+        {/* Componente para el cupo máximo */}
+        <View>
+          <EventInput
+            label="Horas beca ofrecidas"
+            placeholder="0"
+            value={scholarshipHoursOffered}
+            onChangeText={setScholarshipHoursOffered}
+            kbtype={'numeric'}
+          />
+        </View>
+
+        {/* Componente para las horas beca a dar */}
+        <View>
+          <EventInput
+            label="Horas beca"
+            placeholder="0"
+            value={scholarshipHoursOffered}
+            onChangeText={setScholarshipHoursOffered}
+          />
+        </View>
+
 
         {/* Componente para el lugar */}
         <View>
@@ -113,6 +153,7 @@ const NewActivityScreen = () => {
             placeholder="0"
             value={multiplier}
             onChangeText={setMultiplier}
+            kbtype={'numeric'}
           />
         </View>
 
@@ -126,19 +167,17 @@ const NewActivityScreen = () => {
           />
         </View>
 
-
-
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
-        <EventButton 
-          text="Crear Evento"       // Texto del botón
-          color="#2E4C12"           // Color de fondo del botón
-          onPress={handleButtonPress} // Maneja la acción cuando se presiona el botón
-        />
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#2E4C12' }]}
+          onPress={handleButtonPress} // Ejecuta la navegación al presionar el botón
+        >
+          <Text style={styles.text}>{'Crear evento'}</Text>
+        </TouchableOpacity>
       </View>
-
-
 
     </ScrollView>
 
@@ -202,7 +241,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-
+  button: {
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 4, // Para sombra en Android
+  },
+  text: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
+  },
 });
 
 export default NewActivityScreen;

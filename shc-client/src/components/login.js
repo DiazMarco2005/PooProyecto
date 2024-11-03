@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ImageBackground, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// Solo se conserva para el css
 
 const UVGLogin = ({ backgroundImage, logoImage }) => {
   const navigation = useNavigation();
@@ -117,27 +118,3 @@ const styles = StyleSheet.create({
   });
 export default UVGLogin;
 
-
-/* 
-this is how to configure app.js  with reac-navigation
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import UVGLogin from './path-to-component/UVGLogin';
-import HomePage from './path-to-component/HomePage';
-
-const Stack = createStackNavigator();
-
-export default function App() {
-  if
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={UVGLogin} />
-        <Stack.Screen name="Home" component={HomePage} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
- */
