@@ -31,7 +31,7 @@ const ProfileScreen = () => {
         );
 
         setName(student.data.name);
-        setAboutme(student.data.description);
+        setAboutme(student.data.aboutMe);
         setCompleteHours(student.data.scholarshipHours);
         setHours(student.data.completedScholarshipHours);
         setActivities(response.data);
@@ -84,7 +84,7 @@ const ProfileScreen = () => {
               <Text>Coordinador: {item.coordinator}</Text>
               <EventButton
                 text="Ver"
-                handleButtonPress={() =>
+                handleButtonPres={() =>
                   navigation.navigate("Activities", { id: item.id })
                 }
               />
@@ -94,6 +94,18 @@ const ProfileScreen = () => {
           <Text style={styles.noActivitiesText}>No hay actividades</Text>
         )}
       </View>
+
+      <EventButton
+        text="Cerrar sesión"
+        handleButtonPres={async () => {
+          try {
+            await AsyncStorage.removeItem('token');
+            navigation.navigate('Login');
+          } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+          }
+        }}
+      />
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>UVG</Text>
