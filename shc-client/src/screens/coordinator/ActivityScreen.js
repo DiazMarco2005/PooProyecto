@@ -23,6 +23,7 @@ const ActivityScreenCoord = () => {
   const [multiplier, setMultiplier] = useState(0);
   const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
   const [department, setDepartment] = useState('');
+  const [complete, setComplete] = useState(false);
 
   // Acción cuando el botón sea presionado
   const handleButtonPress = async () => {
@@ -39,7 +40,8 @@ const ActivityScreenCoord = () => {
             "maxCapacity": maxCapacity,
             "department": department,
             "description": description,
-            "date": date
+            "date": date,
+            "complete" : complete
         }, {
             headers: { 
                 Authorization: `Bearer ${token}`,
@@ -76,6 +78,7 @@ const ActivityScreenCoord = () => {
         setDepartment(response.data.department);
         setDepartment(response.data.department);
         setDate(response.data.date);
+        setComplete(response.complete);
         } catch {}
     }
 
@@ -192,6 +195,15 @@ const ActivityScreenCoord = () => {
           />
         </View>
 
+        <View style={styles.switchContainer}>
+          <Text style={styles.label}>Completado</Text>
+          <Switch
+            value={complete}
+            onValueChange={setComplete}
+            disabled={!editable}
+          />
+        </View>
+
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
@@ -226,6 +238,11 @@ const styles = StyleSheet.create({
       width: '100%',
       marginBottom: 10,
       marginTop: 40,          // Espacio superior agregado
+    },
+    switchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginVertical: 10,
     },
     container1: {
       backgroundColor: '#000',

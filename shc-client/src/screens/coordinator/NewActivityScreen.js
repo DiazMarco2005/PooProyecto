@@ -35,7 +35,8 @@ const NewActivityScreen = () => {
           "maxCapacity": maxCapacity,
           "department": department,
           "description": description,
-          "date": date
+          "date": date,
+          "complete" : false
       }, {
         headers: { 
           Authorization: `Bearer ${token}`,
