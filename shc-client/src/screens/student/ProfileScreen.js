@@ -6,9 +6,12 @@ import { ImageBackground, ScrollView, Text, View } from "react-native-web";
 import EventButton from "../../components/buttons/eventButton.js";
 import Gauge from "../../components/gauge.js";
 import api from "./../../configs/api.js";
+import { useRoute } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const {role, param_email} = route.params;
   const [name, setName] = useState("");
   const [aboutme, setAboutme] = useState("");
   const [completeHours, setCompleteHours] = useState(0);
@@ -19,7 +22,10 @@ const ProfileScreen = () => {
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        const email = await AsyncStorage.getItem("email");
+        let email = await AsyncStorage.getItem("email");; 
+        if(role === "Cord"){
+          email = param_email
+        }
         const student = await api.get(`/api/students/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -95,17 +101,7 @@ const ProfileScreen = () => {
         )}
       </View>
 
-      <EventButton
-        text="Cerrar sesión"
-        handleButtonPres={async () => {
-          try {
-            await AsyncStorage.removeItem('token');
-            navigation.navigate('Login');
-          } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-          }
-        }}
-      />
+
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>UVG</Text>
