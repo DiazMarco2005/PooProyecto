@@ -34,3 +34,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     // buscar por actividad actual
     List<Student> findByActivity_Id(Long activityId);
 }
+
+
