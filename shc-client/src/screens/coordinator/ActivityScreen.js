@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, Switch } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
 import EventButton from '../../components/buttons/eventButton.js';
 import api from '../../configs/api.js';
@@ -194,13 +194,13 @@ const ActivityScreenCoord = () => {
             editable={editable}
           />
         </View>
-
+    
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Completado</Text>
           <Switch
             value={complete}
             onValueChange={setComplete}
-            disabled={!editable}
+            editable={!editable}
           />
         </View>
 
@@ -209,12 +209,12 @@ const ActivityScreenCoord = () => {
       <View style={styles.buttonContainer}>
         <EventButton
           text={'Editar'}
-          handleButtonPress={()=>setEditable(!editable)}
+          handleButtonPres={()=>setEditable(!editable)}
         />
 
         <EventButton
           text={'Guardar'}
-          handleButtonPress={handleButtonPress}
+          handleButtonPres={handleButtonPress}
         />
       </View>
     </ScrollView>

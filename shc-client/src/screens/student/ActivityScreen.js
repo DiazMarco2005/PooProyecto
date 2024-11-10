@@ -82,7 +82,7 @@ const ActivityScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>{title}</Text>
 
       <View style={styles.container1}>
@@ -153,7 +153,6 @@ const ActivityScreen = () => {
             <View style={styles.line}>
               <View style={styles.sideBar}></View>
               <Text style={styles.text}>Cupo Disponible: </Text>
-              <Text style={styles.text}>Cupo Disponible: </Text>
               <Text style={[styles.value, styles.label2]}>
                 {students && students.length > 0
                   ? maxCapacity - students.length
@@ -184,7 +183,8 @@ const ActivityScreen = () => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
+
   );
 };
 
