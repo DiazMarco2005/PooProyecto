@@ -82,6 +82,7 @@ const ActivityScreen = () => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
 
@@ -122,8 +123,8 @@ const ActivityScreen = () => {
               </Text>
             </View>
           </View>
-
-          <View style={styles.row}>
+          <View>
+            <View style={styles.row}>
             <View style={styles.line}>
               <View style={styles.sideBar}></View>
               <Text style={styles.text}>Multiplicador: </Text>
@@ -153,7 +154,6 @@ const ActivityScreen = () => {
             <View style={styles.line}>
               <View style={styles.sideBar}></View>
               <Text style={styles.text}>Cupo Disponible: </Text>
-              <Text style={styles.text}>Cupo Disponible: </Text>
               <Text style={[styles.value, styles.label2]}>
                 {students && students.length > 0
                   ? maxCapacity - students.length
@@ -169,10 +169,12 @@ const ActivityScreen = () => {
               <Text style={[styles.value, styles.label2]}>{department}</Text>
             </View>
           </View>
+          </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleButtonPres}>
-            <Text style={styles.buttonText}>Unirme a la actividad</Text>
-          </TouchableOpacity>
+<EventButton
+text="Unirse"
+handleButtonPres={handleButtonPres}
+/>
 
           <View style={styles.buttonContainer}>
             <EventButton
@@ -185,6 +187,7 @@ const ActivityScreen = () => {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
@@ -317,4 +320,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+  buttonContainer:{
+    alignContent: 'center',
+    alignItems: 'center',
+  }
 });
