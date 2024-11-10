@@ -215,6 +215,16 @@ const ActivityScreenCoord = () => {
 </ScrollView>
 </View>
 
+<View style={styles.switchContainer}>
+          <Text style={styles.label}>Completado</Text>
+          <Switch
+            value={complete}
+            onValueChange={setComplete}
+            editable={!editable}
+          />
+        </View>
+
+
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
