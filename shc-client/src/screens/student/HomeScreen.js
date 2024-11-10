@@ -22,7 +22,7 @@ const HomeStudentScreen = () => {
     fetchData();
   }, []);
 
-  const handleButtonPress = async (id) => {
+  const handleButtonPres = async (id) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const email = await AsyncStorage.getItem("email");
@@ -76,7 +76,7 @@ const HomeStudentScreen = () => {
               <EventButton
                 text={"Unirse"}
                 color="#1E1E1E"
-                handleButtonPres={() => handleButtonPress(item.id)}
+                handleButtonPres={() => handleButtonPres(item.id)}
               />
               <EventButton
                 text={"Ver"}

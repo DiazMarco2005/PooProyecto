@@ -95,8 +95,8 @@ const RegisterScreen = ({ navigation }) => {
           )}
           />
       </View>
-      <Text>O inicia sesión
-        <Link to={{ screen: 'Login', params: {} }}>
+      <Text>O inicia sesión {' '}
+        <Link style={styles.link} to={{ screen: 'Login', params: {} }}>
           aquí
         </Link>
       </Text>
@@ -105,6 +105,9 @@ const RegisterScreen = ({ navigation }) => {
 };
 
 const styles = {
+  link:{
+    color: '#2196f3'
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
