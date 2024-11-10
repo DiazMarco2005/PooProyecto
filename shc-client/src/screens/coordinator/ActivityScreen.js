@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -45,7 +44,6 @@ const ActivityScreenCoord = () => {
   const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
   const [department, setDepartment] = useState("");
   const [complete, setComplete] = useState(false);
-  const [students, setStudents] = useState([]);
 
   const handleButtonPress = async () => {
     try {
@@ -79,7 +77,6 @@ const ActivityScreenCoord = () => {
 
     navigation.navigate("ProfileCoord");
   };
-
 
   useEffect(() => {
     const updateFields = async () => {

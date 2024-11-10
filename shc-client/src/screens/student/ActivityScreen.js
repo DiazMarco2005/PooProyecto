@@ -82,12 +82,8 @@ const ActivityScreen = () => {
   };
 
   return (
-<<<<<<< HEAD
     <ScrollView>
-    <View style={styles.container}>
-=======
     <ScrollView style={styles.container}>
->>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
       <Text style={styles.title}>{title}</Text>
 
       <View style={styles.container1}>
@@ -190,13 +186,8 @@ handleButtonPres={handleButtonPres}
           </View>
         </View>
       </View>
-<<<<<<< HEAD
     </View>
     </ScrollView>
-=======
-    </ScrollView>
-
->>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
   );
 };
 
