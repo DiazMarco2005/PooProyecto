@@ -95,6 +95,7 @@ const ProfileScreenCoord = () => {
       {/* Botones */}
       <EventButton text="Agregar un nuevo evento" color="#4CAF50" navigateTo={navigateToActivity}/>
 
+
       {/* Logo */}
       <View style={styles.logoContainer}>
         <Image 

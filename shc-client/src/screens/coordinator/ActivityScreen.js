@@ -24,6 +24,7 @@ const ActivityScreenCoord = () => {
   const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
   const [department, setDepartment] = useState('');
   const [complete, setComplete] = useState(false);
+  const [students, setStudents] = useState([]);
 
   // Acción cuando el botón sea presionado
   const handleButtonPress = async () => {
@@ -54,6 +55,7 @@ const ActivityScreenCoord = () => {
     navigation.navigate('ProfileCoord');
   };
 
+
   useEffect(() => {
     updateFields = async () => {
         try {
@@ -79,6 +81,7 @@ const ActivityScreenCoord = () => {
         setDepartment(response.data.department);
         setDate(response.data.date);
         setComplete(response.complete);
+        setStudents(response.data.students);
         } catch {}
     }
 
@@ -195,31 +198,46 @@ const ActivityScreenCoord = () => {
           />
         </View>
 
+{/* Mostrar estudiantes dinámicamente */}
+<View style={styles.container4}>
+<ScrollView >
+  <Text style={styles.label}>Estudiantes agregados: </Text>
+  {Array.isArray(students) && students.length > 0 ? (
+    students.map((student) => (
+      <View style={styles.container11} key={student.id} >
+        <Text style={styles.label1}>{student.name}</Text>
+      </View>
+    ))
+  ) : (
+    <Text style={styles.label}>No hay más estudiantes</Text>
+  )}
+</ScrollView>
+</View>
+    
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Completado</Text>
           <Switch
             value={complete}
             onValueChange={setComplete}
-            disabled={!editable}
+            editable={!editable}
           />
         </View>
+
 
       </View>
       {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
         <EventButton
           text={'Editar'}
-          handleButtonPress={()=>setEditable(!editable)}
+          handleButtonPres={()=>setEditable(!editable)}
         />
 
         <EventButton
           text={'Guardar'}
-          handleButtonPress={handleButtonPress}
+          handleButtonPres={handleButtonPress}
         />
       </View>
     </ScrollView>
-
-    
   );
 }
 
@@ -258,7 +276,15 @@ const styles = StyleSheet.create({
     container3: {
       marginBottom: 5,
     },
-  
+    container4: {
+      backgroundColor: '#D9D9D9',
+      alignItems: 'center',   // Centra los elementos dentro del contenedor
+      padding: 10,
+    },
+    container11: {
+      flexDirection: 'row',
+      marginBottom: 5,
+    },
       label: {
       fontSize: 20,
       color: '#000',
@@ -268,6 +294,18 @@ const styles = StyleSheet.create({
       borderColor: '#000',
       borderWidth: 1,
       whiteSpace: 'nowrap',
+      marginBottom: 10, 
+    },
+
+    label1: {
+      fontSize: 20,
+      color: '#000',
+      backgroundColor: '#FFF',
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      borderColor: '#000',
+      borderWidth: 1,
+      whiteSpace: 'nowrap', 
     },
   
     textArea: {
