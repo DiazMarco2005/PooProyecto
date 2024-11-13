@@ -40,7 +40,7 @@ const BottomTabNavigatorCoordinator = () => {
       <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false, tabBarButton:  () => null }} />
       <Tab.Screen name="ProfileCoord" component={ProfileScreenCoord} options={{ headerShown: false }} />
       <Tab.Screen name="CalendarCoord" component={CalendarScreenCoord} options={{ headerShown: false }} />
-
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false, tabBarButton:  () => null }} />
     </Tab.Navigator>
   );
 };
