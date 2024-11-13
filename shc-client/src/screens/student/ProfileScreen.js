@@ -100,9 +100,19 @@ const ProfileScreen = () => {
           <Text style={styles.noActivitiesText}>No hay actividades</Text>
         )}
       </View>
-
-
-
+      <View style={styles.logOut}>
+        <EventButton
+          text="Cerrar sesión"
+          handleButtonPres={async () => {
+            try {
+              await AsyncStorage.removeItem("token");
+              navigation.navigate("Login");
+            } catch (error) {
+              console.error("Error al cerrar sesión:", error);
+            }
+          }}
+        />
+      </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>UVG</Text>
         <Text style={styles.footerSubtext}>
@@ -117,6 +127,9 @@ const minSize = 90;
 const imageSize = Math.min(Math.max(screenWidth * 0.3, minSize), 200);
 
 const styles = StyleSheet.create({
+  logOut: {
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#",

@@ -66,14 +66,16 @@ const LoginScreen = ({ navigation }) => {
               {...props}
               indicatorStyle={{ backgroundColor: 'green' }}
               style={{ backgroundColor: 'white' }}
-              labelStyle={{ color: 'black', fontSize: 16, textTransform: 'capitalize' }}
+              labelStyle={{ color: 'black', fontSize: 16, textTransform: 'capitalize', }
+              
+            }
             />
           )}
         />
       </View>
-      <Text>O crea una cuenta
-        <Link to={{ screen: 'Register', params: {} }}>
-          aquí
+      <Text> Crea una cuenta {" "}
+         <Link style={styles.link}to={{ screen: 'Register', params: {} }}>
+           aquí
         </Link>
       </Text>
     </View>
@@ -82,6 +84,9 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = {
+  link:{
+    color: '#2196f3'
+  },
   container: {
     flex: 1, 
     justifyContent: 'center', 

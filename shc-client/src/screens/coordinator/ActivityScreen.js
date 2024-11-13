@@ -1,3 +1,22 @@
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Switch,
+} from "react-native";
+import EventInput from "../../components/eventComponent.js";
+import EventButton from "../../components/buttons/eventButton.js";
+import api from "../../configs/api.js";
+import { useRoute } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+
+const { width } = Dimensions.get("window"); // Obtener ancho de la pantalla
+=======
 import React, { useEffect, useState } from 'react'; 
 import { View, Text, TextInput, StyleSheet, ScrollView, Switch } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
@@ -6,103 +25,107 @@ import api from '../../configs/api.js';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+>>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
 
 const ActivityScreenCoord = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { id } = route.params;
-  const [editable, setEditable] = useState(false); 
-  const [title, setTitle] = useState('Nuevo evento');
-  const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [description, setDescription] = useState('');
+  const [editable, setEditable] = useState(false);
+  const [title, setTitle] = useState("Nuevo evento");
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [description, setDescription] = useState("");
   const [maxCapacity, setMaxCapacity] = useState(0);
-  const [coordinator, ssetCoordinator] = useState('');
-  const [location, setLocation] = useState('');
+  const [coordinator, setCoordinator] = useState("");
+  const [location, setLocation] = useState("");
   const [multiplier, setMultiplier] = useState(0);
   const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
-  const [department, setDepartment] = useState('');
+  const [department, setDepartment] = useState("");
   const [complete, setComplete] = useState(false);
-  const [students, setStudents] = useState([]);
 
-  // Acción cuando el botón sea presionado
   const handleButtonPress = async () => {
     try {
-        const token = await AsyncStorage.getItem('token');        
-        await api.put(`/api/activities/${id}`, {
-            "name": title,
-            "startTime": startTime,
-            "endTime": endTime,
-            "multiplier": multiplier,
-            "scholarshipHoursOffered": scholarshipHoursOffered,
-            "coordinator": coordinator,
-            "location": location,
-            "maxCapacity": maxCapacity,
-            "department": department,
-            "description": description,
-            "date": date,
-            "complete" : complete
-        }, {
-            headers: { 
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
+      const token = await AsyncStorage.getItem("token");
+      await api.put(
+        `/api/activities/${id}`,
+        {
+          name: title,
+          startTime: startTime,
+          endTime: endTime,
+          multiplier: multiplier,
+          scholarshipHoursOffered: scholarshipHoursOffered,
+          coordinator: coordinator,
+          location: location,
+          maxCapacity: maxCapacity,
+          department: department,
+          description: description,
+          date: date,
+          complete: complete,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    );
-    } catch {}
+      );
+    } catch (error) {
+      console.error(error);
+    }
 
-    navigation.navigate('ProfileCoord');
+    navigation.navigate("ProfileCoord");
   };
 
-
   useEffect(() => {
-    updateFields = async () => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-              
-            const response = await api.get(`/api/activities/${id}`, {
-                headers: { 
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-            }
-        );
+    const updateFields = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await api.get(`/api/activities/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         setTitle(response.data.name);
         setStartTime(response.data.startTime);
         setEndTime(response.data.endTime);
         setMultiplier(response.data.multiplier);
         setScholarshipHoursOffered(response.data.scholarshipHoursOffered);
-        ssetCoordinator(response.data.coordinator);
+        setCoordinator(response.data.coordinator);
         setLocation(response.data.location);
         setMaxCapacity(response.data.maxCapacity);
         setDepartment(response.data.department);
-        setDepartment(response.data.department);
         setDate(response.data.date);
+<<<<<<< HEAD
+        setComplete(response.data.complete);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+=======
         setComplete(response.complete);
         setStudents(response.data.students);
         } catch {}
     }
+>>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
 
     updateFields();
   }, []);
-  
 
   return (
     <ScrollView contentContainerStyle={styles.container1}>
-      {/* Título editable con un cuadro */}
-
       <TextInput
         style={styles.title}
         value={title}
-        onChangeText={setTitle} // Permite editar el título
+        onChangeText={setTitle}
         placeholder="Editar título"
         editable={editable}
       />
 
       <View style={styles.container2}>
-        {/* Componente para la Fecha */}
         <View style={styles.inputGroup}>
           <EventInput
             label="Fecha"
@@ -112,7 +135,6 @@ const ActivityScreenCoord = () => {
           />
         </View>
 
-        {/* Componente para la hora de inicio */}
         <View>
           <EventInput
             label="Hora de inicio"
@@ -122,7 +144,6 @@ const ActivityScreenCoord = () => {
           />
         </View>
 
-        {/* Componente para la hora de finalización */}
         <View>
           <EventInput
             label="Hora de finalización"
@@ -132,19 +153,83 @@ const ActivityScreenCoord = () => {
           />
         </View>
 
-        {/* Componente para la Descripción */}
         <View style={styles.container3}>
-        <Text style={styles.label}>Descripción</Text>
-        <TextInput
-          style={styles.textArea}
-          value={description}
-          onChangeText={setDescription}
-          multiline={true}
-          numberOfLines={4}
-          editable={editable}
-        />
+          <Text style={styles.label}>Descripción</Text>
+          <TextInput
+            style={styles.textArea}
+            value={description}
+            onChangeText={setDescription}
+            multiline={true}
+            numberOfLines={4}
+            editable={editable}
+          />
+        </View>
+        <View>
+          <View>
+            <EventInput
+              label="Cupo máximo"
+              value={maxCapacity}
+              onChangeText={setMaxCapacity}
+              kbtype={"numeric"}
+              editable={editable}
+            />
+          </View>
+
+          <View>
+            <EventInput
+              label="Horas beca ofrecidas"
+              value={scholarshipHoursOffered}
+              onChangeText={setScholarshipHoursOffered}
+              kbtype={"numeric"}
+              editable={editable}
+            />
+          </View>
+
+          <View>
+            <EventInput
+              label="Lugar"
+              value={location}
+              onChangeText={setLocation}
+              editable={editable}
+            />
+          </View>
+
+          <View>
+            <EventInput
+              label="Multiplicador"
+              value={multiplier}
+              onChangeText={setMultiplier}
+              kbtype={"numeric"}
+              editable={editable}
+            />
+          </View>
+
+          <View>
+            <EventInput
+              label="Departamento"
+              value={department}
+              onChangeText={setDepartment}
+              editable={editable}
+            />
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>Completado</Text>
+            <Switch
+              value={complete}
+              onValueChange={setComplete}
+              disabled={!editable}
+            />
+          </View>
+        </View>
       </View>
 
+<<<<<<< HEAD
+      <View style={styles.buttonContainer}>
+        <EventButton
+          text={"Editar"}
+          handleButtonPres={() => setEditable(!editable)}
+=======
         {/* Componente para el cupo máximo */}
         <View>
           <EventInput
@@ -235,14 +320,73 @@ const ActivityScreenCoord = () => {
         <EventButton
           text={'Guardar'}
           handleButtonPres={handleButtonPress}
+>>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
         />
+        <EventButton text={"Guardar"} handleButtonPres={handleButtonPress} />
       </View>
     </ScrollView>
   );
-}
+};
 
-// Estilos del componente
 const styles = StyleSheet.create({
+<<<<<<< HEAD
+  title: {
+    fontSize: width * 0.1, // Ajusta tamaño relativo a la pantalla
+    color: "#fff",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderColor: "#fff",
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: "#000",
+    textAlign: "center",
+    width: "90%",
+    marginBottom: 10,
+    marginTop: 40,
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  container1: {
+    backgroundColor: "#000",
+    alignItems: "center",
+    padding: 10,
+  },
+  container2: {
+    flexGrow: 1,
+    padding: width * 0.05,
+    backgroundColor: "#fff",
+    alignItems: "flex-start",
+    width: "100%",
+  },
+  container3: {
+    marginBottom: 5,
+  },
+  label: {
+    fontSize: width * 0.05,
+    color: "#000",
+    backgroundColor: "#AFD38B",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderColor: "#000",
+    borderWidth: 1,
+  },
+  textArea: {
+    borderWidth: 1,
+    borderColor: "#000",
+    padding: 10,
+    backgroundColor: "#fff",
+    fontSize: width * 0.05,
+    height: width * 0.5,
+  },
+  buttonContainer: {
+    width: "90%",
+    marginTop: 20,
+    alignItems: "center",
+  },
+=======
     title: {
       fontSize: 40,
       color: '#fff',
@@ -342,6 +486,7 @@ const styles = StyleSheet.create({
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 5,
     },
+>>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
 });
 
 export default ActivityScreenCoord;
