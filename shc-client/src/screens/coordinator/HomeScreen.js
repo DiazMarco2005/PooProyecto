@@ -13,13 +13,11 @@ const HomeCoordinatorScreen = () => {
         setSearchText(text);
         setStudentData(null);  
         setErrorMessage("");    
-        console.log("Busqueda: ", text);
     };
 
     const searchStudent = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
-            console.log(searchText);
 
             const response = await api.get(`/api/students/email/${searchText.trim()}`, {
                 headers: { 
@@ -29,11 +27,12 @@ const HomeCoordinatorScreen = () => {
             });
 
             setStudentData(response.data);
-            setErrorMessage(""); 
-        } catch (error) {
             
-            setStudentData(null);
-            setErrorMessage("El estudiante no existe.");
+            if (response.data==='') {
+                setErrorMessage("El estudiante no existe."); 
+                setStudentData(null);
+            }
+        } catch (error) {
             console.error("Error al buscar el estudiante:", error);
         }
     };
@@ -50,7 +49,6 @@ const HomeCoordinatorScreen = () => {
             />
             <Text style={styles.searchResult}>Buscando: {searchText}</Text>
 
-            {/* Muestra los datos del estudiante si existen */}
             {studentData ? (
                 <View style={styles.studentInfo}>
                     <Text style={styles.infoText}>Nombre: {studentData.name}</Text>

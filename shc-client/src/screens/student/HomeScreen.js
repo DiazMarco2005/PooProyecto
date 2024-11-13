@@ -31,7 +31,7 @@ const HomeStudentScreen = () => {
       });
 
       const response = await api.post(
-        `/api/activities/${id}/addStudent/${student.id}/`,
+        `/api/activities/${id}/addStudent/${student.data.id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           data: {},

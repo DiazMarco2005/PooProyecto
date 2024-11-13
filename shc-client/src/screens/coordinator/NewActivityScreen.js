@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, Switch } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
 import { TouchableOpacity } from 'react-native';
 import api from '../../configs/api.js'
@@ -35,7 +35,8 @@ const NewActivityScreen = () => {
           "maxCapacity": maxCapacity,
           "department": department,
           "description": description,
-          "date": date
+          "date": date,
+          "complete" : false
       }, {
         headers: { 
           Authorization: `Bearer ${token}`,
