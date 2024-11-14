@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
 import { Link } from '@react-navigation/native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import handleRegister from '../../utils/auth/handleRegister.js';
@@ -14,6 +14,7 @@ const RegisterScreen = ({ navigation }) => {
   const [year, setYear] = useState('');
   const [position, setPosition] = useState('');
   const [index, setIndex] = useState(0);
+  const image = {uri: 'https://res.cloudinary.com/uvggt/image/upload/f_auto/v1633478459/2021/Octubre/EDGE/CIT-EDGE-nota.jpg'};
 
   const routes = [
     { key: 'student', title: 'Estudiante' },
@@ -79,6 +80,7 @@ const RegisterScreen = ({ navigation }) => {
   };
   
   return (
+    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
     <View style={styles.container}>
       <View style={styles.tabContainer}>
         <TabView
@@ -88,9 +90,9 @@ const RegisterScreen = ({ navigation }) => {
           renderTabBar={(props) => (
             <TabBar
               {...props}
-              indicatorStyle={{ backgroundColor: 'green' }}
-              style={{ backgroundColor: 'white' }}
-              labelStyle={{ color: 'black', fontSize: 16, textTransform: 'capitalize' }}
+              indicatorStyle={{ backgroundColor: '#28eb30' }}
+              style={{ backgroundColor: 'black' }}
+              labelStyle={{ color: 'white', fontSize: 16, textTransform: 'capitalize' }}
             />
           )}
           />
@@ -101,26 +103,62 @@ const RegisterScreen = ({ navigation }) => {
         </Link>
       </Text>
     </View>
+    </ImageBackground>
   );
 };
 
 const styles = {
-  link:{
-    color: '#2196f3'
+  link: {
+    color: '#2196f3',
+    textDecorationLine: 'underline',
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f3f3f3',
+    backgroundColor: 'rgba(243, 243, 243, 0.8)',
+    paddingHorizontal: 20,
   },
   tabContainer: {
-    width: '80%',
+    width: '90%', 
     height: '60%',
-    borderRadius: 10,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: '#E0E0E0',
     overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 6,
+    backgroundColor:'black',
+    color:'white'
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  tabBarStyle: {
+    backgroundColor: '#white',
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  tabLabelStyle: {
+    color: 'white',
+    fontSize: 16,
+    textTransform: 'capitalize',
+    fontWeight: '600',
+  },
+  indicatorStyle: {
+    backgroundColor: 'green',
+  },
+  text: {
+    color: 'white',
+    fontSize: 14,
+    marginTop: 20,
+    textAlign: 'center',
   },
 };
 

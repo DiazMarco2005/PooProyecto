@@ -8,15 +8,23 @@ import { useNavigation } from "@react-navigation/native";
 const HomeStudentScreen = () => {
   const navigation = useNavigation();
   const [items, setItems] = useState([]);
+  const [currentUser, setCurrentUser] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
+        const email = await AsyncStorage.getItem("email");
         const response = await api.get(`/api/activities/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setItems(response.data);
+
+        const student = await api.get(`/api/students/email/${email}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const currentUserId = student.data.id; 
+        setCurrentUser(currentUserId)
+        setItems(Object.values(response.data).filter(item=>!item.complete && item.students.indexOf(currentUserId)===-1));
       } catch (error) {}
     };
     fetchData();
@@ -25,13 +33,8 @@ const HomeStudentScreen = () => {
   const handleButtonPres = async (id) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const email = await AsyncStorage.getItem("email");
-      const student = await api.get(`/api/students/email/${email}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
       const response = await api.post(
-        `/api/activities/${id}/addStudent/${student.data.id}`,
+        `/api/activities/${id}/addStudent/${currentUser}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           data: {},

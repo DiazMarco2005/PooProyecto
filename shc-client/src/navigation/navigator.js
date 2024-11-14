@@ -15,6 +15,7 @@ import NewActivityScreen from '../screens/coordinator/NewActivityScreen.js';
 import ProfileScreenCoord from '../screens/coordinator/ProfileScreen.js';
 import CalendarScreenCoord from '../screens/coordinator/CalendarScreen.js';
 import { createStackNavigator } from '@react-navigation/stack';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import api from '../configs/api.js';
 
 const Drawer = createDrawerNavigator();
@@ -23,7 +24,7 @@ const Stack = createStackNavigator();
 
 const BottomTabNavigatorStudent = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={screenOptionsStudent}>
       <Tab.Screen name="StudentHome" component={HomeStudentScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Activities" component={ActivityScreen} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
       <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }} />
@@ -34,7 +35,7 @@ const BottomTabNavigatorStudent = () => {
 
 const BottomTabNavigatorCoordinator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={screenOptionsCoord}>
       <Tab.Screen name="Home" component={HomeCoordinatorScreen} options={{ headerShown: false }} />
       <Tab.Screen name="ActivitiesCoord" component={ActivityScreenCoord} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
       <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
@@ -117,5 +118,85 @@ const AppNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const screenOptionsStudent= ({ route }) => ({
+  tabBarIcon: ({ focused, color, size }) => {
+    let iconName;
+
+    if (route.name === 'StudentHome') {
+      iconName = focused ? 'home' : 'home-outline';
+    } else if (route.name === 'Calendar') {
+      iconName = focused ? 'calendar' : 'calendar-outline';
+    } else if (route.name === 'Profile') {
+      iconName = focused ? 'account' : 'account-outline';
+    }
+
+    return (
+      <MaterialCommunityIcons
+        name={iconName}
+        size={size}
+        color={color}
+      />
+    );
+  },
+  tabBarActiveTintColor: '#28eb30',
+  tabBarInactiveTintColor: '#999999',
+  tabBarLabelStyle: { fontSize: 12 },
+  tabBarStyle: { 
+    paddingBottom: 5, 
+    paddingTop: 5, 
+    height: 60, 
+    backgroundColor:'black', 
+    border:'5px solid black', 
+    shadowColor: '#000', 
+    shadowOffset: { 
+      width: 0, 
+      height: 2 
+    }, 
+    shadowOpacity: 0.8, 
+    shadowRadius: 5, 
+    elevation: 5
+  },
+});
+
+const screenOptionsCoord= ({ route }) => ({
+  tabBarIcon: ({ focused, color, size }) => {
+    let iconName;
+
+    if (route.name === 'Home') {
+      iconName = focused ? 'home' : 'home-outline';
+    } else if (route.name === 'CalendarCoord') {
+      iconName = focused ? 'calendar' : 'calendar-outline';
+    } else if (route.name === 'ProfileCoord') {
+      iconName = focused ? 'account' : 'account-outline';
+    }
+
+    return (
+      <MaterialCommunityIcons
+        name={iconName}
+        size={size}
+        color={color}
+      />
+    );
+  },
+  tabBarActiveTintColor: '#28eb30',
+  tabBarInactiveTintColor: '#999999',
+  tabBarLabelStyle: { fontSize: 12 },
+  tabBarStyle: { 
+    paddingBottom: 5, 
+    paddingTop: 5, 
+    height: 60, 
+    backgroundColor:'black', 
+    border:'5px solid black', 
+    shadowColor: '#000', 
+    shadowOffset: { 
+      width: 0, 
+      height: 2 
+    }, 
+    shadowOpacity: 0.8, 
+    shadowRadius: 5, 
+    elevation: 5
+  },
+});
 
 export default AppNavigator;

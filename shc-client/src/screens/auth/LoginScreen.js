@@ -13,8 +13,8 @@ const LoginScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
 
   const routes = [
-    { key: 'student', title: 'Student' },
-    { key: 'coordinator', title: 'Coordinator' },
+    { key: 'student', title: 'Estudiante' },
+    { key: 'coordinator', title: 'Coordinador' },
   ];
 
   const image = {uri: 'https://res.cloudinary.com/uvggt/image/upload/f_auto/v1633478459/2021/Octubre/EDGE/CIT-EDGE-nota.jpg'};
@@ -64,9 +64,9 @@ const LoginScreen = ({ navigation }) => {
           renderTabBar={(props) => (
             <TabBar
               {...props}
-              indicatorStyle={{ backgroundColor: 'green' }}
-              style={{ backgroundColor: 'white' }}
-              labelStyle={{ color: 'black', fontSize: 16, textTransform: 'capitalize', }
+              indicatorStyle={{ backgroundColor: '#28eb30' }}
+              style={{ backgroundColor: 'black' }}
+              labelStyle={{ color: 'white', fontSize: 16, textTransform: 'capitalize', }
               
             }
             />
@@ -84,27 +84,58 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = {
-  link:{
-    color: '#2196f3'
+  link: {
+    color: '#2196f3',
+    textDecorationLine: 'underline',
   },
   container: {
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    backgroundColor: '#f3f3f3',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(243, 243, 243, 0.8)',
+    paddingHorizontal: 20,
   },
   tabContainer: {
-    width: '80%', 
-    height: '50%', 
-    borderRadius: 10,
+    width: '90%', 
+    height: '60%',
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: '#E0E0E0',
     overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 6,
+    backgroundColor:'black',
+    color:'white'
   },
   image: {
     flex: 1,
     justifyContent: 'center',
-  }
+  },
+  tabBarStyle: {
+    backgroundColor: '#white',
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  tabLabelStyle: {
+    color: 'white',
+    fontSize: 16,
+    textTransform: 'capitalize',
+    fontWeight: '600',
+  },
+  indicatorStyle: {
+    backgroundColor: 'green',
+  },
+  text: {
+    color: 'white',
+    fontSize: 14,
+    marginTop: 20,
+    textAlign: 'center',
+  },
 };
 
 export default LoginScreen;

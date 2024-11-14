@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, Alert, Dimensions } from 'react-native';
+import { View, TextInput, Button, Alert, Dimensions, TouchableOpacity, Text } from 'react-native';
 
 const StudentLogin = ({ 
   handleLogin, 
@@ -22,7 +22,9 @@ const StudentLogin = ({
       placeholder="Contraseña"
       secureTextEntry
     />
-    <Button title="Iniciar sesión" onPress={handleLogin} />
+    <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <Text style={styles.buttonText}>Iniciar sesión</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -32,6 +34,7 @@ const styles = {
     justifyContent: 'center',
     padding: 20,
     width: '100%', 
+    color:'white'
   },
   input: {
     borderWidth: 1,
@@ -40,6 +43,21 @@ const styles = {
     padding: 10,
     marginBottom: 20,
     width: '100%',
+    color:'white'
+  },
+  button: {
+    backgroundColor: '#28eb30',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 };
 

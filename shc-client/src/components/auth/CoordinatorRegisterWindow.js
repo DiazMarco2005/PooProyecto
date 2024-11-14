@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Button, Alert, ScrollView } from 'react-native';
+import { TextInput, Button, Alert, ScrollView, Text, TouchableOpacity } from 'react-native';
 
 const CoordinatorRegister = ({ 
     handleRegister, 
@@ -44,7 +44,9 @@ const CoordinatorRegister = ({
             placeholder="Posición"
         />
       
-        <Button title="Registrarse" onPress={handleRegister} />
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Registrarse</Text>
+        </TouchableOpacity>
     
     </ScrollView>
 );
@@ -52,7 +54,7 @@ const CoordinatorRegister = ({
 const styles = {
     scrollContainer: {
         paddingVertical: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
     },
     input: {
         borderWidth: 1,
@@ -61,6 +63,21 @@ const styles = {
         padding: 10,
         marginBottom: 20,
         width: '100%',
+        color:'white'
+    },
+    button: {
+        backgroundColor: '#28eb30',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+      },
+    buttonText: {
+        color: 'black',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 };
 

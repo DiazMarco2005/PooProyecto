@@ -102,7 +102,7 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.logOut}>
-        {role==="Std" ? null :
+        {role==="Cord" ? null :
           <EventButton
           text="Cerrar sesión"
           handleButtonPres={async () => {
