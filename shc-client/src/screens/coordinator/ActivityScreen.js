@@ -1,3 +1,4 @@
+const { width } = Dimensions.get("window");
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -6,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
   Switch,
 } from "react-native";
 import EventInput from "../../components/eventComponent.js";
@@ -14,18 +16,6 @@ import api from "../../configs/api.js";
 import { useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-
-const { width } = Dimensions.get("window"); // Obtener ancho de la pantalla
-=======
-import React, { useEffect, useState } from 'react'; 
-import { View, Text, TextInput, StyleSheet, ScrollView, Switch } from 'react-native';
-import EventInput from '../../components/eventComponent.js';
-import EventButton from '../../components/buttons/eventButton.js';
-import api from '../../configs/api.js';
-import { useRoute } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
->>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
 
 const ActivityScreenCoord = () => {
   const route = useRoute();
@@ -44,6 +34,7 @@ const ActivityScreenCoord = () => {
   const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
   const [department, setDepartment] = useState("");
   const [complete, setComplete] = useState(false);
+  const [students, setStudents] = useState([]);
 
   const handleButtonPress = async () => {
     try {
@@ -89,6 +80,19 @@ const ActivityScreenCoord = () => {
           },
         });
 
+        setStudents(
+          await Promise.all(
+          response.data.students.map(async (student_id) => {
+            let student_response = await api.get(`/api/students/${student_id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              }
+            });
+            return student_response.data;
+          })
+        ));
+        
         setTitle(response.data.name);
         setStartTime(response.data.startTime);
         setEndTime(response.data.endTime);
@@ -99,18 +103,9 @@ const ActivityScreenCoord = () => {
         setMaxCapacity(response.data.maxCapacity);
         setDepartment(response.data.department);
         setDate(response.data.date);
-<<<<<<< HEAD
-        setComplete(response.data.complete);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-=======
         setComplete(response.complete);
-        setStudents(response.data.students);
         } catch {}
     }
->>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
 
     updateFields();
   }, []);
@@ -224,12 +219,6 @@ const ActivityScreenCoord = () => {
         </View>
       </View>
 
-<<<<<<< HEAD
-      <View style={styles.buttonContainer}>
-        <EventButton
-          text={"Editar"}
-          handleButtonPres={() => setEditable(!editable)}
-=======
         {/* Componente para el cupo máximo */}
         <View>
           <EventInput
@@ -283,21 +272,25 @@ const ActivityScreenCoord = () => {
           />
         </View>
 
-{/* Mostrar estudiantes dinámicamente */}
-<View style={styles.container4}>
-<ScrollView >
-  <Text style={styles.label}>Estudiantes agregados: </Text>
-  {Array.isArray(students) && students.length > 0 ? (
-    students.map((student) => (
-      <View style={styles.container11} key={student.id} >
-        <Text style={styles.label1}>{student.name}</Text>
-      </View>
-    ))
-  ) : (
-    <Text style={styles.label}>No hay más estudiantes</Text>
-  )}
-</ScrollView>
-</View>
+        {/* Mostrar estudiantes dinámicamente */}
+        <View style={styles.container4}>
+        <ScrollView >
+          <Text style={styles.label}>Estudiantes agregados: </Text>
+          {Array.isArray(students) && students.length > 0 ? (
+            students.map((student) => (
+              <View style={styles.container11} key={student.id} >
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Profile", {role: "Cord", param_email: student.email})}>
+                  <Text> {student.name} </Text>
+
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.label}>No hay más estudiantes</Text>
+          )}
+        </ScrollView>
+        </View>
     
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Completado</Text>
@@ -309,8 +302,6 @@ const ActivityScreenCoord = () => {
         </View>
 
 
-      </View>
-      {/* Botón al final del formulario */}
       <View style={styles.buttonContainer}>
         <EventButton
           text={'Editar'}
@@ -320,73 +311,13 @@ const ActivityScreenCoord = () => {
         <EventButton
           text={'Guardar'}
           handleButtonPres={handleButtonPress}
->>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
         />
-        <EventButton text={"Guardar"} handleButtonPres={handleButtonPress} />
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
-  title: {
-    fontSize: width * 0.1, // Ajusta tamaño relativo a la pantalla
-    color: "#fff",
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    borderColor: "#fff",
-    borderWidth: 2,
-    borderRadius: 10,
-    backgroundColor: "#000",
-    textAlign: "center",
-    width: "90%",
-    marginBottom: 10,
-    marginTop: 40,
-  },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 10,
-  },
-  container1: {
-    backgroundColor: "#000",
-    alignItems: "center",
-    padding: 10,
-  },
-  container2: {
-    flexGrow: 1,
-    padding: width * 0.05,
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
-    width: "100%",
-  },
-  container3: {
-    marginBottom: 5,
-  },
-  label: {
-    fontSize: width * 0.05,
-    color: "#000",
-    backgroundColor: "#AFD38B",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderColor: "#000",
-    borderWidth: 1,
-  },
-  textArea: {
-    borderWidth: 1,
-    borderColor: "#000",
-    padding: 10,
-    backgroundColor: "#fff",
-    fontSize: width * 0.05,
-    height: width * 0.5,
-  },
-  buttonContainer: {
-    width: "90%",
-    marginTop: 20,
-    alignItems: "center",
-  },
-=======
     title: {
       fontSize: 40,
       color: '#fff',
@@ -486,7 +417,6 @@ const styles = StyleSheet.create({
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 5,
     },
->>>>>>> 5f446f28065c13cbb2f0ed52ff4b90d85c098004
 });
 
 export default ActivityScreenCoord;

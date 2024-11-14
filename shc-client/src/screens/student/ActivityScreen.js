@@ -171,10 +171,10 @@ const ActivityScreen = () => {
           </View>
           </View>
 
-<EventButton
-text="Unirse"
-handleButtonPres={handleButtonPres}
-/>
+        <EventButton
+        text="Unirse"
+        handleButtonPres={handleButtonPres}
+        />
 
           <View style={styles.buttonContainer}>
             <EventButton
@@ -184,9 +184,9 @@ handleButtonPres={handleButtonPres}
               }}
             />
           </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </ScrollView>
     </ScrollView>
   );
 };

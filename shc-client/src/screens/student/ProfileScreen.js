@@ -11,7 +11,7 @@ import { useRoute } from '@react-navigation/native';
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {role, param_email} = route.params;
+  let {role="Std", param_email=""} = route.params || {};
   const [name, setName] = useState("");
   const [aboutme, setAboutme] = useState("");
   const [completeHours, setCompleteHours] = useState(0);
@@ -40,7 +40,8 @@ const ProfileScreen = () => {
         setAboutme(student.data.aboutMe);
         setCompleteHours(student.data.scholarshipHours);
         setHours(student.data.completedScholarshipHours);
-        setActivities(response.data);
+        const filteredActivities=Object.values(response.data).filter(activity=>!activity.complete)
+        setActivities(filteredActivities);
       } catch (error) {
         console.log("Error al cargar datos:", error);
       }
@@ -81,7 +82,6 @@ const ProfileScreen = () => {
           activities.map((item) => (
             <View key={item.id} style={styles.activity}>
               <Text style={styles.activityName}>{item.name}</Text>
-              <Text style={styles.activityHours}>{item.duration} horas</Text>
               <Text>{item.date}</Text>
               <Text>
                 {item.startTime} - {item.endTime}
@@ -91,7 +91,7 @@ const ProfileScreen = () => {
               <EventButton
                 text="Ver"
                 handleButtonPres={() =>
-                  navigation.navigate("Activities", { id: item.id })
+                  navigation.navigate(role === "Cord" ? "ActivitiesCoord" : "Activities", { id: item.id })
                 }
               />
             </View>
@@ -100,8 +100,10 @@ const ProfileScreen = () => {
           <Text style={styles.noActivitiesText}>No hay actividades</Text>
         )}
       </View>
+
       <View style={styles.logOut}>
-        <EventButton
+        {role==="Std" ? null :
+          <EventButton
           text="Cerrar sesión"
           handleButtonPres={async () => {
             try {
@@ -112,6 +114,7 @@ const ProfileScreen = () => {
             }
           }}
         />
+        }
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>UVG</Text>
