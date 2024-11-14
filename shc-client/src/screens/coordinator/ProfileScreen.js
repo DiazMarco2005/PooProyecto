@@ -1,4 +1,4 @@
-import EventButton from "../../components/eventBotton.js";
+import EventButton from "../../components/buttons/eventButton.js";
 import ImageButton from "../../components/imageBotton.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../../configs/api.js";
@@ -29,13 +29,13 @@ const ProfileScreenCoord = () => {
   useEffect(() => {
     const fetchCoordinatorData = async () => {
       try {
-        const email = await AsyncStorage.getItem('email');
+        const email = await AsyncStorage.getItem('email');//Cache jalar en ve de aguardar
         const token = await AsyncStorage.getItem('token');
 
         // Obtener datos del coordinador
-        let response = await api.get('/api/coordinators/email/' + email, { 
+        let response = await api.get('/api/coordinators/email/' + email, { //método para buscar el api /students/nombre ejemplo
           headers: { Authorization: `Bearer ${token}` }
-        });
+        });// textual
         setName(response.data.name);
 
         // Obtener actividades del coordinador
@@ -93,8 +93,12 @@ const ProfileScreenCoord = () => {
       </ScrollView>
 
       {/* Botones */}
-      <EventButton text="Agregar un nuevo evento" color="#4CAF50" navigateTo={navigateToActivity}/>
-
+      <EventButton text="Agregar un nuevo evento" color="#4CAF50" handleButtonPres={()=>navigation.navigate(navigateToActivity)}/>
+      <EventButton text="Cerrar sesión" color="#4CAF50" handleButtonPres={()=>{
+        AsyncStorage.removeItem("token");
+        AsyncStorage.removeItem("email");
+        navigation.navigate("Login")
+      }}/>
 
       {/* Logo */}
       <View style={styles.logoContainer}>

@@ -3,8 +3,12 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import api from "../../configs/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from "react";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import ProfileScreen from "../student/ProfileScreen";
 
 const HomeCoordinatorScreen = () => {
+    const navigation = useNavigation();
     const [searchText, setSearchText] = useState("");
     const [studentData, setStudentData] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
@@ -12,7 +16,7 @@ const HomeCoordinatorScreen = () => {
     const handleSearchChange = (text) => {
         setSearchText(text);
         setStudentData(null);  
-        setErrorMessage("");    
+        setErrorMessage(" ");    
     };
 
     const searchStudent = async () => {
@@ -55,6 +59,11 @@ const HomeCoordinatorScreen = () => {
                     <Text style={styles.infoText}>Correo: {studentData.email}</Text>
                     <Text style={styles.infoText}>Carrera: {studentData.major}</Text>
                     <Text style={styles.infoText}>Año: {studentData.year}</Text>
+                    <TouchableOpacity
+                    onPress={() => navigation.navigate("Profile", {role: "Cord", param_email: studentData.email})}>
+                        <Text> Ver </Text>
+
+                    </TouchableOpacity>
                 </View>
             ) : (
                 

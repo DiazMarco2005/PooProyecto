@@ -36,7 +36,7 @@ const CalendarScreen = ({ weekView = false }) => {
             scholarshipHours: activity.scholarshipHoursOffered,
             maxCapacity: activity.maxCapacity,
           };
-
+          console.log(dateKey)
           const existingDate = acc.find((section) => section.title === dateKey);
           if (existingDate) {
             existingDate.data.push(activityItem);
@@ -53,6 +53,7 @@ const CalendarScreen = ({ weekView = false }) => {
       }
         
     };
+    
   
     fetchData();
   }, []);

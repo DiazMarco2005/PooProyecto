@@ -6,9 +6,12 @@ import { ImageBackground, ScrollView, Text, View } from "react-native-web";
 import EventButton from "../../components/buttons/eventButton.js";
 import Gauge from "../../components/gauge.js";
 import api from "./../../configs/api.js";
+import { useRoute } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  let {role="Std", param_email=""} = route.params || {};
   const [name, setName] = useState("");
   const [aboutme, setAboutme] = useState("");
   const [completeHours, setCompleteHours] = useState(0);
@@ -19,7 +22,10 @@ const ProfileScreen = () => {
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        const email = await AsyncStorage.getItem("email");
+        let email = await AsyncStorage.getItem("email");; 
+        if(role === "Cord"){
+          email = param_email
+        }
         const student = await api.get(`/api/students/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -34,7 +40,8 @@ const ProfileScreen = () => {
         setAboutme(student.data.aboutMe);
         setCompleteHours(student.data.scholarshipHours);
         setHours(student.data.completedScholarshipHours);
-        setActivities(response.data);
+        const filteredActivities=Object.values(response.data).filter(activity=>!activity.complete)
+        setActivities(filteredActivities);
       } catch (error) {
         console.log("Error al cargar datos:", error);
       }
@@ -75,7 +82,6 @@ const ProfileScreen = () => {
           activities.map((item) => (
             <View key={item.id} style={styles.activity}>
               <Text style={styles.activityName}>{item.name}</Text>
-              <Text style={styles.activityHours}>{item.duration} horas</Text>
               <Text>{item.date}</Text>
               <Text>
                 {item.startTime} - {item.endTime}
@@ -85,7 +91,7 @@ const ProfileScreen = () => {
               <EventButton
                 text="Ver"
                 handleButtonPres={() =>
-                  navigation.navigate("Activities", { id: item.id })
+                  navigation.navigate(role === "Cord" ? "ActivitiesCoord" : "Activities", { id: item.id })
                 }
               />
             </View>
@@ -95,18 +101,21 @@ const ProfileScreen = () => {
         )}
       </View>
 
-      <EventButton
-        text="Cerrar sesión"
-        handleButtonPres={async () => {
-          try {
-            await AsyncStorage.removeItem('token');
-            navigation.navigate('Login');
-          } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-          }
-        }}
-      />
-
+      <View style={styles.logOut}>
+        {role==="Std" ? null :
+          <EventButton
+          text="Cerrar sesión"
+          handleButtonPres={async () => {
+            try {
+              await AsyncStorage.removeItem("token");
+              navigation.navigate("Login");
+            } catch (error) {
+              console.error("Error al cerrar sesión:", error);
+            }
+          }}
+        />
+        }
+      </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>UVG</Text>
         <Text style={styles.footerSubtext}>
@@ -121,6 +130,9 @@ const minSize = 90;
 const imageSize = Math.min(Math.max(screenWidth * 0.3, minSize), 200);
 
 const styles = StyleSheet.create({
+  logOut: {
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#",
