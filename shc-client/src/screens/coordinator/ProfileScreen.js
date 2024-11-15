@@ -42,7 +42,9 @@ const ProfileScreenCoord = () => {
         let activityResponse = await api.get('/api/activities/coordinator-name/' + email, { 
           headers: { Authorization: `Bearer ${token}` }
         });
-        setActivities(activityResponse.data); // Guardar las actividades en el estado
+
+        const filteredActivities=Object.values(activityResponse.data).filter(activity=>!activity.complete)
+        setActivities(filteredActivities); 
       } catch (error) {
         console.error('Error fetching coordinator data:', error);
       }
@@ -57,28 +59,15 @@ const ProfileScreenCoord = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.menuContainer}>
-        <Text style={styles.menuText}></Text>
-      </View>
 
-      {/* Imagen de perfil */}
-      <View style={styles.profileImageContainer}>
-        <Image 
-          source={{ uri: 'https://via.placeholder.com/100' }} 
-          style={styles.profileImage} 
-        />
-      </View>
-
-      {/* Nombre y rol */}
       <View style={styles.profileContainer}>
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.role}>Coordinador</Text>
       </View>
-      {/* Sección de eventos */}
-      <Text style={styles.eventsTitle}>Mis eventos:</Text>
 
       {/* Mostrar actividades dinámicamente */}
       <ScrollView>
+      <Text style={styles.eventsTitle}>Mis eventos:</Text>
         {activities.length > 0 ? (
           activities.map((activity, index) => {
             return (
@@ -91,115 +80,68 @@ const ProfileScreenCoord = () => {
           <Text style={styles.noEventsText}>No hay más eventos disponibles.</Text>
         )}
       </ScrollView>
-
       {/* Botones */}
-      <EventButton text="Agregar un nuevo evento" color="#4CAF50" handleButtonPres={()=>navigation.navigate(navigateToActivity)}/>
-      <EventButton text="Cerrar sesión" color="#4CAF50" handleButtonPres={()=>{
+      <EventButton text="Agregar un nuevo evento" handleButtonPres={()=>navigation.navigate(navigateToActivity)}/>
+      <EventButton text="Cerrar sesión" handleButtonPres={()=>{
         AsyncStorage.removeItem("token");
         AsyncStorage.removeItem("email");
         navigation.navigate("Login")
       }}/>
-
-      {/* Logo */}
-      <View style={styles.logoContainer}>
-        <Image 
-          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Logo_UVG.jpg/1200px-Logo_UVG.jpg' }} 
-          style={styles.logo} 
-        />
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  profileContainer:{
-    flex: 1,
-    alignItems: 'center',
-    minWidth: '200px',
-  },
   container: {
     flex: 1,
-    backgroundColor: '#000', // Color de fondo negro
-    padding: 20,
+    backgroundColor: '#2a2b2b',
+    paddingHorizontal: 20,
+    paddingTop: 40,
   },
-  menuContainer: {
-    alignSelf: 'flex-start',
-  },
-  menuText: {
-    fontSize: 24,
-    color: '#fff',
-  },
-  profileImageContainer: {
+  profileContainer: {
     alignItems: 'center',
-    marginVertical: 20,
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#ccc',
+    marginBottom: 20,
   },
   name: {
-    fontSize: 30,
+    fontSize: 32,
     fontFamily: 'Inter_400Regular',
-    color: '#fff',
+    color: '#ffffff',
+    backgroundColor: '#2E8B57',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 10,
     textAlign: 'center',
-    backgroundColor:'#2E4C12',
-    borderRadius:'20%',
-    maxWidth:'800px',
-    minWidth:'200px',
-    alignItems:'center',
   },
   role: {
-    fontSize: 16,
-    fontFamily: 'Inter_400Regular',
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  eventsTitle: {
     fontSize: 18,
     fontFamily: 'Inter_400Regular',
-    color: '#fff',
-    marginBottom: 10,
+    color: '#cfcfcf',
+    marginVertical: 5,
   },
-  eventImage: {
-    width: '100%',
-    height: 150,
-    marginBottom: 30,
-  },
-  eventTitle: {
-    fontSize: 16,
+  eventsTitle: {
+    fontSize: 20,
     fontFamily: 'Inter_400Regular',
-    color: '#fff',
-    marginBottom: 20,
-  },
-  noEventsText: {
-    fontSize: 16,
-    fontFamily: 'Inter_400Regular',
-    color: '#fff',
-    textAlign: 'center',
-    marginVertical: 20,
+    color: '#cfcfcf',
+    marginBottom: 15,
+    textAlign: 'left',
   },
   addButton: {
     backgroundColor: '#4CAF50',
     padding: 15,
-    alignItems: 'center',
-    marginTop: 10,
-    borderRadius: 5,
+    borderRadius: 8,
+    marginVertical: 10,
+    alignSelf: 'center',
   },
   addButtonText: {
-    fontSize: 16,
-    fontFamily: 'Inter_400Regular',
+    fontSize: 18,
     color: '#fff',
+    fontFamily: 'Inter_400Regular',
   },
-  logoContainer: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  logo: {
-    width: 150,
-    height: 50,
+  noEventsText: {
+    fontSize: 16,
+    color: '#cfcfcf',
+    textAlign: 'center',
+    marginVertical: 30,
   },
 });
 

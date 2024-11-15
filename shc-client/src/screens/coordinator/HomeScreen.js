@@ -43,10 +43,10 @@ const HomeCoordinatorScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Coordinador Home</Text>
+            <Text style={styles.title}>Buscar estudiante</Text>
             <TextInput
                 style={styles.searchBar}
-                placeholder="Buscar estudiante...."
+                placeholder="Email"
                 value={searchText}
                 onSubmitEditing={searchStudent}
                 onChangeText={handleSearchChange}
@@ -60,8 +60,9 @@ const HomeCoordinatorScreen = () => {
                     <Text style={styles.infoText}>Carrera: {studentData.major}</Text>
                     <Text style={styles.infoText}>Año: {studentData.year}</Text>
                     <TouchableOpacity
-                    onPress={() => navigation.navigate("Profile", {role: "Cord", param_email: studentData.email})}>
-                        <Text> Ver </Text>
+                        onPress={() => navigation.navigate("Profile", {role: "Cord", param_email: studentData.email})}
+                    >
+                        <Text style={styles.seeButton}> Ver </Text>
 
                     </TouchableOpacity>
                 </View>
@@ -76,7 +77,7 @@ const HomeCoordinatorScreen = () => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: "#2F4F4F",
+        backgroundColor: "#2a2b2b",
         flex: 1,
     },
     title: {
@@ -87,12 +88,12 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         height: 40,
-        borderColor: "#98FB98",
+        borderColor: "#28eb30",
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 10,
         marginBottom: 15,
-        backgroundColor: "#2F4F4F",
+        backgroundColor: "black",
         color: "#FFFFFF",
     },
     searchResult: {
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     studentInfo: {
         marginTop: 20,
         padding: 10,
-        backgroundColor: "#3E8E41",
+        backgroundColor: "#757575",
         borderRadius: 8,
     },
     infoText: {
@@ -114,6 +115,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 20,
     },
+    seeButton : {
+        color:'#abc7ff',
+        fontSize : '15px'
+    }
 });
 
 export default HomeCoordinatorScreen;

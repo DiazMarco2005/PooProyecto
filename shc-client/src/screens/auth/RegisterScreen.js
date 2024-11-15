@@ -12,6 +12,8 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [major, setMajor] = useState('');
   const [year, setYear] = useState('');
+  const [scholarshipHours, setScholarshipHours] = useState(0.0);
+  const [aboutme, setAboutme] = useState('');
   const [position, setPosition] = useState('');
   const [index, setIndex] = useState(0);
   const image = {uri: 'https://res.cloudinary.com/uvggt/image/upload/f_auto/v1633478459/2021/Octubre/EDGE/CIT-EDGE-nota.jpg'};
@@ -38,6 +40,8 @@ const RegisterScreen = ({ navigation }) => {
                 password : password, 
                 year : year, 
                 major : major, 
+                scholarshipHours : scholarshipHours,
+                aboutme :  aboutme,
                 navigation : handleRegisterSuccess
               })
           }
@@ -51,6 +55,10 @@ const RegisterScreen = ({ navigation }) => {
           setMajor={setMajor}
           year={year}
           setYear={setYear}
+          scholarshipHours={scholarshipHours}
+          setScholarshipHours={setScholarshipHours}
+          aboutme={aboutme}
+          setAboutme={setAboutme}
         />
       );
     } else if (route.key === 'coordinator') {

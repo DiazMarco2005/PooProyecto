@@ -1,4 +1,3 @@
-const { width } = Dimensions.get("window");
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -6,16 +5,14 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
   Switch,
 } from "react-native";
 import EventInput from "../../components/eventComponent.js";
 import EventButton from "../../components/buttons/eventButton.js";
 import api from "../../configs/api.js";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 
 const ActivityScreenCoord = () => {
   const route = useRoute();
@@ -43,17 +40,17 @@ const ActivityScreenCoord = () => {
         `/api/activities/${id}`,
         {
           name: title,
-          startTime: startTime,
-          endTime: endTime,
-          multiplier: multiplier,
-          scholarshipHoursOffered: scholarshipHoursOffered,
-          coordinator: coordinator,
-          location: location,
-          maxCapacity: maxCapacity,
-          department: department,
-          description: description,
-          date: date,
-          complete: complete,
+          startTime,
+          endTime,
+          multiplier,
+          scholarshipHoursOffered,
+          coordinator,
+          location,
+          maxCapacity,
+          department,
+          description,
+          date,
+          complete,
         },
         {
           headers: {
@@ -62,11 +59,26 @@ const ActivityScreenCoord = () => {
           },
         }
       );
+      navigation.navigate("ProfileCoord");
     } catch (error) {
       console.error(error);
     }
+  };
 
-    navigation.navigate("ProfileCoord");
+  const handleCompleteButton = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      await api.get(`/api/activities/${id}/complete/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      navigation.navigate("ProfileCoord");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -82,17 +94,21 @@ const ActivityScreenCoord = () => {
 
         setStudents(
           await Promise.all(
-          response.data.students.map(async (student_id) => {
-            let student_response = await api.get(`/api/students/${student_id}`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              }
-            });
-            return student_response.data;
-          })
-        ));
-        
+            response.data.students?.map(async (student_id) => {
+              let student_response = await api.get(
+                `/api/students/${student_id}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              return student_response.data;
+            }) ?? []
+          )
+        );
+
         setTitle(response.data.name);
         setStartTime(response.data.startTime);
         setEndTime(response.data.endTime);
@@ -103,15 +119,17 @@ const ActivityScreenCoord = () => {
         setMaxCapacity(response.data.maxCapacity);
         setDepartment(response.data.department);
         setDate(response.data.date);
-        setComplete(response.complete);
-        } catch {}
-    }
+        setComplete(response.data.complete);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     updateFields();
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container1}>
+    <ScrollView contentContainerStyle={styles.container}>
       <TextInput
         style={styles.title}
         value={title}
@@ -120,303 +138,126 @@ const ActivityScreenCoord = () => {
         editable={editable}
       />
 
-      <View style={styles.container2}>
-        <View style={styles.inputGroup}>
-          <EventInput
-            label="Fecha"
-            value={date}
-            onChangeText={setDate}
-            editable={editable}
-          />
-        </View>
-
-        <View>
-          <EventInput
-            label="Hora de inicio"
-            value={startTime}
-            onChangeText={setStartTime}
-            editable={editable}
-          />
-        </View>
-
-        <View>
-          <EventInput
-            label="Hora de finalización"
-            value={endTime}
-            onChangeText={setEndTime}
-            editable={editable}
-          />
-        </View>
-
-        <View style={styles.container3}>
-          <Text style={styles.label}>Descripción</Text>
-          <TextInput
-            style={styles.textArea}
-            value={description}
-            onChangeText={setDescription}
-            multiline={true}
-            numberOfLines={4}
-            editable={editable}
-          />
-        </View>
-        <View>
-          <View>
-            <EventInput
-              label="Cupo máximo"
-              value={maxCapacity}
-              onChangeText={setMaxCapacity}
-              kbtype={"numeric"}
-              editable={editable}
-            />
-          </View>
-
-          <View>
-            <EventInput
-              label="Horas beca ofrecidas"
-              value={scholarshipHoursOffered}
-              onChangeText={setScholarshipHoursOffered}
-              kbtype={"numeric"}
-              editable={editable}
-            />
-          </View>
-
-          <View>
-            <EventInput
-              label="Lugar"
-              value={location}
-              onChangeText={setLocation}
-              editable={editable}
-            />
-          </View>
-
-          <View>
-            <EventInput
-              label="Multiplicador"
-              value={multiplier}
-              onChangeText={setMultiplier}
-              kbtype={"numeric"}
-              editable={editable}
-            />
-          </View>
-
-          <View>
-            <EventInput
-              label="Departamento"
-              value={department}
-              onChangeText={setDepartment}
-              editable={editable}
-            />
-          </View>
-
-          <View style={styles.switchContainer}>
-            <Text style={styles.label}>Completado</Text>
-            <Switch
-              value={complete}
-              onValueChange={setComplete}
-              disabled={!editable}
-            />
-          </View>
-        </View>
+      <View style={styles.formSection}>
+        <EventInput label="Fecha" value={date} onChangeText={setDate} editable={editable} />
+        <EventInput label="Hora de inicio" value={startTime} onChangeText={setStartTime} editable={editable} />
+        <EventInput label="Hora de finalización" value={endTime} onChangeText={setEndTime} editable={editable} />
       </View>
 
-        {/* Componente para el cupo máximo */}
-        <View>
-          <EventInput
-            label="Cupo máximo"
-            value={maxCapacity}
-            onChangeText={setMaxCapacity}
-            kbtype={'numeric'}
-            editable={editable}
-          />
-        </View>
+      <View style={styles.formSection}>
+        <Text style={styles.label}>Descripción</Text>
+        <TextInput
+          style={styles.textArea}
+          value={description}
+          onChangeText={setDescription}
+          multiline={true}
+          editable={editable}
+        />
+      </View>
 
-        {/* Componente para el cupo máximo */}
-        <View>
-          <EventInput
-            label="Horas beca ofrecidas"
-            value={scholarshipHoursOffered}
-            onChangeText={setScholarshipHoursOffered}
-            kbtype={'numeric'}
-            editable={editable}
-          />
-        </View>
+      <View style={styles.formSection}>
+        <EventInput label="Cupo máximo" value={maxCapacity} onChangeText={setMaxCapacity} kbtype="numeric" editable={editable} />
+        <EventInput label="Horas beca ofrecidas" value={scholarshipHoursOffered} onChangeText={setScholarshipHoursOffered} kbtype="numeric" editable={editable} />
+        <EventInput label="Lugar" value={location} onChangeText={setLocation} editable={editable} />
+        <EventInput label="Multiplicador" value={multiplier} onChangeText={setMultiplier} kbtype="numeric" editable={editable} />
+        <EventInput label="Departamento" value={department} onChangeText={setDepartment} editable={editable} />
+        <EventButton text={"Marcar como completado"} handleButtonPres={editable?handleCompleteButton:()=>{}} />
+      </View>
 
-        {/* Componente para el lugar */}
-        <View>
-          <EventInput
-            label="Lugar"
-            value={location}
-            onChangeText={setLocation}
-            editable={editable}
-          />
-        </View>
-
-        {/* Componente para el multiplicador */}
-        <View>
-          <EventInput
-            label="Multiplicador"
-            value={multiplier}
-            onChangeText={setMultiplier}
-            kbtype={'numeric'}
-            editable={editable}
-          />
-        </View>
-
-              {/* Componente para eldepartamento*/}
-        <View>
-          <EventInput
-            label="Departamento"
-            value={department}
-            onChangeText={setDepartment}
-            editable={editable}
-          />
-        </View>
-
-        {/* Mostrar estudiantes dinámicamente */}
-        <View style={styles.container4}>
-        <ScrollView >
-          <Text style={styles.label}>Estudiantes agregados: </Text>
-          {Array.isArray(students) && students.length > 0 ? (
-            students.map((student) => (
-              <View style={styles.container11} key={student.id} >
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Profile", {role: "Cord", param_email: student.email})}>
-                  <Text> {student.name} </Text>
-
-                </TouchableOpacity>
-              </View>
-            ))
-          ) : (
-            <Text style={styles.label}>No hay más estudiantes</Text>
-          )}
-        </ScrollView>
-        </View>
-    
-        <View style={styles.switchContainer}>
-          <Text style={styles.label}>Completado</Text>
-          <Switch
-            value={complete}
-            onValueChange={setComplete}
-            editable={!editable}
-          />
-        </View>
-
+      <View style={styles.studentList}>
+        <Text style={styles.label}>Estudiantes agregados:</Text>
+        {students.length > 0 ? (
+          students.map((student) => (
+            <TouchableOpacity
+              key={student.id}
+              onPress={() => navigation.navigate("Profile", { role: "Cord", param_email: student.email })}
+              style={styles.studentItem}
+            >
+              <Text>{student.name}</Text>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text style={styles.noStudentsText}>No hay más estudiantes</Text>
+        )}
+      </View>
 
       <View style={styles.buttonContainer}>
-        <EventButton
-          text={'Editar'}
-          handleButtonPres={()=>setEditable(!editable)}
-        />
-
-        <EventButton
-          text={'Guardar'}
-          handleButtonPres={handleButtonPress}
-        />
+        <EventButton text="Editar" handleButtonPres={() => setEditable(!editable)} style={styles.button} />
+        <EventButton text="Guardar" handleButtonPres={handleButtonPress} style={styles.button}/>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-    title: {
-      fontSize: 40,
-      color: '#fff',
-      paddingVertical: 20,
-      paddingHorizontal: 10,
-      borderColor: '#fff',    // Color del borde del cuadro
-      borderWidth: 2,         // Grosor del borde
-      borderRadius: 10,       // Bordes redondeados
-      backgroundColor: '#000', // Fondo del cuadro
-      textAlign: 'center',    // Centra el texto horizontalmente
-      width: '100%',
-      marginBottom: 10,
-      marginTop: 40,          // Espacio superior agregado
-    },
-    switchContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginVertical: 10,
-    },
-    container1: {
-      backgroundColor: '#000',
-      alignItems: 'center',   // Centra los elementos dentro del contenedor
-      padding: 10,
-    },
-    container2: {
-      flexGrow: 1,
-      padding: 30,
-      backgroundColor: '#fff',
-      alignItems: 'flex-start',
-    },
-    container3: {
-      marginBottom: 5,
-    },
-    container4: {
-      backgroundColor: '#D9D9D9',
-      alignItems: 'center',   // Centra los elementos dentro del contenedor
-      padding: 10,
-    },
-    container11: {
-      flexDirection: 'row',
-      marginBottom: 5,
-    },
-      label: {
-      fontSize: 20,
-      color: '#000',
-      backgroundColor: '#AFD38B',
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      borderColor: '#000',
-      borderWidth: 1,
-      whiteSpace: 'nowrap',
-      marginBottom: 10, 
-    },
-
-    label1: {
-      fontSize: 20,
-      color: '#000',
-      backgroundColor: '#FFF',
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      borderColor: '#000',
-      borderWidth: 1,
-      whiteSpace: 'nowrap', 
-    },
-  
-    textArea: {
-      borderWidth: 1,
-      borderColor: '#000',
-      padding: 10,
-      backgroundColor: '#fff',
-      fontSize: 20,
-      height: 200,
-    },
-  
-    buttonContainer: {
-        width:'100%',
-      marginTop: 20,     // Espacio antes del botón
-      alignItems: 'center',
-    },
-  
-    button: {
-      padding: 10,
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.8,
-      shadowRadius: 2,
-      elevation: 4, // Para sombra en Android
-    },
-    text: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-      textShadowColor: '#000',
-      textShadowOffset: { width: 1, height: 1 },
-      textShadowRadius: 5,
-    },
+  container: {
+    padding: 20,
+    backgroundColor: "#F7F7F7",
+    flexGrow: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "600",
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderColor: "#E0E0E0",
+    padding: 5,
+    width: "100%",
+  },
+  formSection: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 10,
+  },
+  textArea: {
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#FFF",
+    minHeight: 100,
+    fontSize: 16,
+    marginBottom: 20,
+    width: "100%",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#FFF",
+    fontSize: 16,
+    marginBottom: 10,
+    width: "100%",
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  studentList: {
+    marginBottom: 20,
+  },
+  studentItem: {
+    padding: 10,
+    backgroundColor: "#EFEFEF",
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  noStudentsText: {
+    fontSize: 14,
+    color: "#888",
+  },
+  buttonContainer: {
+    flexDirection: "column",
+    alignItems: "stretch",
+  },
+  button: {
+    marginBottom: 10,
+  },
 });
 
 export default ActivityScreenCoord;

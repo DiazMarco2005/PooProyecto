@@ -7,7 +7,9 @@ const handleRegister = async ({
   email, 
   password, 
   year, 
-  major, 
+  major,
+  scholarshipHours,
+  aboutme,
   position, 
   navigation 
 }) => {
@@ -16,7 +18,7 @@ const handleRegister = async ({
     : '/api/auth/register/coordinator/';
 
   const userData = index === 0
-    ? { name, email, password, major, year: parseInt(year, 10) }
+    ? { name, email, password, major, year: parseInt(year, 10), scholarshipHours:parseFloat(scholarshipHours), aboutme }
     : { name, email, password, position };
 
 

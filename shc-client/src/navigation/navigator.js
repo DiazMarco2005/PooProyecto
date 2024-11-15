@@ -36,7 +36,7 @@ const BottomTabNavigatorStudent = () => {
 const BottomTabNavigatorCoordinator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptionsCoord}>
-      <Tab.Screen name="Home" component={HomeCoordinatorScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Home" component={HomeCoordinatorScreen} options={{ headerShown: false, unmountOnBlur: true }} />
       <Tab.Screen name="ActivitiesCoord" component={ActivityScreenCoord} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
       <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
       <Tab.Screen name="CalendarCoord" component={CalendarScreenCoord} options={{ headerShown: false }} />

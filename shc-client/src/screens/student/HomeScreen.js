@@ -24,7 +24,12 @@ const HomeStudentScreen = () => {
         });
         const currentUserId = student.data.id; 
         setCurrentUser(currentUserId)
-        setItems(Object.values(response.data).filter(item=>!item.complete && item.students.indexOf(currentUserId)===-1));
+        console.log(response.data)
+        setItems(Object.values(response.data).filter(item=>!item.complete && (
+          item.students ?
+          item.students.indexOf(currentUserId)===-1 :
+          true
+        )));
       } catch (error) {}
     };
     fetchData();
@@ -158,7 +163,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },  eventLine: {
     height: 2,
-    backgroundColor: "#000", // Black color for the line
+    backgroundColor: "#000",
     alignSelf: "stretch",
     marginVertical: 10,
   },

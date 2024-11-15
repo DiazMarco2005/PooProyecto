@@ -1,8 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
-import { ImageBackground, ScrollView, Text, View } from "react-native-web";
+import { Dimensions, StyleSheet, ScrollView, Text, View } from "react-native";
 import EventButton from "../../components/buttons/eventButton.js";
 import Gauge from "../../components/gauge.js";
 import api from "./../../configs/api.js";
@@ -11,7 +10,7 @@ import { useRoute } from '@react-navigation/native';
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  let {role="Std", param_email=""} = route.params || {};
+  let { role = "Std", param_email = "" } = route.params || {};
   const [name, setName] = useState("");
   const [aboutme, setAboutme] = useState("");
   const [completeHours, setCompleteHours] = useState(0);
@@ -22,9 +21,9 @@ const ProfileScreen = () => {
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        let email = await AsyncStorage.getItem("email");; 
-        if(role === "Cord"){
-          email = param_email
+        let email = await AsyncStorage.getItem("email");
+        if (role === "Cord") {
+          email = param_email;
         }
         const student = await api.get(`/api/students/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -40,7 +39,7 @@ const ProfileScreen = () => {
         setAboutme(student.data.aboutMe);
         setCompleteHours(student.data.scholarshipHours);
         setHours(student.data.completedScholarshipHours);
-        const filteredActivities=Object.values(response.data).filter(activity=>!activity.complete)
+        const filteredActivities = Object.values(response.data).filter(activity => !activity.complete);
         setActivities(filteredActivities);
       } catch (error) {
         console.log("Error al cargar datos:", error);
@@ -56,12 +55,10 @@ const ProfileScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <ImageBackground
-          resizeMode="cover"
-          source={require("../../assets/images/placeholder.png")}
-          style={styles.profileImage}
-        />
         <Text style={styles.name}>{name}</Text>
+        <Text style={styles.footerSubtext}>
+          Estudiante
+        </Text>
       </View>
 
       <View style={styles.aboutSection}>
@@ -82,12 +79,12 @@ const ProfileScreen = () => {
           activities.map((item) => (
             <View key={item.id} style={styles.activity}>
               <Text style={styles.activityName}>{item.name}</Text>
-              <Text>{item.date}</Text>
-              <Text>
+              <Text style={{ color:"white" }}>{item.date}</Text>
+              <Text style={{ color:"white" }}>
                 {item.startTime} - {item.endTime}
               </Text>
-              <Text>{item.location}</Text>
-              <Text>Coordinador: {item.coordinator}</Text>
+              <Text style={{ color:"white" }}>{item.location}</Text>
+              <Text style={{ color:"white" }}>Coordinador: {item.coordinator}</Text>
               <EventButton
                 text="Ver"
                 handleButtonPres={() =>
@@ -102,18 +99,18 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.logOut}>
-        {role==="Cord" ? null :
+        {role === "Cord" ? null :
           <EventButton
-          text="Cerrar sesión"
-          handleButtonPres={async () => {
-            try {
-              await AsyncStorage.removeItem("token");
-              navigation.navigate("Login");
-            } catch (error) {
-              console.error("Error al cerrar sesión:", error);
-            }
-          }}
-        />
+            text="Cerrar sesión"
+            handleButtonPres={async () => {
+              try {
+                await AsyncStorage.removeItem("token");
+                navigation.navigate("Login");
+              } catch (error) {
+                console.error("Error al cerrar sesión:", error);
+              }
+            }}
+          />
         }
       </View>
       <View style={styles.footer}>
@@ -125,68 +122,51 @@ const ProfileScreen = () => {
     </ScrollView>
   );
 };
-const screenWidth = Dimensions.get("window").width;
-const minSize = 90;
-const imageSize = Math.min(Math.max(screenWidth * 0.3, minSize), 200);
 
 const styles = StyleSheet.create({
-  logOut: {
-    alignItems: "center",
-  },
   container: {
     flex: 1,
-    backgroundColor: "#",
+    backgroundColor: "#2C2C2C",
     padding: 20,
   },
   header: {
     alignItems: "center",
     marginBottom: 20,
   },
-  profileImage: {
-    width: imageSize,
-    height: imageSize,
-    borderRadius: imageSize / 2,
-    backgroundColor: "#D0D0D0",
-  },
-
   name: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#28eb30",
   },
   aboutSection: {
-    backgroundColor: "#E0E0E0",
-    padding: 10,
+    backgroundColor: "#3A3A3A",
+    padding: 15,
     borderRadius: 10,
     marginBottom: 20,
   },
   aboutTitle: {
     fontWeight: "bold",
+    color: "#28eb30",
     marginBottom: 5,
   },
   aboutText: {
-    color: "#666666",
+    color: "#CCCCCC",
   },
   progressSection: {
     alignItems: "center",
-    backgroundColor: "#333333",
+    backgroundColor: "#3A3A3A",
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
   },
-  progressText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#4CAF50",
-  },
   hoursRemaining: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#000000",
-    marginTop: 10,
+    color: "#28eb30",
+    marginBottom: 10,
   },
   activitiesSection: {
-    backgroundColor: "#333333",
+    backgroundColor: "#3A3A3A",
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
@@ -194,23 +174,29 @@ const styles = StyleSheet.create({
   activitiesTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#28eb30",
     marginBottom: 10,
   },
   activity: {
-    backgroundColor: "#A3C585",
+    backgroundColor: "#4A4A4A",
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
   },
   activityName: {
     fontSize: 16,
-    color: "#333333",
+    color: "#28eb30",
+    marginBottom: 5,
   },
-  activityHours: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333333",
+  noActivitiesText: {
+    color: "#CCCCCC",
+    fontStyle: "italic",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  logOut: {
+    alignItems: "center",
+    marginBottom: 20,
   },
   footer: {
     alignItems: "center",
@@ -219,17 +205,12 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#4CAF50",
+    color: "#28eb30",
   },
   footerSubtext: {
     fontSize: 12,
-    color: "#333333",
-  },
-  noActivitiesText: {
-    color: "#666666",
-    fontStyle: "italic",
-    textAlign: "center",
-    marginTop: 10,
+    color: "#CCCCCC",
   },
 });
+
 export default ProfileScreen;

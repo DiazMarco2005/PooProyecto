@@ -12,7 +12,11 @@ const StudentRegister = ({
     major, 
     setMajor, 
     year, 
-    setYear 
+    setYear,
+    scholarshipHours,
+    setScholarshipHours,
+    aboutme,
+    setAboutme
 }) => (
     
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -52,6 +56,22 @@ const StudentRegister = ({
             onChangeText={setYear}
             placeholder="Año de estudios"
             keyboardType="numeric"
+        />
+
+        <TextInput
+            style={styles.input}
+            value={scholarshipHours}
+            onChangeText={setScholarshipHours}
+            placeholder="Horas a completar"
+            keyboardType="numeric"
+        />
+
+        <TextInput
+            style={styles.input}
+            value={aboutme}
+            onChangeText={setAboutme}
+            placeholder="Descripción"
+            multiline={true}
         />
         
         <TouchableOpacity style={styles.button} onPress={handleRegister}>

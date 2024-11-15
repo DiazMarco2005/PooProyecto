@@ -23,7 +23,7 @@ const CalendarScreen = ({ weekView = false }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
   
-        const formattedItems = response.data.reduce((acc, activity) => {
+        const formattedItems = Object.values(response.data).filter(activity=>!activity.complete).reduce((acc, activity) => {
           const dateKey = activity.date;
           const activityItem = {
             name: activity.name,
@@ -89,7 +89,7 @@ const CalendarScreen = ({ weekView = false }) => {
     <CalendarProvider
       date={items.length > 0 && items[0].title ? items[0].title : today}
       showTodayButton
-      theme={{ todayButtonTextColor: '#00adf5' }}
+      theme={{ todayButtonTextColor: '#000'}}
     >
       {weekView ? (
         <WeekCalendar firstDay={1} markedDates={marked.current} />
@@ -113,57 +113,62 @@ export default CalendarScreen;
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: '#f0f4f7',
+    backgroundColor: '#2c2c2c',
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
     marginTop: 17,
+    borderColor: '#28eb30',
+    borderWidth: 1,
   },
   itemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#28eb30',
   },
   itemTime: {
     fontSize: 14,
     fontWeight: 'bold',
+    color: '#e0e0e0',
   },
   itemLocation: {
     fontSize: 14,
-    color: '#555',
+    color: '#a5a5a5',
   },
   itemDepartment: {
     fontSize: 14,
-    color: '#888',
+    color: '#a5a5a5',
   },
   itemStaff: {
     fontSize: 12,
-    color: '#555',
+    color: '#a5a5a5',
   },
   itemScholarshipHours: {
     fontSize: 12,
-    color: '#555',
+    color: '#a5a5a5',
   },
   itemCapacity: {
     fontSize: 12,
-    color: '#555',
+    color: '#a5a5a5',
   },
   itemDescription: {
     fontSize: 14,
-    color: '#888',
+    color: '#a5a5a5',
   },
   sectionHeader: {
-    backgroundColor: '#e6e8eb',
+    backgroundColor: '#1f1f1f',
     padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#28eb30',
   },
   sectionHeaderText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#28eb30',
   },
   section: {
-    backgroundColor: '#e6e8eb',
-    color: 'grey',
+    backgroundColor: '#1f1f1f',
+    color: '#28eb30',
     textTransform: 'capitalize',
   },
 });

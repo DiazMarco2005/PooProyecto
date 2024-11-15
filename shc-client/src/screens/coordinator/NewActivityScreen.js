@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import api from '../../configs/api.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import EventButton from '../../components/buttons/eventButton.js';
 
 const NewActivityScreen = () => {
   const navigation = useNavigation();
@@ -49,7 +50,7 @@ const NewActivityScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container1}>
+    <ScrollView contentContainerStyle={styles.container}>
       {/* Título editable con un cuadro */}
 
       <TextInput
@@ -64,7 +65,7 @@ const NewActivityScreen = () => {
         <View style={styles.inputGroup}>
           <EventInput
             label="Fecha"
-            placeholder="dd/mm/AA"
+            placeholder="AAAA-MM-DD"
             value={date}
             onChangeText={setDate}
           />
@@ -77,6 +78,7 @@ const NewActivityScreen = () => {
             placeholder="00:00"
             value={startTime}
             onChangeText={setStartTime}
+            date={true}
           />
         </View>
 
@@ -87,6 +89,7 @@ const NewActivityScreen = () => {
             placeholder="00:00"
             value={endTime}
             onChangeText={setEndTime}
+            date={true}
           />
         </View>
 
@@ -125,17 +128,6 @@ const NewActivityScreen = () => {
           />
         </View>
 
-        {/* Componente para las horas beca a dar */}
-        <View>
-          <EventInput
-            label="Horas beca"
-            placeholder="0"
-            value={scholarshipHoursOffered}
-            onChangeText={setScholarshipHoursOffered}
-          />
-        </View>
-
-
         {/* Componente para el lugar */}
         <View>
           <EventInput
@@ -169,16 +161,7 @@ const NewActivityScreen = () => {
 
       </View>
       {/* Botón al final del formulario */}
-      <View style={styles.buttonContainer}>
-
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#2E4C12' }]}
-          onPress={handleButtonPress} // Ejecuta la navegación al presionar el botón
-        >
-          <Text style={styles.text}>{'Crear evento'}</Text>
-        </TouchableOpacity>
-      </View>
-
+      <EventButton text={"Crear actividad"} handleButtonPres={handleButtonPress}/>
     </ScrollView>
 
     
@@ -187,78 +170,73 @@ const NewActivityScreen = () => {
 
 // Estilos del componente
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 40,
-    color: '#fff',
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    borderColor: '#fff',    // Color del borde del cuadro
-    borderWidth: 2,         // Grosor del borde
-    borderRadius: 10,       // Bordes redondeados
-    backgroundColor: '#000', // Fondo del cuadro
-    textAlign: 'center',    // Centra el texto horizontalmente
-    width: '100%',
-    marginBottom: 10,
-    marginTop: 40,          // Espacio superior agregado
-  },
-  container1: {
-    backgroundColor: '#000',
-    alignItems: 'center',   // Centra los elementos dentro del contenedor
-    padding: 10,
-  },
-  container2: {
+  container: {
+    padding: 20,
+    backgroundColor: "#F7F7F7",
     flexGrow: 1,
-    padding: 30,
-    backgroundColor: '#fff',
-    alignItems: 'flex-start',
   },
-  container3: {
-    marginBottom: 5,
+  title: {
+    fontSize: 24,
+    fontWeight: "600",
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderColor: "#E0E0E0",
+    padding: 5,
+    width: "100%",
   },
-
-    label: {
-    fontSize: 20,
-    color: '#000',
-    backgroundColor: '#AFD38B',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderColor: '#000',
-    borderWidth: 1,
-    whiteSpace: 'nowrap',
+  formSection: {
+    marginBottom: 20,
   },
-
+  label: {
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 10,
+  },
   textArea: {
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
     padding: 10,
-    backgroundColor: '#fff',
-    fontSize: 20,
-    height: 200,
+    backgroundColor: "#FFF",
+    minHeight: 100,
+    fontSize: 16,
+    marginBottom: 20,
+    width: "100%",
   },
-
-    buttonContainer: {
-    marginTop: 20,     // Espacio antes del botón
-    alignItems: 'center',
+  input: {
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#FFF",
+    fontSize: 16,
+    marginBottom: 10,
+    width: "100%",
   },
-
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  studentList: {
+    marginBottom: 20,
+  },
+  studentItem: {
+    padding: 10,
+    backgroundColor: "#EFEFEF",
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  noStudentsText: {
+    fontSize: 14,
+    color: "#888",
+  },
+  buttonContainer: {
+    flexDirection: "column",
+    alignItems: "stretch",
+  },
   button: {
-    padding: 10,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 4, // Para sombra en Android
-  },
-  text: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textShadowColor: '#000',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
+    marginBottom: 10,
   },
 });
 
