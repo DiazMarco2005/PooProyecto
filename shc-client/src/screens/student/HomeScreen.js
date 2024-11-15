@@ -27,7 +27,7 @@ const HomeStudentScreen = () => {
         console.log(response.data)
         setItems(Object.values(response.data).filter(item=>!item.complete && (
           item.students ?
-          item.students.indexOf(currentUserId)===-1 :
+          item.students.indexOf(currentUserId)===-1 && !(item.students.length==item.maxCapacity):
           true
         )));
       } catch (error) {}
@@ -45,6 +45,7 @@ const HomeStudentScreen = () => {
           data: {},
         }
       );
+      navigation.navigate("Profile");
     } catch {
       console.log("user already regist on activity");
     }
