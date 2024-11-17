@@ -1,21 +1,30 @@
+/*
+ * Grupo 2 - POO
+ * Arturo Lima
+ * Vernel Hernandez
+ * Marcela Castillo
+ * Angel Chavez
+ * Marco Diaz
+ */
 package com.shc.shc_server.controller;
-
-import com.shc.shc_server.dto.LoginDto;
-import com.shc.shc_server.dto.RegisterDto;
-import com.shc.shc_server.dto.RegisterCoordinatorDto;
-import com.shc.shc_server.model.Activity;
-import com.shc.shc_server.model.Coordinator;
-import com.shc.shc_server.model.Student;
-import com.shc.shc_server.service.StudentService;
-import com.shc.shc_server.service.CoordinatorService;
-import com.shc.shc_server.service.TokenService;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.shc.shc_server.dto.LoginDto;
+import com.shc.shc_server.dto.RegisterCoordinatorDto;
+import com.shc.shc_server.dto.RegisterDto;
+import com.shc.shc_server.model.Coordinator;
+import com.shc.shc_server.model.Student;
+import com.shc.shc_server.service.CoordinatorService;
+import com.shc.shc_server.service.StudentService;
+import com.shc.shc_server.service.TokenService;
 
 @RestController
 @RequestMapping("/api/auth/")

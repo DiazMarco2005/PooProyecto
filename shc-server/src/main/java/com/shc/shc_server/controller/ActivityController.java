@@ -1,3 +1,12 @@
+/*
+ * Grupo 2 - POO
+ * Arturo Lima
+ * Vernel Hernandez
+ * Marcela Castillo
+ * Angel Chavez
+ * Marco Diaz
+ */
+
 package com.shc.shc_server.controller;
 
 import java.util.List;
