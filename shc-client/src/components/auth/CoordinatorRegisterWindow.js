@@ -20,6 +20,7 @@ const CoordinatorRegister = ({
             value={name}
             onChangeText={setName}
             placeholder="Nombre"
+            placeholderTextColor={'#aaa'}
         />
       
         <TextInput
@@ -27,6 +28,7 @@ const CoordinatorRegister = ({
             value={email}
             onChangeText={setEmail}
             placeholder="Email"
+            placeholderTextColor={'#aaa'}
         />
       
         <TextInput
@@ -35,6 +37,7 @@ const CoordinatorRegister = ({
             onChangeText={setPassword}
             placeholder="Contraseña"
             secureTextEntry
+            placeholderTextColor={'#aaa'}
         />
         
         <TextInput
@@ -42,6 +45,7 @@ const CoordinatorRegister = ({
             value={position}
             onChangeText={setPosition}
             placeholder="Posición"
+            placeholderTextColor={'#aaa'}
         />
       
         <TouchableOpacity style={styles.button} onPress={handleRegister}>

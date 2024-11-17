@@ -91,14 +91,7 @@ const CalendarScreen = ({ weekView = false }) => {
       showTodayButton
       theme={{ todayButtonTextColor: '#000'}}
     >
-      {weekView ? (
-        <WeekCalendar firstDay={1} markedDates={marked.current} />
-      ) : (
-        <ExpandableCalendar
-          firstDay={1}
-          markedDates={marked.current}
-        />
-      )}
+      <WeekCalendar firstDay={1} markedDates={marked.current} />
       <AgendaList
         sections={items}
         renderItem={renderItem}

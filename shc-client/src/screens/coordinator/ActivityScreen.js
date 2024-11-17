@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Switch,
+  Alert,
 } from "react-native";
 import EventInput from "../../components/eventComponent.js";
 import EventButton from "../../components/buttons/eventButton.js";
@@ -34,6 +34,10 @@ const ActivityScreenCoord = () => {
   const [students, setStudents] = useState([]);
 
   const handleButtonPress = async () => {
+    if (!validateFields()) {
+      return; // Si la validación falla, no continuar con el guardado
+    }
+
     try {
       const token = await AsyncStorage.getItem("token");
       await api.put(
@@ -69,64 +73,93 @@ const ActivityScreenCoord = () => {
     try {
       const token = await AsyncStorage.getItem("token");
       await api.get(`/api/activities/${id}/complete/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       navigation.navigate("ProfileCoord");
     } catch (error) {
       console.error(error);
     }
   };
 
+  const updateFields = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await api.get(`/api/activities/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setStudents(
+        await Promise.all(
+          response.data.students?.map(async (student_id) => {
+            let student_response = await api.get(
+              `/api/students/${student_id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            return student_response.data;
+          }) ?? []
+        )
+      );
+
+      setTitle(response.data.name);
+      setStartTime(response.data.startTime);
+      setEndTime(response.data.endTime);
+      setMultiplier(response.data.multiplier);
+      setScholarshipHoursOffered(response.data.scholarshipHoursOffered);
+      setCoordinator(response.data.coordinator);
+      setLocation(response.data.location);
+      setMaxCapacity(response.data.maxCapacity);
+      setDepartment(response.data.department);
+      setDate(response.data.date);
+      setComplete(response.data.complete);
+      setDescription(response.data.description);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const updateFields = async () => {
-      try {
-        const token = await AsyncStorage.getItem("token");
-        const response = await api.get(`/api/activities/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        setStudents(
-          await Promise.all(
-            response.data.students?.map(async (student_id) => {
-              let student_response = await api.get(
-                `/api/students/${student_id}`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
-              return student_response.data;
-            }) ?? []
-          )
-        );
-
-        setTitle(response.data.name);
-        setStartTime(response.data.startTime);
-        setEndTime(response.data.endTime);
-        setMultiplier(response.data.multiplier);
-        setScholarshipHoursOffered(response.data.scholarshipHoursOffered);
-        setCoordinator(response.data.coordinator);
-        setLocation(response.data.location);
-        setMaxCapacity(response.data.maxCapacity);
-        setDepartment(response.data.department);
-        setDate(response.data.date);
-        setComplete(response.data.complete);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     updateFields();
   }, []);
+
+  const validateFields = () => {
+    if (!title || !date || !startTime || !endTime || !description || !maxCapacity || !location || !multiplier || !scholarshipHoursOffered || !department) {
+      Alert.alert('Error', 'Todos los campos son obligatorios.');
+      return false;
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      Alert.alert('Error', 'La fecha debe tener el formato AAAA-MM-DD.');
+      return false;
+    }
+
+    if (isNaN(maxCapacity) || maxCapacity <= 0) {
+      Alert.alert('Error', 'El cupo máximo debe ser un número positivo.');
+      return false;
+    }
+
+    if (isNaN(scholarshipHoursOffered) || scholarshipHoursOffered <= 0) {
+      Alert.alert('Error', 'Las horas de beca ofrecidas deben ser un número positivo.');
+      return false;
+    }
+
+    if (isNaN(multiplier) || multiplier <= 0) {
+      Alert.alert('Error', 'El multiplicador debe ser un número positivo.');
+      return false;
+    }
+
+    return true;
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -161,7 +194,7 @@ const ActivityScreenCoord = () => {
         <EventInput label="Lugar" value={location} onChangeText={setLocation} editable={editable} />
         <EventInput label="Multiplicador" value={multiplier} onChangeText={setMultiplier} kbtype="numeric" editable={editable} />
         <EventInput label="Departamento" value={department} onChangeText={setDepartment} editable={editable} />
-        <EventButton text={"Marcar como completado"} handleButtonPres={editable?handleCompleteButton:()=>{}} />
+        <EventButton text={"Marcar como completado"} handleButtonPres={editable ? handleCompleteButton : () => {}} />
       </View>
 
       <View style={styles.studentList}>
@@ -183,7 +216,7 @@ const ActivityScreenCoord = () => {
 
       <View style={styles.buttonContainer}>
         <EventButton text="Editar" handleButtonPres={() => setEditable(!editable)} style={styles.button} />
-        <EventButton text="Guardar" handleButtonPres={handleButtonPress} style={styles.button}/>
+        <EventButton text="Guardar" handleButtonPres={handleButtonPress} style={styles.button} />
       </View>
     </ScrollView>
   );
@@ -243,20 +276,19 @@ const styles = StyleSheet.create({
   },
   studentItem: {
     padding: 10,
-    backgroundColor: "#EFEFEF",
-    borderRadius: 5,
-    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: "#E0E0E0",
   },
   noStudentsText: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#888",
   },
   buttonContainer: {
     flexDirection: "column",
-    alignItems: "stretch",
+    justifyContent: "space-between",
   },
   button: {
-    marginBottom: 10,
+    width: "48%",
   },
 });
 

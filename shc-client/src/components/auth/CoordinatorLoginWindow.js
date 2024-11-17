@@ -8,6 +8,7 @@ const CoordinatorLogin = ({ handleLogin, email, setEmail, password, setPassword 
             value={email}
             onChangeText={setEmail}
             placeholder="Email"
+            placeholderTextColor={'#aaa'}
         />
         <TextInput
             style={styles.input}
@@ -15,6 +16,7 @@ const CoordinatorLogin = ({ handleLogin, email, setEmail, password, setPassword 
             onChangeText={setPassword}
             placeholder="Contraseña"
             secureTextEntry
+            placeholderTextColor={'#aaa'}
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>

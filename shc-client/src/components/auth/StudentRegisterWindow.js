@@ -26,6 +26,7 @@ const StudentRegister = ({
             value={name}
             onChangeText={setName}
             placeholder="Nombre"
+            placeholderTextColor={'#aaa'}
         />
         
         <TextInput
@@ -33,6 +34,7 @@ const StudentRegister = ({
             value={email}
             onChangeText={setEmail}
             placeholder="Email"
+            placeholderTextColor={'#aaa'}
         />
         
         <TextInput
@@ -41,6 +43,7 @@ const StudentRegister = ({
             onChangeText={setPassword}
             placeholder="Contraseña"
             secureTextEntry
+            placeholderTextColor={'#aaa'}
         />
         
         <TextInput
@@ -48,6 +51,7 @@ const StudentRegister = ({
             value={major}
             onChangeText={setMajor}
             placeholder="Carrera"
+            placeholderTextColor={'#aaa'}
         />
         
         <TextInput
@@ -56,6 +60,7 @@ const StudentRegister = ({
             onChangeText={setYear}
             placeholder="Año de estudios"
             keyboardType="numeric"
+            placeholderTextColor={'#aaa'}
         />
 
         <TextInput
@@ -64,6 +69,7 @@ const StudentRegister = ({
             onChangeText={setScholarshipHours}
             placeholder="Horas a completar"
             keyboardType="numeric"
+            placeholderTextColor={'#aaa'}
         />
 
         <TextInput
@@ -72,6 +78,7 @@ const StudentRegister = ({
             onChangeText={setAboutme}
             placeholder="Descripción"
             multiline={true}
+            placeholderTextColor={'#aaa'}
         />
         
         <TouchableOpacity style={styles.button} onPress={handleRegister}>

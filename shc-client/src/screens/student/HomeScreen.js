@@ -1,6 +1,6 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native-web";
+import { ScrollView, View, Text, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
-import api from "../../configs/api";
+import api from "../../configs/api.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EventButton from "./../../components/buttons/eventButton.js";
 import { useNavigation } from "@react-navigation/native";
@@ -46,8 +46,8 @@ const HomeStudentScreen = () => {
         }
       );
       navigation.navigate("Profile");
-    } catch {
-      console.log("user already regist on activity");
+    } catch (error) {
+      console.log("user already regist on activity" + error);
     }
   };
 
@@ -60,7 +60,7 @@ const HomeStudentScreen = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text style={styles.title}>Actividades</Text>
-        <View style={styles.horizontalLine} /> {/* Horizontal line */}
+        <View style={styles.horizontalLine}/>
         {items.map((item, index) => (
           <View
             key={item.id}
@@ -70,15 +70,14 @@ const HomeStudentScreen = () => {
             ]}
           >
             <View>
-              <Text style={styles.eventTittle}>{item.name}</Text>
-              <View style={styles.eventLine}></View>
-              <Text style={styles.eventText}>{item.date}</Text>
+              <Text style={styles.eventTittle}>{item.name || 'Nombre no disponible'}</Text>
+              <Text style={styles.eventText}>{item.date || 'Fecha no disponible'}</Text>
               <Text style={styles.eventText}>
-                {item.startTime}-{item.endTime}
+                {item.startTime && item.endTime ? `${item.startTime} - ${item.endTime}` : 'Hora no disponible'}
               </Text>
-              <Text style={styles.eventText}>{item.location}</Text>
+              <Text style={styles.eventText}>{item.location || 'Ubicación no disponible'}</Text>
               <Text style={styles.eventText}>
-                Coordinador: {item.coordinator}
+                Coordinador: {item.coordinator || 'Coordinador no disponible'}
               </Text>
             </View>
             <View style={styles.bottonContainer}>

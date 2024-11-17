@@ -61,23 +61,6 @@ const ActivityScreen = () => {
     updateFields();
   }, []);
 
-  const handleButtonPres = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      const email = await AsyncStorage.getItem("email");
-      const student = await api.get(`/api/students/email/${email}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      await api.post(`/api/activities/${id}/addStudent/${student.id}/`, {
-        headers: { Authorization: `Bearer ${token}` },
-        data: {},
-      });
-    } catch {
-      console.log("User already registered for activity");
-    }
-  };
-
   return (
     <ScrollView style={styles.screen}>
       <Text style={styles.title}>{title}</Text>
@@ -144,7 +127,6 @@ const ActivityScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <EventButton text="Unirse" handleButtonPres={handleButtonPres} style={styles.button}/>
         <EventButton
           text="Regresar"
           handleButtonPres={() => navigation.navigate("StudentHome")}

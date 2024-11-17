@@ -14,6 +14,7 @@ const StudentLogin = ({
       value={email}
       onChangeText={setEmail}
       placeholder="Email"
+      placeholderTextColor={'#aaa'}
     />
     <TextInput
       style={styles.input}
@@ -21,6 +22,7 @@ const StudentLogin = ({
       onChangeText={setPassword}
       placeholder="Contraseña"
       secureTextEntry
+      placeholderTextColor={'#aaa'}
     />
     <TouchableOpacity style={styles.button} onPress={handleLogin}>
       <Text style={styles.buttonText}>Iniciar sesión</Text>

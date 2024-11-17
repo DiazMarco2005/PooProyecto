@@ -61,16 +61,16 @@ const LoginScreen = ({ navigation }) => {
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
-          renderTabBar={(props) => (
+          renderTabBar={(props) => {
+            return (
             <TabBar
               {...props}
               indicatorStyle={{ backgroundColor: '#28eb30' }}
               style={{ backgroundColor: 'black' }}
-              labelStyle={{ color: 'white', fontSize: 16, textTransform: 'capitalize', }
-              
-            }
+              labelStyle={{ color: 'white', fontSize: 16, textTransform: 'capitalize', }}
+              key={routes[index].key}
             />
-          )}
+          )}}
         />
       </View>
       <Text> Crea una cuenta {" "}

@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../screens/auth/LoginScreen.js';
 import RegisterScreen from '../screens/auth/RegisterScreen.js';
@@ -25,9 +25,9 @@ const Stack = createStackNavigator();
 const BottomTabNavigatorStudent = () => {
   return (
     <Tab.Navigator screenOptions={screenOptionsStudent}>
-      <Tab.Screen name="StudentHome" component={HomeStudentScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="StudentHome" component={HomeStudentScreen} options={{ headerShown: false, unmountOnBlur: true }} />
       <Tab.Screen name="Activities" component={ActivityScreen} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
-      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false, unmountOnBlur: true }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false, unmountOnBlur: true }} />
     </Tab.Navigator>
   );
@@ -39,7 +39,7 @@ const BottomTabNavigatorCoordinator = () => {
       <Tab.Screen name="Home" component={HomeCoordinatorScreen} options={{ headerShown: false, unmountOnBlur: true }} />
       <Tab.Screen name="ActivitiesCoord" component={ActivityScreenCoord} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
       <Tab.Screen name="NewActivityCoord" component={NewActivityScreen} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
-      <Tab.Screen name="CalendarCoord" component={CalendarScreenCoord} options={{ headerShown: false }} />
+      <Tab.Screen name="CalendarCoord" component={CalendarScreenCoord} options={{ headerShown: false, unmountOnBlur: true }} />
       <Tab.Screen name="ProfileCoord" component={ProfileScreenCoord} options={{ headerShown: false, unmountOnBlur: true }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false, tabBarButton:  () => null, unmountOnBlur: true }} />
     </Tab.Navigator>
@@ -62,15 +62,20 @@ const DrawerNavigator = ({ navigation }) => {
 
       try {        
         let response;
+        try {
+          response = await api.get('/api/students/verify-role', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        } catch (error) {
           try {
-            response = await api.get('/api/students/verify-role', {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-          } catch {
             response = await api.get('/api/coordinators/verify-role', {
               headers: { Authorization: `Bearer ${token}` },
             });
+          } catch (error) {
+            console.log(error);
+            response = { data: 'UNKNOWN' };
           }
+        }
         setUserRole(response.data); // 'STUDENT' or 'COORDINATOR'
         setIsAuthenticated(true);
       } catch (error) {
@@ -89,10 +94,6 @@ const DrawerNavigator = ({ navigation }) => {
       navigation.navigate('Login');
     }
   }, [loading, isAuthenticated, navigation]);
-
-  if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
 
   if (!isAuthenticated) {
     return null; 
@@ -142,21 +143,21 @@ const screenOptionsStudent= ({ route }) => ({
   tabBarActiveTintColor: '#28eb30',
   tabBarInactiveTintColor: '#999999',
   tabBarLabelStyle: { fontSize: 12 },
-  tabBarStyle: { 
-    paddingBottom: 5, 
-    paddingTop: 5, 
-    height: 60, 
-    backgroundColor:'black', 
-    border:'5px solid black', 
-    shadowColor: '#000', 
-    shadowOffset: { 
-      width: 0, 
-      height: 2 
-    }, 
-    shadowOpacity: 0.8, 
-    shadowRadius: 5, 
-    elevation: 5
-  },
+  tabBarStyle: {
+    paddingBottom: 5,
+    paddingTop: 5,
+    height: 60,
+    backgroundColor: 'black',
+    border: '5px solid black',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+    elevation: 5,
+  },  
 });
 
 const screenOptionsCoord= ({ route }) => ({

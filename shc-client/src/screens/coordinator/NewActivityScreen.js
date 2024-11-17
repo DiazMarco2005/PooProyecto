@@ -1,8 +1,8 @@
 import React, { useState } from 'react'; 
-import { View, Text, TextInput, StyleSheet, ScrollView, Switch } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, Alert } from 'react-native';
 import EventInput from '../../components/eventComponent.js';
 import { TouchableOpacity } from 'react-native';
-import api from '../../configs/api.js'
+import api from '../../configs/api.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import EventButton from '../../components/buttons/eventButton.js';
@@ -20,43 +20,74 @@ const NewActivityScreen = () => {
   const [scholarshipHoursOffered, setScholarshipHoursOffered] = useState(0);
   const [department, setDepartment] = useState('');
 
+  const validateFields = () => {
+    if (!title || !date || !startTime || !endTime || !description || !maxCapacity || !location || !multiplier || !scholarshipHoursOffered || !department) {
+      Alert.alert('Error', 'Todos los campos son obligatorios.');
+      return false;
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return false;
+    }
+    
+    if (isNaN(maxCapacity) || maxCapacity <= 0) {
+      Alert.alert('Error', 'El cupo máximo debe ser un número positivo.');
+      return false;
+    }
+    
+    if (isNaN(scholarshipHoursOffered) || scholarshipHoursOffered <= 0) {
+      Alert.alert('Error', 'Las horas de beca ofrecidas deben ser un número positivo.');
+      return false;
+    }
+
+    if (isNaN(multiplier) || multiplier <= 0) {
+      Alert.alert('Error', 'El multiplicador debe ser un número positivo.');
+      return false;
+    }
+
+    return true;
+  };
 
   const handleButtonPress = async () => {
+    if (!validateFields()) {
+      return;
+    }
+
     try {
       const token = await AsyncStorage.getItem('token');
       const coordMail = await AsyncStorage.getItem('email');
-      const response =await api.post('/api/activities/', {
-          "name": title,
-          "startTime": startTime,
-          "endTime": endTime,
-          "multiplier": multiplier,
-          "scholarshipHoursOffered": scholarshipHoursOffered,
-          "coordinator": coordMail,
-          "location": location,
-          "maxCapacity": maxCapacity,
-          "department": department,
-          "description": description,
-          "date": date,
-          "complete" : false
+      const response = await api.post('/api/activities/', {
+        "name": title,
+        "startTime": startTime,
+        "endTime": endTime,
+        "multiplier": multiplier,
+        "scholarshipHoursOffered": scholarshipHoursOffered,
+        "coordinator": coordMail,
+        "location": location,
+        "maxCapacity": maxCapacity,
+        "department": department,
+        "description": description,
+        "date": date,
+        "complete": false
       }, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
       });
-    } catch {}
 
-    navigation.navigate('ProfileCoord');
+      navigation.navigate('ProfileCoord');
+    } catch (error) {
+      console.log('Error al realizar la solicitud:', error);
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Título editable con un cuadro */}
-
       <TextInput
         style={styles.title}
         value={title}
-        onChangeText={setTitle} // Permite editar el título
+        onChangeText={setTitle} 
         placeholder="Editar título"
       />
 
@@ -95,16 +126,16 @@ const NewActivityScreen = () => {
 
         {/* Componente para la Descripción */}
         <View style={styles.container3}>
-        <Text style={styles.label}>Descripción</Text>
-        <TextInput
-          style={styles.textArea}
-          placeholder="Agrega una breve descripción"
-          value={description}
-          onChangeText={setDescription}
-          multiline={true}          // Permite múltiples líneas de texto
-          numberOfLines={4}         // Número de líneas visibles antes de desplazarse
-        />
-      </View>
+          <Text style={styles.label}>Descripción</Text>
+          <TextInput
+            style={styles.textArea}
+            placeholder="Agrega una breve descripción"
+            value={description}
+            onChangeText={setDescription}
+            multiline={true}
+            numberOfLines={4}
+          />
+        </View>
 
         {/* Componente para el cupo máximo */}
         <View>
@@ -149,7 +180,7 @@ const NewActivityScreen = () => {
           />
         </View>
 
-              {/* Componente para eldepartamento*/}
+        {/* Componente para el departamento*/}
         <View>
           <EventInput
             label="Departamento"
@@ -160,11 +191,10 @@ const NewActivityScreen = () => {
         </View>
 
       </View>
-      {/* Botón al final del formulario */}
-      <EventButton text={"Crear actividad"} handleButtonPres={handleButtonPress}/>
-    </ScrollView>
 
-    
+      {/* Botón al final del formulario */}
+      <EventButton text={"Crear actividad"} handleButtonPres={handleButtonPress} />
+    </ScrollView>
   );
 };
 
@@ -184,7 +214,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: "100%",
   },
-  formSection: {
+  container2: {
     marginBottom: 20,
   },
   label: {
@@ -212,31 +242,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
     width: "100%",
-  },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  studentList: {
-    marginBottom: 20,
-  },
-  studentItem: {
-    padding: 10,
-    backgroundColor: "#EFEFEF",
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  noStudentsText: {
-    fontSize: 14,
-    color: "#888",
-  },
-  buttonContainer: {
-    flexDirection: "column",
-    alignItems: "stretch",
-  },
-  button: {
-    marginBottom: 10,
   },
 });
 
