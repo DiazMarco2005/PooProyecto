@@ -74,10 +74,6 @@ El servidor Spring Boot manejará las peticiones de autenticación y otras funci
 
 La base de datos MariaDB se inicializa automáticamente con los datos configurados. Para acceder a ella, puedes utilizar un cliente MySQL como [MySQL Workbench](https://www.mysql.com/products/workbench/) o ejecutar comandos SQL desde el terminal:
 
-```bash
-mysql -h 127.0.0.1 -P 3306 -u root -p
-```
-
 ## Endpoints API
 
 Consulta la [documentación](https://github.com/DiazMarco2005/PooProyecto/blob/main/shc-server/src/main/java/com/shc/shc_server/controller/reference.md) del API.
