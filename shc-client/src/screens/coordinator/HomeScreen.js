@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     seeButton : {
         color:'#abc7ff',
-        fontSize : '15px'
+        fontSize : 15
     }
 });
 

@@ -68,7 +68,6 @@ const LoginScreen = ({ navigation }) => {
               indicatorStyle={{ backgroundColor: '#28eb30' }}
               style={{ backgroundColor: 'black' }}
               labelStyle={{ color: 'white', fontSize: 16, textTransform: 'capitalize', }}
-              key={routes[index].key}
             />
           )}}
         />
